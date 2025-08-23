@@ -51,7 +51,7 @@ export function saveToy(toy) {
 export function addToyLabels(toy, ev) {
     const toyLabels = [...toy.labels]
     const addLabel = ev.target.value
-    if (toyLabels.includes(addLabel)) return
+    if (toyLabels.includes(addLabel)) return Promise.reject()
     toyLabels.push(addLabel)
     const modifiedToy = { ...toy, labels: toyLabels }
     return toyService.save(modifiedToy)
