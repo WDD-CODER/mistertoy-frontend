@@ -11,6 +11,7 @@
 /* Components */
 @import "cmps/UserMsg.css";
 
+@import "cmps/Labels.css";
 @import "cmps/ToyFilter.css";
 @import "cmps/ToyList.css";
 @import "cmps/ToyPreview.css";
