@@ -3,19 +3,19 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
-
+    
     const curToy = useSelector(state => state.toyModule.toys.find(t => t._id === toy._id))
 
-    function onRemoveLabel(toy, label) {
-        removeLabel(toy, label)
+    function onRemoveLabel(label) {
+        removeLabel(curToy, label)
             .then(() => showSuccessMsg('removed Toy labels'))
-            .catch(err => showErrorMsg('problem removing toy label', err))
+            .catch(() => showErrorMsg('problem removing toy label'))
     }
 
     function onAddLabel(ev) {
-        addToyLabels(toy, ev)
+        addToyLabels(curToy, ev)
             .then(() => showSuccessMsg('add Toy labels'))
-            .catch(() => showErrorMsg('problem adding toy label'))
+            .catch(() => showErrorMsg('toy label not add'))
     }
 
 
@@ -38,7 +38,7 @@ export function Labels({ toy }) {
             </label>
             {curToy.labels.length > 0 &&
                 <div>
-                    {curToy.labels.map(label => <button key={label} onClick={() => onRemoveLabel(toy, label)}>{label}</button>)}
+                    {curToy.labels.map(label => <button key={label} onClick={() => onRemoveLabel(label)}>{label}</button>)}
                 </div>}
         </section>
     )
