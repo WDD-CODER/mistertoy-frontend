@@ -8,7 +8,7 @@ import { ToyEdit } from "./pages/ToyEdit.jsx"
 
 import './assets/style/main.css'
 import { store } from './store/store'
-
+import { UserMsg } from './cmps/UserMsg.jsx'
 function App() {
 
   return (
@@ -16,6 +16,7 @@ function App() {
         <Provider store={store} >
             <Router>
                 <section className="app main-layout">
+                <UserMsg/>
                     <main>
                         <Routes>
                             <Route path="/" element={<ToyIndex />} />
