@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 export function ToyEdit() {
-
+    
     const isLoading = useSelector(state => state.toyModule.isLoading)
     // const stateToy = useSelector(state => state.toyModule.toy)
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
@@ -53,7 +53,7 @@ export function ToyEdit() {
             })
     }
 
-    const { txt, importance, isDone } = toyToEdit
+    const { txt, price, isDone } = toyToEdit
     
     if (isLoading) return <div>Loading...</div>
     return (
@@ -62,8 +62,8 @@ export function ToyEdit() {
                 <label htmlFor="txt">Text:</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
 
-                <label htmlFor="importance">Importance:</label>
-                <input onChange={handleChange} value={importance} type="number" name="importance" id="importance" />
+                <label htmlFor="price">price:</label>
+                <input onChange={handleChange} value={price} type="number" name="price" id="price" />
 
                 <label htmlFor="isDone">isDone:</label>
                 <input onChange={handleChange} value={isDone} type="checkbox" name="isDone" id="isDone" />

@@ -6,7 +6,10 @@ html {
 }
 
 body {
+<<<<<<< HEAD
   background: bisque;
+=======
+>>>>>>> feat/toy-price-model
   margin: 0;
   color: var(--gray3);
 }
@@ -26,13 +29,20 @@ p {
 }
 
 a {
+<<<<<<< HEAD
+=======
+  text-decoration: none;
+>>>>>>> feat/toy-price-model
   color: unset;
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 a:hover{
   color: inherit;
 }
+=======
+>>>>>>> feat/toy-price-model
 
 
 /* Dont stretch my Media */
