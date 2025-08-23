@@ -12,11 +12,7 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
-<<<<<<< HEAD
-    getImportanceStats,
-=======
     getpriceStats,
->>>>>>> feat/toy-price-model
 }
 // For Debug (easy access from console):
 window.cs = toyService
@@ -29,13 +25,8 @@ function query(filterBy = {}) {
                 toys = toys.filter(toy => regExp.test(toy.txt))
             }
 
-<<<<<<< HEAD
-            if (filterBy.importance) {
-                toys = toys.filter(toy => toy.importance >= filterBy.importance)
-=======
             if (filterBy.price) {
                 toys = toys.filter(toy => toy.price >= filterBy.price)
->>>>>>> feat/toy-price-model
             }
 
             return toys
@@ -65,22 +56,12 @@ function save(toy) {
         return storageService.post(TOY_KEY, toy)
     }
 }
-<<<<<<< HEAD
-
-function getEmptyToy(txt = '', importance = 5) {
-    return { txt, importance, isDone: false }
-}
-
-function getDefaultFilter() {
-    return { txt: '', importance: 0 }
-=======
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, isDone: false, imgUrl: "./assets/img/react.svg", price, labels: '', }
+    return { txt, isDone: false, imgUrl: "./assets/img/react.svg", price, labels: '',inStock: true }
 }
 
 function getDefaultFilter() {
     return { txt: '', price: 0 }
->>>>>>> feat/toy-price-model
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -93,19 +74,11 @@ function getFilterFromSearchParams(searchParams) {
 }
 
 
-<<<<<<< HEAD
-function getImportanceStats() {
-    return storageService.query(TOY_KEY)
-        .then(toys => {
-            const toyCountByImportanceMap = _getToyCountByImportanceMap(toys)
-            const data = Object.keys(toyCountByImportanceMap).map(speedName => ({ title: speedName, value: toyCountByImportanceMap[speedName] }))
-=======
 function getpriceStats() {
     return storageService.query(TOY_KEY)
         .then(toys => {
             const toyCountBypriceMap = _getToyCountBypriceMap(toys)
             const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
->>>>>>> feat/toy-price-model
             return data
         })
 
@@ -115,12 +88,6 @@ function _createToys() {
     let toys = utilService.loadFromStorage(TOY_KEY)
     if (!toys || !toys.length) {
         toys = []
-<<<<<<< HEAD
-        const txts = ['Learn React', 'Master CSS', 'Practice Redux']
-        for (let i = 0; i < 20; i++) {
-            const txt = txts[utilService.getRandomIntInclusive(0, txts.length - 1)]
-            toys.push(_createToy(txt + (i + 1), utilService.getRandomIntInclusive(1, 10)))
-=======
         const toyNames = [
             'Galactic Glider',
             'Quantum Quacker',
@@ -133,23 +100,18 @@ function _createToys() {
             'Turbo Tumble',
             'Wobble-Whirl'
         ];
-        for (let i = 0; i < 20; i++) {
-            const txt = toyNames[utilService.getRandomIntInclusive(0, toyNames.length - 1)]
-            toys.push(_createToy(txt + (i + 1), utilService.getRandomIntInclusive(10,300)))
->>>>>>> feat/toy-price-model
+        for (let i = 0; i < 10; i++) {
+            const txt = toyNames[i]
+            toys.push(_createToy(txt , utilService.getRandomIntInclusive(10,300)))
         }
         utilService.saveToStorage(TOY_KEY, toys)
     }
 }
 
-<<<<<<< HEAD
-function _createToy(txt, importance) {
-    const toy = getEmptyToy(txt, importance)
-=======
 function _createToy(txt, price) {
     const toy = getEmptyToy(txt, price)
->>>>>>> feat/toy-price-model
     toy._id = utilService.makeId()
+
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
 }
@@ -165,16 +127,6 @@ function _setNextPrevToyId(toy) {
     })
 }
 
-<<<<<<< HEAD
-function _getToyCountByImportanceMap(toys) {
-    const toyCountByImportanceMap = toys.reduce((map, toy) => {
-        if (toy.importance < 3) map.low++
-        else if (toy.importance < 7) map.normal++
-        else map.urgent++
-        return map
-    }, { low: 0, normal: 0, urgent: 0 })
-    return toyCountByImportanceMap
-=======
 function _getToyCountBypriceMap(toys) {
     const toyCountBypriceMap = toys.reduce((map, toy) => {
         if (toy.price < 3) map.low++
@@ -183,22 +135,11 @@ function _getToyCountBypriceMap(toys) {
         return map
     }, { low: 0, normal: 0, urgent: 0 })
     return toyCountBypriceMap
->>>>>>> feat/toy-price-model
 }
 
 
 // Data Model:
 // const toy = {
-<<<<<<< HEAD
-//     _id: "gZ6Nvy",
-//     txt: "Master Redux",
-//     importance: 9,
-//     isDone: false,
-//     createdAt: 1711472269690,
-//     updatedAt: 1711472269690
-// }
-
-=======
 // _id: 't101',
 // name: 'Talking Doll',
 // imgUrl: 'hardcoded-url-for-now',
@@ -207,4 +148,3 @@ function _getToyCountBypriceMap(toys) {
 // createdAt: 1631031801011,
 // inStock: true,
 // }
->>>>>>> feat/toy-price-model

@@ -3,11 +3,7 @@ import { debounceFilterBy } from "../store/actions/toy.actions.js"
 // import { SET_FILTER_BY, toyReducer } from "../store/reduce/toy.reduce.js"
 
 import { useState } from "react"
-<<<<<<< HEAD
-import { useDispatch, useSelector } from "react-redux"
-=======
 import { useSelector } from "react-redux"
->>>>>>> feat/toy-price-model
 
 export function ToyFilter() {
 
@@ -45,11 +41,7 @@ export function ToyFilter() {
         debounceFilterBy(filterByToEdit)
     }
 
-<<<<<<< HEAD
-    const { txt, importance } = filterByToEdit
-=======
     const { txt, price } = filterByToEdit
->>>>>>> feat/toy-price-model
     return (
         <section className="toy-filter">
             <h2>Filter Toys</h2>
@@ -57,15 +49,9 @@ export function ToyFilter() {
                 <input value={txt} onChange={handleChange}
                     type="search" placeholder="By Txt" id="txt" name="txt"
                 />
-<<<<<<< HEAD
-                <label htmlFor="importance">Importance: </label>
-                <input value={importance} onChange={handleChange}
-                    type="number" placeholder="By Importance" id="importance" name="importance"
-=======
                 <label htmlFor="price">price: </label>
                 <input value={price} onChange={handleChange}
                     type="number" placeholder="By price" id="price" name="price"
->>>>>>> feat/toy-price-model
                 />
 
                 <button hidden>Set Filter</button>
