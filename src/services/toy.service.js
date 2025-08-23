@@ -56,8 +56,9 @@ function save(toy) {
         return storageService.post(TOY_KEY, toy)
     }
 }
+
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, isDone: false, imgUrl: "./assets/img/react.svg", price, labels: '',inStock: true }
+    return { txt, isDone: false, imgUrl: "./assets/img/react.svg", price, labels: [],inStock: true }
 }
 
 function getDefaultFilter() {
