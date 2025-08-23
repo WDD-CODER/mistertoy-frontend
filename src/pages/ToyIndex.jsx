@@ -5,7 +5,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, removeToy, setStateFilterFromSearchParams } from "../store/actions/toy.actions.js"
 
 import { useEffect } from "react"
-import { Link, useSearchParams } from "react-router-dom" 
+import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 export function ToyIndex() {
@@ -15,7 +15,7 @@ export function ToyIndex() {
     const filterBy = useSelector(state => state.toyModule.filterBy)
     // Special hook for accessing search-params:
     const [searchParams] = useSearchParams()
-    // const [curToy, setCurToy] = useState(toys)
+    // const dispatch = useDispatch()
 
     useEffect(() => {
         setStateFilterFromSearchParams(searchParams)
@@ -35,17 +35,13 @@ export function ToyIndex() {
 
     function onToggleToy(toy) {
         const toyToSave = { ...toy, isDone: !toy.isDone }
-        toyService.save(toyToSave)
-            .then((savedToy) => {
-                setToys(prevToys => prevToys.map(currToy => (currToy._id !== toy._id) ? currToy : { ...savedToy }))
-                showSuccessMsg(`Toy is ${(savedToy.isDone) ? 'done' : 'back on your list'}`)
-            })
+        toyService.saveToy(toyToSave)
+            .then((savedToy) => showSuccessMsg(`Toy is ${(savedToy.isDone) ? 'done' : 'back on your list'}`))
             .catch(err => {
                 console.log('err:', err)
-                showErrorMsg('Cannot toggle toy ' + toyId)
+                showErrorMsg('Cannot toggle toy ' + toy._Id)
             })
     }
-
 
     return (
         <section className="toy-index">
