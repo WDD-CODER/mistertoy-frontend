@@ -12,7 +12,7 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
-    getImportanceStats,
+    getpriceStats,
 }
 // For Debug (easy access from console):
 window.cs = toyService
@@ -25,8 +25,8 @@ function query(filterBy = {}) {
                 toys = toys.filter(toy => regExp.test(toy.txt))
             }
 
-            if (filterBy.importance) {
-                toys = toys.filter(toy => toy.importance >= filterBy.importance)
+            if (filterBy.price) {
+                toys = toys.filter(toy => toy.price >= filterBy.price)
             }
 
             return toys
@@ -56,13 +56,12 @@ function save(toy) {
         return storageService.post(TOY_KEY, toy)
     }
 }
-
-function getEmptyToy(txt = '', importance = 5) {
-    return { txt, importance, isDone: false }
+function getEmptyToy(txt = '', price = 0) {
+    return { txt, isDone: false, imgUrl: "./assets/img/react.svg", price, labels: '', }
 }
 
 function getDefaultFilter() {
-    return { txt: '', importance: 0 }
+    return { txt: '', price: 0 }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -75,11 +74,11 @@ function getFilterFromSearchParams(searchParams) {
 }
 
 
-function getImportanceStats() {
+function getpriceStats() {
     return storageService.query(TOY_KEY)
         .then(toys => {
-            const toyCountByImportanceMap = _getToyCountByImportanceMap(toys)
-            const data = Object.keys(toyCountByImportanceMap).map(speedName => ({ title: speedName, value: toyCountByImportanceMap[speedName] }))
+            const toyCountBypriceMap = _getToyCountBypriceMap(toys)
+            const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
             return data
         })
 
@@ -89,17 +88,28 @@ function _createToys() {
     let toys = utilService.loadFromStorage(TOY_KEY)
     if (!toys || !toys.length) {
         toys = []
-        const txts = ['Learn React', 'Master CSS', 'Practice Redux']
+        const toyNames = [
+            'Galactic Glider',
+            'Quantum Quacker',
+            'Robo-Racer',
+            'Sparkle Sprout',
+            'Astro-Acorn',
+            'Cosmic Cuddlebug',
+            'Mythic Monolith',
+            'Pixel Petal',
+            'Turbo Tumble',
+            'Wobble-Whirl'
+        ];
         for (let i = 0; i < 20; i++) {
-            const txt = txts[utilService.getRandomIntInclusive(0, txts.length - 1)]
-            toys.push(_createToy(txt + (i + 1), utilService.getRandomIntInclusive(1, 10)))
+            const txt = toyNames[utilService.getRandomIntInclusive(0, toyNames.length - 1)]
+            toys.push(_createToy(txt + (i + 1), utilService.getRandomIntInclusive(10,300)))
         }
         utilService.saveToStorage(TOY_KEY, toys)
     }
 }
 
-function _createToy(txt, importance) {
-    const toy = getEmptyToy(txt, importance)
+function _createToy(txt, price) {
+    const toy = getEmptyToy(txt, price)
     toy._id = utilService.makeId()
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
@@ -116,24 +126,24 @@ function _setNextPrevToyId(toy) {
     })
 }
 
-function _getToyCountByImportanceMap(toys) {
-    const toyCountByImportanceMap = toys.reduce((map, toy) => {
-        if (toy.importance < 3) map.low++
-        else if (toy.importance < 7) map.normal++
+function _getToyCountBypriceMap(toys) {
+    const toyCountBypriceMap = toys.reduce((map, toy) => {
+        if (toy.price < 3) map.low++
+        else if (toy.price < 7) map.normal++
         else map.urgent++
         return map
     }, { low: 0, normal: 0, urgent: 0 })
-    return toyCountByImportanceMap
+    return toyCountBypriceMap
 }
 
 
 // Data Model:
 // const toy = {
-//     _id: "gZ6Nvy",
-//     txt: "Master Redux",
-//     importance: 9,
-//     isDone: false,
-//     createdAt: 1711472269690,
-//     updatedAt: 1711472269690
+// _id: 't101',
+// name: 'Talking Doll',
+// imgUrl: 'hardcoded-url-for-now',
+// price: 123,
+// labels: ['Doll', 'Battery Powered', 'Baby'],
+// createdAt: 1631031801011,
+// inStock: true,
 // }
-

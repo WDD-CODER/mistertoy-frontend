@@ -4,7 +4,7 @@ export function ToyPreview({ toy, onToggleToy }) {
             <h2 className={(toy.isDone)? 'done' : ''} onClick={onToggleToy}>
                 Toy: {toy.txt}
             </h2>
-            <h4>Toy Importance: {toy.importance}</h4>
+            <h4>Toy price: ${toy.price}</h4>
             <img src={`../assets/img/${'toy'}.png`} alt="" />
         </article>
     )
