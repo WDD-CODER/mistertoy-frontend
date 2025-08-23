@@ -24,7 +24,7 @@ export function toyReducer(state = initialState, cmd = {}) {
         case ADD_TOY:
             return { ...state, toys: [...state.toys, cmd.toy] }
         case UPDATE_TOY:
-            return { ...state, toy: state.toys.map(toy => toy._id === cmd.toy._id ? cmd.toy : toy) }
+            return { ...state, toys: state.toys.map(toy => toy._id === cmd.toy._id ? cmd.toy : toy) }
         case SET_IS_LOADING:
             return { ...state, isLoading: cmd.isLoading }
         case SET_FILTER_BY:
