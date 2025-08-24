@@ -1,33 +1,40 @@
-import { useSelector } from "react-redux"
+import { useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
+    //יש לי בעיה מוזרה שעולה לפעמים שתוך כדי עבודה בפרטים של המוצר אני עושה שינויים ואז הוא פתאו לא יכול לקרוא את הלייבלים של המוצר ואני צריך לרענן את הדף.
+    const [labels, setLabels] = useState([])
 
-    const curToy = useSelector(state => state.toyModule.toys.find(t => t._id === toy._id))
+    const handleChange = (event) => {
+        const { options } = event.target;
+        const values = [];
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) values.push(options[i].value)
+        }
+        setLabels(prevLabels => [...prevLabels, ...values])
+    }
 
     function onRemoveLabel(label) {
-        removeLabel(curToy, label)
+        removeLabel(toy, label)
             .then(() => showSuccessMsg('removed Toy labels'))
             .catch(() => showErrorMsg('problem removing toy label'))
     }
 
-    function onAddLabel(ev) {
-        addToyLabels(curToy, ev)
-            .then(() => showSuccessMsg('add Toy labels'))
+    function onAddLabel() {
+        addToyLabels(toy, labels)
+            .then(() =>{
+                setLabels([])
+                showSuccessMsg('add Toy labels')})
             .catch(() => showErrorMsg('toy label not add'))
     }
-
-    console.log("🚀 ~ Labels ~ curToy:", curToy)
-
 
     return (
         <section className="labels-btn">
             <h4>labels</h4>
-            <label className="actions" htmlFor="labels" onChange={ev => onAddLabel(ev)}>
+            <label className="actions" htmlFor="labels">
                 Label:
-                <select name="labels" id="labels">
-                    <option value="" disabled >Choose Label</option>
+                <select multiple={true} value={labels} name="labels" id="labels" onBlur={() => onAddLabel()} onChange={ev => handleChange(ev)}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
@@ -38,10 +45,11 @@ export function Labels({ toy }) {
                     <option value="battery-powered">Battery Powered</option>
                 </select>
             </label>
-            {curToy.labels.length > 0 &&
+            {toy.labels.length > 0 &&
                 <div>
-                    {curToy.labels.map(label => <button key={label} onClick={() => onRemoveLabel(label)}>{label}</button>)}
+                    {toy.labels.map(label => <button key={label} onClick={() => onRemoveLabel(label)}>{label}</button>)}
                 </div>}
         </section>
     )
 }
+

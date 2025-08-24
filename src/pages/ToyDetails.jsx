@@ -9,23 +9,17 @@ import { ToyInfo } from "../cmps/ToyInfo.jsx"
 export function ToyDetails() {
 
 
-    // const isLoading = useSelector(state => state.toyModule.isLoading)
+    const isLoading = useSelector(state => state.toyModule.isLoading)
     const toys = useSelector(state => state.toyModule.toys)
     const [toy, setToy] = useState(null)
-    const [notFound, setNotFound] = useState(true)
     const { toyId } = useParams()
 
     useEffect(() => {
         getToy(toyId)
-            .then(toy => {
-                if (!toy) setNotFound(true)
-                else setNotFound(false)
-                setToy(toy)
-            })
+            .then(setToy)
     }, [toyId, toys])
 
-    // if (isLoading) return <div>Loading...</div>
-    if (notFound) return <div>no such...<button><Link to={`/toy/`}>Back to list</Link></button></div>
+    if (isLoading) return <div>Loading...</div>
     if (!toy) return null
 
 

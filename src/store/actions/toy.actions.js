@@ -48,11 +48,11 @@ export function saveToy(toy) {
 
 // UPDATE
 
-export function addToyLabels(toy, ev) {
+export function addToyLabels(toy, addLabels) {
     const toyLabels = [...toy.labels]
-    const addLabel = ev.target.value
-    if (toyLabels.includes(addLabel)) return Promise.reject()
-    toyLabels.push(addLabel)
+    addLabels.forEach(label => {    
+       if (!toyLabels.includes(label)) toyLabels.push(label)
+    })
     const modifiedToy = { ...toy, labels: toyLabels }
     return toyService.save(modifiedToy)
         .then(toy =>{
