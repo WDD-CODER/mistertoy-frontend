@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { Labels } from "../cmps/Labels.jsx"
+import { ToyInfo } from "../cmps/ToyInfo.jsx"
 
 export function ToyDetails() {
 
@@ -21,20 +22,18 @@ export function ToyDetails() {
                 else setNotFound(false)
                 setToy(toy)
             })
-    }, [toyId,toys])
+    }, [toyId, toys])
 
     // if (isLoading) return <div>Loading...</div>
     if (notFound) return <div>no such...<button><Link to={`/toy/`}>Back to list</Link></button></div>
     if (!toy) return null
 
+
     return (
         <section className="toy-details">
-            \
-            <h1>Toy price: {toy.price}</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim rem accusantium, itaque ut voluptates quo? Vitae animi maiores nisi, assumenda molestias odit provident quaerat accusamus, reprehenderit impedit, possimus est ad?</p>
-
+            <h1>Toy name: {toy.txt}</h1>
+            <ToyInfo toy={toy}/>
             <Labels toy={toy} />
-
             <button><Link to={`/toy/`}>Back to list</Link></button>
             <div>
                 <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link> |

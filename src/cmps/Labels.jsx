@@ -3,7 +3,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
-    
+
     const curToy = useSelector(state => state.toyModule.toys.find(t => t._id === toy._id))
 
     function onRemoveLabel(label) {
@@ -17,6 +17,8 @@ export function Labels({ toy }) {
             .then(() => showSuccessMsg('add Toy labels'))
             .catch(() => showErrorMsg('toy label not add'))
     }
+
+    console.log("🚀 ~ Labels ~ curToy:", curToy)
 
 
     return (

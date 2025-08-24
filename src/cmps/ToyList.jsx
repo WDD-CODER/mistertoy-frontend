@@ -3,7 +3,7 @@ import { ToyPreview } from "./ToyPreview.jsx"
 import { Link } from "react-router-dom"
 
 export function ToyList({toys, onRemoveToy, onToggleToy }) {
-
+//לא מובן מדוע אם אין את הקונסול בפרטים אז לפעמים צריך כמה לחיצות עד שהכפתור מגיב
     return (
         <ul className="toy-list">
             {toys.map(toy =>
@@ -12,7 +12,7 @@ export function ToyList({toys, onRemoveToy, onToggleToy }) {
                     <Labels toy={toy} />
                     <section>
                         <button onClick={() => onRemoveToy(toy._id)}>Remove</button>
-                        <button><Link to={`/toy/${toy._id}`}>Details</Link></button>
+                        <button onClick={()=>console.log('Details')}><Link to={`/toy/${toy._id}`}>Details</Link></button>
                         <button><Link to={`/toy/edit/${toy._id}`}>Edit</Link></button>
                     </section>
                 </li>
