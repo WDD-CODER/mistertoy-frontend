@@ -1,15 +1,15 @@
-import { debounceFilterBy, SetFilter } from "../store/actions/toy.actions.js"
+import { debounceFilterBy } from "../store/actions/toy.actions.js"
 
 import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { SET_FILTER_BY } from "../store/reduce/toy.reduce.js"
 
-export function ToyFilter({ filterBy, SetFilterBy }) {
-    console.log("🚀 ~ ToyFilter ~ filterBy:", filterBy)
+export function ToyFilter({ filterBy }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-    const [labels, setLabels] = useState([])
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const dispatch = useDispatch()
+
+    const [labels, setLabels] = useState([])
 
     function handleChange({ target }) {
         const field = target.name
@@ -20,8 +20,7 @@ export function ToyFilter({ filterBy, SetFilterBy }) {
             case 'range':
                 value = +value || ''
                 break
-
-            case 'select-multiple':
+case 'select-multiple':
                 if (labels.some(curLabel => curLabel === value)) return
                 const updatedLabels = [...labels, value]
                 setLabels(updatedLabels)
@@ -29,30 +28,25 @@ export function ToyFilter({ filterBy, SetFilterBy }) {
                 break
             default: break
         }
+        }
 
         setFilterByToEdit(prevFilter => {
             const curFilter = { ...prevFilter, [field]: value }
             debounceFilterBy(curFilter)
             return curFilter
         })
-    }
+    
 
     // function updateStateFilterBy(ev) {
     //     ev.preventDefault()
-    //     console.log("🚀 ~ updateStateFilterBy ~ filterBy:", filterBy)
-    //     dispatch({ type: SET_FILTER_BY, filterBy: ({ ...filterBy, labels }) })
+    //     dispatch({ type: SET_FILTER_BY, filterBy: { ...filterBy, labels } })
     // }
 
     function clearSelect(ev) {
         ev.preventDefault()
+        dispatch({ type: SET_FILTER_BY, filterBy: { ...filterBy, labels } })
         setLabels([])
-        const updatedFilter = ({ ...filterBy, labels: [] })
-        console.log("🚀 ~ clearSelect ~ updatedFilter:", updatedFilter)
-        SetFilterBy(updatedFilter)
-        // console.log('clearSelect')
-        // // filterByToEdit(prevFilter => ({ ...prevFilter, labels: [] }))
-        // console.log("🚀 ~ clearSelect ~ filterBy:", filterBy)
-        // dispatch({ type: SET_FILTER_BY, filterBy:  })
+
     }
 
     function removeLabelFromFilter(label) {
@@ -64,8 +58,6 @@ export function ToyFilter({ filterBy, SetFilterBy }) {
     // Optional support for LAZY Filtering with a button
     function onSubmitFilter(ev) {
         ev.preventDefault()
-        console.log("🚀 ~ onSubmitFilter ~ filterByToEdit:", filterByToEdit)
-        // SetFilterBy(filterByToEdit)
         debounceFilterBy(filterByToEdit)
     }
 
