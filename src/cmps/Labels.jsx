@@ -6,7 +6,7 @@ export function Labels({ toy }) {
     //יש לי בעיה מוזרה שעולה לפעמים שתוך כדי עבודה בפרטים של המוצר אני עושה שינויים ואז הוא פתאו לא יכול לקרוא את הלייבלים של המוצר ואני צריך לרענן את הדף.
     const [labels, setLabels] = useState([])
 
-    const handleChange = (event) => {
+    const handleLabelChange = (event) => {
         const { options } = event.target;
         const values = [];
         for (let i = 0, l = options.length; i < l; i++) {
@@ -18,15 +18,23 @@ export function Labels({ toy }) {
     function onRemoveLabel(label) {
         removeLabel(toy, label)
             .then(() => showSuccessMsg('removed Toy labels'))
-            .catch(() => showErrorMsg('problem removing toy label'))
+            .catch(err => {
+                console.log('problem removing toy label', err)
+                showErrorMsg('Label was not removed')
+            })
     }
 
     function onAddLabel() {
         addToyLabels(toy, labels)
-            .then(() =>{
+            .then(() => {
                 setLabels([])
-                showSuccessMsg('add Toy labels')})
-            .catch(() => showErrorMsg('toy label not add'))
+                showSuccessMsg('add Toy labels')
+            })
+            .catch(err => {
+                console.log(`Couldn't add label`, err)
+                showErrorMsg('toy label not add'), err
+
+            })
     }
 
     return (
@@ -34,7 +42,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select multiple={true} value={labels} name="labels" id="labels" onBlur={() => onAddLabel()} onChange={ev => handleChange(ev)}>
+                <select multiple={true} size="3" value={labels} name="labels" id="labels" onBlur={() => onAddLabel()} onChange={ev => handleLabelChange(ev)}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
