@@ -6,7 +6,7 @@ export const utilService = {
     saveToStorage,
     animateCSS,
     debounce,
-    throttle
+    throttle,
 }
 
 function makeId(length = 6) {
@@ -56,7 +56,6 @@ function animateCSS(el, animation = 'bounce') {
             el.classList.remove(`${prefix}animated`, animationName)
             resolve('Animation ended')
         }
-
         el.addEventListener('animationend', handleAnimationEnd, { once: true })
     })
 }
@@ -79,3 +78,5 @@ function throttle(fn, delay) {
         }
     }
 }
+
+
