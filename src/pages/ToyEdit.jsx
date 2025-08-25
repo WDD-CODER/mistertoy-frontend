@@ -48,8 +48,8 @@ export function ToyEdit() {
                 showSuccessMsg(`Toy Saved (id: ${savedToy._id})`)
             })
             .catch(err => {
+                console.log('Problem while trying to save toy', err)
                 showErrorMsg('Cannot save toy')
-                console.log('err:', err)
             })
     }
 
