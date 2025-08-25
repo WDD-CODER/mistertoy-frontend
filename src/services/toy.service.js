@@ -29,6 +29,13 @@ function query(filterBy = {}) {
                 toys = toys.filter(toy => toy.price >= filterBy.price)
             }
 
+            if (filterBy.labels) {
+                if (filterBy.labels.length)
+                    toys = toys.filter(toy => {
+                        return filterBy.labels.every(label => toy.labels.includes(label))
+                    })
+            }
+
             return toys
         })
 }
@@ -58,11 +65,11 @@ function save(toy) {
 }
 
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, imgUrl: "", price, labels: [] ,inStock: true }
+    return { txt, imgUrl: "", price, labels: [], inStock: true }
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: 0 }
+    return { txt: '', price: 0, labels: [] }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -103,7 +110,7 @@ function _createToys() {
         ];
         for (let i = 0; i < 10; i++) {
             const txt = toyNames[i]
-            toys.push(_createToy(txt , utilService.getRandomIntInclusive(10,300)))
+            toys.push(_createToy(txt, utilService.getRandomIntInclusive(10, 300)))
         }
         utilService.saveToStorage(TOY_KEY, toys)
     }
