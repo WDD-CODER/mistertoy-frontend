@@ -54,6 +54,12 @@ export function ToyFilter({ filterBy }) {
 
     }
 
+    function removeLabelFromFilter(label) {
+        const toyLabels = labels.filter(curLabel => curLabel !== label)
+        setLabels(toyLabels)
+    }
+
+
     // Optional support for LAZY Filtering with a button
     function onSubmitFilter(ev) {
         ev.preventDefault()
@@ -95,6 +101,9 @@ export function ToyFilter({ filterBy }) {
                         <option value="battery-powered">Battery Powered</option>
                     </select>
                 </label>
+                <div>
+                    {labels.map(label => <button key={label} onClick={() => removeLabelFromFilter(label)}>{label}</button>)}
+                </div>
 
                 <button hidden>Set Filter</button>
             </form>

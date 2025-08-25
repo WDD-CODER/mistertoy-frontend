@@ -54,3 +54,7 @@ object {
   text-decoration: line-through;
   font-style: italic;
 }
+
+.toy-img{
+  width: 50%;
+}

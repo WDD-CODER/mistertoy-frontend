@@ -1,19 +1,11 @@
-import { useState } from "react"
+import { useRef } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
-    //יש לי בעיה מוזרה שעולה לפעמים שתוך כדי עבודה בפרטים של המוצר אני עושה שינויים ואז הוא פתאו לא יכול לקרוא את הלייבלים של המוצר ואני צריך לרענן את הדף.
-    const [labels, setLabels] = useState([])
+    const labels = useRef([]).current
+    console.log("🚀 ~ Labels ~ labels:", labels)
 
-    const handleLabelChange = (event) => {
-        const { options } = event.target;
-        const values = [];
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) values.push(options[i].value)
-        }
-        setLabels(prevLabels => [...prevLabels, ...values])
-    }
 
     function onRemoveLabel(label) {
         removeLabel(toy, label)
@@ -24,12 +16,12 @@ export function Labels({ toy }) {
             })
     }
 
-    function onAddLabel() {
-        addToyLabels(toy, labels)
-            .then(() => {
-                setLabels([])
-                showSuccessMsg('add Toy labels')
-            })
+    function onAddLabel({ target }) {
+        const labelsToAdd = [target.value]
+        if (labels.includes(target.value)) return showErrorMsg('toy label exist already')
+        labels.push(target.value)
+        addToyLabels(toy, labelsToAdd)
+            .then(() => showSuccessMsg('add Toy labels'))
             .catch(err => {
                 console.log(`Couldn't add label`, err)
                 showErrorMsg('toy label not add'), err
@@ -42,7 +34,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select multiple={true} size="3" value={labels} name="labels" id="labels" onBlur={() => onAddLabel()} onChange={ev => handleLabelChange(ev)}>
+                <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>

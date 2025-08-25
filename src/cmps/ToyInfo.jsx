@@ -1,9 +1,9 @@
 
-import noImg from "../assets/img/react.svg"
 
 export function ToyInfo({ toy }) {
 
-    const toyImg = toy.imgUrl ? toy.imgUrl : noImg
+    const demoImg = `https://robohash.org/${toy._id}`
+    const toyImg = toy.imgUrl ? toy.imgUrl :demoImg
     const date = new Date(toy.createdAt).toLocaleDateString()
 
 
@@ -12,7 +12,7 @@ export function ToyInfo({ toy }) {
             <article className="price">Price:{toy.price}</article>
             <article className="in-stock">Toy In Stock:{toy.instock}</article>
             <article className="createdAt">Created At:{date}</article>
-            <img className="toy-img" src={toyImg} alt="toy-img" />
+            <img className="toy-img" src={toyImg} alt="Toy Image" />
         </div>
     )
 }
