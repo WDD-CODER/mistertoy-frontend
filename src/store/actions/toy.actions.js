@@ -18,10 +18,10 @@ export function loadToys(filterBy) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.query(filterBy)
         .then(toys => store.dispatch({ type: GET_TOYS, toys }))
-        .catch(err=>{
-        console.log('toy.action -> cant get toys}',err)
-         throw err        
-         })
+        .catch(err => {
+            console.log('toy.action -> cant get toys}', err)
+            throw err
+        })
         .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 }
 
@@ -34,9 +34,10 @@ export function getToy(toyId) {
             store.dispatch({ type: GET_TOY, toy })
             return toy
         })
-        .catch(err =>{
-             console.log('toy action -> cant get toy ', err)
-            throw err})
+        .catch(err => {
+            console.log('toy action -> cant get toy ', err)
+            throw err
+        })
         .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 }
 
@@ -47,15 +48,20 @@ export function saveToy(toy) {
     const type = toy._id ? UPDATE_TOY : ADD_TOY
     return toyService.save(toy)
         .then(toy => store.dispatch({ type, toy }))
-         .catch(err=>{
-         console.log('toy.action -> cant save toy',err)
-          throw err        
-          })
+        .catch(err => {
+            console.log('toy.action -> cant save toy', err)
+            throw err
+        })
         .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 
 }
 
 // UPDATE
+
+export function SetFilter(filterBy) {
+    store.dispatch({ type: SET_FILTER_BY, filterBy})
+}
+
 
 export function addToyLabels(toy, addLabels) {
     const toyLabels = [...toy.labels]
@@ -68,11 +74,11 @@ export function addToyLabels(toy, addLabels) {
             store.dispatch({ type: UPDATE_TOY, toy })
             return toy
         })
-         .catch(err=>{
-         console.log('toy.action -> cant add toy label',err)
-          throw err        
-          })
-        
+        .catch(err => {
+            console.log('toy.action -> cant add toy label', err)
+            throw err
+        })
+
 }
 
 
@@ -82,11 +88,11 @@ export function removeToy(toyId) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.remove(toyId)
         .then(() => store.dispatch({ type: REMOVE_TOY, toyId }))
-         .catch(err=>{
-         console.log('toy.action -> cant remove toy',err)
-          throw err        
-          })
-        
+        .catch(err => {
+            console.log('toy.action -> cant remove toy', err)
+            throw err
+        })
+
         .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 
 }
@@ -99,36 +105,15 @@ export function removeLabel(toy, label) {
             store.dispatch({ type: UPDATE_TOY, toy })
             return toy
         })
-         .catch(err=>{
-         console.log('toy.action -> cant remove toy label',err)
-          throw err        
-          })
-        
+        .catch(err => {
+            console.log('toy.action -> cant remove toy label', err)
+            throw err
+        })
+
 }
-
-// export function removeLabel(toy, label) {
-//     const curToy ={...toy}
-//     const toyLabels = toy.labels.filter(curLabel => curLabel !== label)
-//     curToy.labels = toyLabels
-//     return toyService.save(curToy)
-//         .then(toy => store.dispatch({ type: UPDATE_TOY, toy }))
-// }
-
 
 
 // UTIL 
-export function setStateFilterFromSearchParams(searchParams) {
-    const defaultFilter = searchParams
-    const filterBy = {}
-    for (const field in defaultFilter) {
-        if (field === 'labels') filterBy[field] = searchParams.get(field) || []
-        else filterBy[field] = searchParams.get(field) || ''
-    }
-    store.dispatch({ type: SET_FILTER_BY, filterBy })
-    return filterBy
-}
-
-
 
 export const debounceFilterBy = utilService.debounce(
     (filter) => store.dispatch({ type: SET_FILTER_BY, filterBy: filter }),
