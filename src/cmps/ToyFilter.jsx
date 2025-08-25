@@ -1,15 +1,15 @@
-// import { utilService } from "../services/util.service.js"
 import { debounceFilterBy } from "../store/actions/toy.actions.js"
-// import { SET_FILTER_BY, toyReducer } from "../store/reduce/toy.reduce.js"
 
 import { useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { SET_FILTER_BY } from "../store/reduce/toy.reduce.js"
 
-export function ToyFilter() {
+export function ToyFilter({ filterBy }) {
 
-    const filterBy = useSelector(state => state.toyModule.filterBy)
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
+
+    const [labels, setLabels] = useState([])
 
     function handleChange({ target }) {
         const field = target.name
@@ -21,9 +21,11 @@ export function ToyFilter() {
                 value = +value || ''
                 break
 
-            case 'checkbox':
-                value = target.checked
-                break
+            case 'select-multiple':
+                if (labels.some(curLabel => curLabel === value)) return
+                const updatedLabels = [...labels, value]
+                setLabels(updatedLabels)
+                return
 
             default: break
         }
@@ -33,6 +35,23 @@ export function ToyFilter() {
             debounceFilterBy(curFilter)
             return curFilter
         })
+    }
+
+    function updateStateFilterBy(ev) {
+        ev.preventDefault()
+
+        // const filter = { ...filterBy.labels, labels }
+        // const clearLabels = []
+        // dispatch({ type: SET_FILTER_BY, filterBy: { ...filterBy, clearLabels } })
+        dispatch({ type: SET_FILTER_BY, filterBy: { ...filterBy, labels } })
+        // setLabels([])
+    }
+
+    function clearSelect(ev) {
+        ev.preventDefault()
+        dispatch({ type: SET_FILTER_BY, filterBy: { ...filterBy, labels } })
+        setLabels([])
+
     }
 
     // Optional support for LAZY Filtering with a button
@@ -45,7 +64,7 @@ export function ToyFilter() {
     return (
         <section className="toy-filter">
             <h2>Filter Toys</h2>
-            <form onSubmit={onSubmitFilter}>
+            <form onBlur={updateStateFilterBy} onSubmit={onSubmitFilter}>
                 <input value={txt} onChange={handleChange}
                     type="search" placeholder="By Txt" id="txt" name="txt"
                 />
@@ -53,9 +72,33 @@ export function ToyFilter() {
                 <input value={price} onChange={handleChange}
                     type="number" placeholder="By price" id="price" name="price"
                 />
+                {/* <label className="actions" htmlFor="labels"  >
+                    availability:
+                    <select multiple={true} size="1" value={inStock} name="labels" id="labels" onChange={handleChange}>
+                        <option value="">On Wheels</option>
+                        <option value="inS">Box Game</option>
+                        <option value="art">Art</option>
+                    </select>
+                </label> */}
+                <button className="cleare-select" onClick={ev => clearSelect(ev)}>Clear Select</button>
+                <label className="actions" htmlFor="labels"  >
+                    Label:
+                    <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
+                        <option value="" disabled>Labels</option>
+                        <option value="on-wheels">On Wheels</option>
+                        <option value="box-game">Box Game</option>
+                        <option value="art">Art</option>
+                        <option value="baby">Baby</option>
+                        <option value="doll">Doll</option>
+                        <option value="puzzle">Puzzle</option>
+                        <option value="out-door">Out Door</option>
+                        <option value="battery-powered">Battery Powered</option>
+                    </select>
+                </label>
 
                 <button hidden>Set Filter</button>
             </form>
         </section>
+
     )
 }
