@@ -7,16 +7,15 @@ import { loadToys, removeToy, saveToy, SetFilter } from "../store/actions/toy.ac
 import { useEffect } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { utilService } from "../services/util.service.js"
 
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const filterBy = useSelector(state => state.toyModule.filterBy)
+    console.log("🚀 ~ ToyIndex ~ filterBy:", filterBy)
     // Special hook for accessing search-params:
-    const [searchParams, setSearchParams] = useSearchParams()
-    // const dispatch = useDispatch()
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
         SetFilter(toyService.getFilterFromSearchParams(searchParams))
@@ -32,8 +31,7 @@ export function ToyIndex() {
 
     }, [filterBy])
 
-    function SetFilterBy(curFilter) {
-        console.log("🚀 ~ SetFilterBy ~ curFilter:", curFilter)
+    function onSetFilterBy(curFilter) {
         SetFilter(curFilter)
     }
 
@@ -58,7 +56,7 @@ export function ToyIndex() {
 
     return (
         <section className="toy-index">
-            <ToyFilter filterBy={filterBy} SetFilterBy={SetFilterBy} />
+            <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
             <div>
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
             </div>

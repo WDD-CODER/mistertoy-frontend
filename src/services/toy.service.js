@@ -18,6 +18,7 @@ export const toyService = {
 window.cs = toyService
 
 function query(filterBy = {}) {
+    console.log("🚀 ~ query ~ filterBy:", filterBy)
     return storageService.query(TOY_KEY)
         .then(toys => {
             if (filterBy.txt) {
@@ -35,6 +36,19 @@ function query(filterBy = {}) {
                         return filterBy.labels.every(label => toy.labels.includes(label))
                     })
             }
+
+
+            if (filterBy.inStock === true) {
+                const res = toys.filter(toy => toy.inStock === true)
+                console.log("🚀 ~ query ~ res:", res)
+                return toys = res
+            }
+            else if (filterBy.inStock === false) {
+                const res = toys.filter(toy => toy.inStock === false)
+                console.log("🚀 ~ query ~ res:", res)
+                return toys = res
+            }
+
 
             return toys
         })
@@ -69,7 +83,7 @@ function getEmptyToy(txt = '', price = 0) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: 0, labels: [] }
+    return { txt: '', price: 0, labels: [], inStock: [] }
 }
 
 function getFilterFromSearchParams(searchParams) {
