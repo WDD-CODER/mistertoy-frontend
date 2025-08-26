@@ -2,10 +2,10 @@ import { useRef } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
+// אני לא מצליח להבין איך אני אמור לנהל את זה נכון שזה לא יעשה עדכון כל פעם שאני מוסיף לייבל אלא אם אני מנהל סטייט מקומי
+
 export function Labels({ toy }) {
     const labels = useRef([]).current
-    console.log("🚀 ~ Labels ~ labels:", labels)
-
 
     function onRemoveLabel(label) {
         removeLabel(toy, label)
@@ -34,7 +34,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
+                <select multiple={true} size="3" value={toy.labels} name="labels" id="labels" onChange={onAddLabel}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
