@@ -18,7 +18,6 @@ export const toyService = {
 window.cs = toyService
 
 function query(filterBy = {}) {
-    console.log("🚀 ~ query ~ filterBy:", filterBy)
     return storageService.query(TOY_KEY)
         .then(toys => {
             if (filterBy.txt) {
@@ -36,18 +35,28 @@ function query(filterBy = {}) {
                         return filterBy.labels.every(label => toy.labels.includes(label))
                     })
             }
-
-
-            if (filterBy.inStock === true) {
-                const res = toys.filter(toy => toy.inStock === true)
-                console.log("🚀 ~ query ~ res:", res)
-                return toys = res
+            
+            if (typeof filterBy.inStock === 'boolean') {
+                toys = toys.filter(toy => toy.inStock === filterBy.inStock)
             }
-            else if (filterBy.inStock === false) {
-                const res = toys.filter(toy => toy.inStock === false)
-                console.log("🚀 ~ query ~ res:", res)
-                return toys = res
+
+            if (filterBy.sortBy) {
+                const sortDir = filterBy.sortDir ? -1 : 1
+
+                if (filterBy.sortBy === 'txt') {
+                    toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
+                }
+
+                if (filterBy.sortBy === 'price') {
+                    toys = toys.sort((a, b) => (a.price - b.price) * sortDir)
+                }
+
+                if (filterBy.sortBy === 'createdAt') {
+                    toys = toys.sort((a, b) => (a.createdAt - b.createdAt) * sortDir)
+                }
+
             }
+
 
 
             return toys
@@ -83,7 +92,7 @@ function getEmptyToy(txt = '', price = 0) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: 0, labels: [], inStock: [] }
+    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: 1 }
 }
 
 function getFilterFromSearchParams(searchParams) {

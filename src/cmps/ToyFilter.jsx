@@ -1,3 +1,4 @@
+import { utilService } from "../services/util.service.js"
 import { debounceFilterBy, SetFilter } from "../store/actions/toy.actions.js"
 
 import { useEffect, useState } from "react"
@@ -5,8 +6,9 @@ import { useEffect, useState } from "react"
 export function ToyFilter({ filterBy, onSetFilterBy }) {
 
     const [filterByToEdit, onSetFilterByToEdit] = useState(filterBy)
-    const [stock, setStock] = useState([])
-    const [labels, setLabels] = useState([])
+    // const [curSortBy, setCurSortBy] = useState(filterBy.sortBy)
+    const [stock, setStock] = useState(filterBy.inStock)
+    const [labels, setLabels] = useState(filterBy.labels)
 
     useEffect(() => {
         onSetFilterByToEdit(filterBy)
@@ -15,30 +17,36 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
 
     function handleChange({ target }) {
         const field = target.name
+        console.log("🚀 ~ handleChange ~ field:", field)
         let value = target.value
+        console.log("🚀 ~ handleChange ~ value:", value)
+
+        var updatedField = []
+
 
         switch (target.type) {
             case 'number':
             case 'range':
                 value = +value || ''
                 break
+            case 'checkbox':
+                value = target.checked
+                break
+            case 'select-one':
+                if (field !== 'sortBy') {
+                    value = utilService.getInStockValue(value)
+                    setStock(value)
+                }
+                // else setCurSortBy(value)
+                break
             case 'select-multiple':
-                var updatedField = []
-                if (field === 'inStock') {
-                    if (stock.some(curStock => curStock === value)) {
-                        updatedField = stock.filter(curStock => curStock !== value)
-                    }
-                    else updatedField = [...stock, value]
-                    setStock(updatedField)
-                }
 
-                else {
-                    if (labels.some(curLabel => curLabel === value)) {
-                        updatedField = labels.filter(curLabel => curLabel !== value)
-                    }
-                    else updatedField = [...labels, value]
-                    setLabels(updatedField)
+                if (labels.some(curLabel => curLabel === value)) {
+                    updatedField = labels.filter(curLabel => curLabel !== value)
                 }
+                else updatedField = [...labels, value]
+                setLabels(updatedField)
+
 
                 value = updatedField
                 break
@@ -75,7 +83,7 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
         debounceFilterBy(filterByToEdit)
     }
 
-    const { txt, price } = filterByToEdit
+    const { txt, price, inStock, sortDir, sortBy } = filterByToEdit
     return (
         <section className="toy-filter">
             <h2>Filter Toys</h2>
@@ -89,13 +97,23 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                     type="number" placeholder="By price" id="price" name="price"
                 />
 
-                <div className="selections">
+                <div className="selections flex">
+                    <label htmlFor="sortBy" className="sortBy">
+                        Descending
+                        <input value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
+                        <select value={sortBy} name="sortBy" id="sortBy" onChange={handleChange}>
+                            <option value="" disabled >Sort By</option>
+                            <option value="txt">By Name</option>
+                            <option value="price">By Price</option>
+                            <option value="createdAt">Time Of Creation</option>
+                        </select>
+                    </label>
                     <label className="actions flex" htmlFor="inStock"  >
                         <section className="actions">
                             <h4>availability:</h4>
-                            <button name="inStock" className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>
+                            <button name="inStock" value={inStock} className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>
                         </section>
-                        <select multiple={true} size="3" value={filterByToEdit.inStock} name="inStock" id="inStock" onChange={handleChange}>
+                        <select value={inStock} name="inStock" id="inStock" onChange={handleChange}>
                             <option value="" disabled>Stock Status</option>
                             <option value="">All</option>
                             <option value="true">In Stock</option>

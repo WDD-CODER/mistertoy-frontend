@@ -13,7 +13,6 @@ export function ToyIndex() {
     const toys = useSelector(state => state.toyModule.toys)
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const filterBy = useSelector(state => state.toyModule.filterBy)
-    console.log("🚀 ~ ToyIndex ~ filterBy:", filterBy)
     // Special hook for accessing search-params:
     const [searchParams] = useSearchParams()
 

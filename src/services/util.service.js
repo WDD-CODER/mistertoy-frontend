@@ -7,6 +7,7 @@ export const utilService = {
     animateCSS,
     debounce,
     throttle,
+    getInStockValue
 }
 
 function makeId(length = 6) {
@@ -79,4 +80,9 @@ function throttle(fn, delay) {
     }
 }
 
+function getInStockValue(inStock) {
+    if (inStock === '') return ''
+    if (inStock === 'true') return true
+    if (inStock === 'false') return false
+}
 
