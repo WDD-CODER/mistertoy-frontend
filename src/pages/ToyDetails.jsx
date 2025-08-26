@@ -8,7 +8,6 @@ import { ToyInfo } from "../cmps/ToyInfo.jsx"
 
 export function ToyDetails() {
 
-
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const toys = useSelector(state => state.toyModule.toys)
     const [toy, setToy] = useState(null)
@@ -22,12 +21,15 @@ export function ToyDetails() {
     if (isLoading) return <div>Loading...</div>
     if (!toy) return null
 
-
     return (
         <section className="toy-details">
             <h1>Toy name: {toy.txt}</h1>
-            <ToyInfo toy={toy}/>
-            <Labels toy={toy} />
+            <ToyInfo toy={toy} />
+            <label htmlFor="in-stock" className="in-stock">
+                Is Toy in stock ?
+                <input onChange={() => toggleInStock(toy)} type="checkbox" name="in-stock" id="in-stock" />
+            </label>
+            <Labels toy={toy} setToy={setToy}/>
             <button><Link to={`/toy/`}>Back to list</Link></button>
             <div>
                 <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link> |

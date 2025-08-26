@@ -2,13 +2,13 @@ import { Labels } from "./Labels.jsx"
 import { ToyPreview } from "./ToyPreview.jsx"
 import { Link } from "react-router-dom"
 
-export function ToyList({toys, onRemoveToy, onToggleToy }) {
+export function ToyList({toys, onRemoveToy, onSetInStock }) {
 //לא מובן מדוע אם אין את הקונסול בפרטים אז לפעמים צריך כמה לחיצות עד שהכפתור מגיב
     return (
         <ul className="toy-list">
             {toys.map(toy =>
                 <li key={toy._id}>
-                    <ToyPreview toy={toy} onToggleToy={() => onToggleToy(toy)} />
+                    <ToyPreview toy={toy} onSetInStock={onSetInStock} />
                     <Labels toy={toy} />
                     <section>
                         <button onClick={() => onRemoveToy(toy._id)}>Remove</button>
