@@ -29,11 +29,8 @@ export function loadToys(filterBy) {
 
 export function getToy(toyId) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    return toyService.get(toyId)
-        .then(toy => {
-            store.dispatch({ type: GET_TOY, toy })
-            return toy
-        })
+    return toyService.getById(toyId)
+        .then(toy=>toy)
         .catch(err => {
             console.log('toy action -> cant get toy ', err)
             throw err

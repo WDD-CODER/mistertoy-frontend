@@ -1,4 +1,4 @@
-import { getToy, saveToy } from "../store/actions/toy.actions.js"
+import { saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
@@ -22,27 +22,30 @@ export function ToyDetails() {
     useEffect(() => {
         if (toyId) {
             // getToy(toyId)
-            toyService.get(toyId)
+            toyService.getById(toyId)
                 .then(setToy)
         }
+
+        return () => saveToy(toy)
+            .then(savedToy => {
+                console.log("🚀 ~ onToggleInStock ~ savedToy:", savedToy)
+                showSuccessMsg(` Changed Toy ${savedToy.txt} stock value `)
+            })
+            .catch(err => {
+                console.log('problem trying to set toy stock value', err)
+                showErrorMsg('toy stock not changed ' + toy._Id)
+            })
+
+
     }, [toyId])
 
     function onToggleInStock(toy) {
         const toyToSave = { ...toy, inStock: !toy.inStock }
         console.log("🚀 ~ onToggleInStock ~ toyToSave:", toyToSave)
-        setToy(toy => toy.inStock === !toy.inStock)
-        saveToy(toyToSave)
-            .then(savedToy => {
-                console.log("🚀 ~ onToggleInStock ~ savedToy:", savedToy)
-                
-                showSuccessMsg(` Changed Toy ${savedToy.txt} stock value `)})
-            .catch(err => {
-                console.log('problem trying to set toy stock value', err)
-                showErrorMsg('toy stock not changed ' + toy._Id)
-            })
+        setToy(toyToSave)
     }
 
-// אני לא מבין כיצד לבטל את ההמתנה הארוכה לרנדור זה מרגיש לי לא נכון
+    // אני לא מבין כיצד לבטל את ההמתנה הארוכה לרנדור זה מרגיש לי לא נכון
 
     if (isLoading) return <div>Loading...</div>
     console.log("🚀 ~ ToyDetails ~ toy:", toy)

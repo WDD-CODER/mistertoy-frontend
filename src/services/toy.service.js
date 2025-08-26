@@ -8,14 +8,13 @@ _createToys()
 
 export const toyService = {
     query,
-    get,
+    getById,
     remove,
     save,
     getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
     getPriceStats,
-    setSearchParamsFromFilter
 }
 // For Debug (easy access from console):
 window.cs = toyService
@@ -104,9 +103,10 @@ function _createToy(txt, price) {
 }
 
 // READ
-function get(toyId) {
+function getById(toyId) {
     return storageService.get(TOY_KEY, toyId)
         .then(toy => {
+            console.log("🚀 ~ getById ~ toy:", toy)
             toy = _setNextPrevToyId(toy)
             return toy
         })

@@ -1,13 +1,19 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
 
 // אני לא מצליח להבין איך אני אמור לנהל את זה נכון שזה לא יעשה עדכון כל פעם שאני מוסיף לייבל אלא אם אני מנהל סטייט מקומי
 
 export function Labels({ toy }) {
-    const labels = useRef([]).current
+
+    const [labels, setLabels] = useState(toy.labels)
+    useEffect(() => {
+
+    }, [])
+
 
     function onRemoveLabel(label) {
+        setLabels(labels.filter(curLabel => curLabel !== label))
         removeLabel(toy, label)
             .then(() => showSuccessMsg('removed Toy labels'))
             .catch(err => {
@@ -19,7 +25,8 @@ export function Labels({ toy }) {
     function onAddLabel({ target }) {
         const labelsToAdd = [target.value]
         if (labels.includes(target.value)) return showErrorMsg('toy label exist already')
-        labels.push(target.value)
+        setLabels(prevLabels => [...prevLabels, ...labelsToAdd])
+
         addToyLabels(toy, labelsToAdd)
             .then(() => showSuccessMsg('add Toy labels'))
             .catch(err => {
@@ -34,7 +41,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select multiple={true} size="3" value={toy.labels} name="labels" id="labels" onChange={onAddLabel}>
+                <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
@@ -45,9 +52,9 @@ export function Labels({ toy }) {
                     <option value="battery-powered">Battery Powered</option>
                 </select>
             </label>
-            {toy.labels.length > 0 &&
+            {labels.length > 0 &&
                 <div>
-                    {toy.labels.map(label => <button key={label} onClick={() => onRemoveLabel(label)}>{label}</button>)}
+                    {labels.map(label => <button key={label} onClick={() => onRemoveLabel(label)}>{label}</button>)}
                 </div>}
         </section>
     )
