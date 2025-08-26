@@ -44,13 +44,13 @@ export function ToyIndex() {
             })
     }
 
-    function onToggleToy(toy) {
-        const toyToSave = { ...toy, isDone: !toy.isDone }
+    function onToggleInStock(toy) {
+        const toyToSave = { ...toy, inStock: !toy.inStock }
         saveToy(toyToSave)
-            .then((savedToy) => showSuccessMsg(`Toy is ${(savedToy.isDone) ? 'done' : 'back on your list'}`))
+            .then((savedToy) => showSuccessMsg(`Toy is ${(savedToy.inStock) ? ' Available for purchase!' : ' Sorry, no more left in stock'}`))
             .catch(err => {
-                console.log('problem trying to toggle', err)
-                showErrorMsg('toy not toggle ' + toy._Id)
+                console.log('problem trying to set toy stock value', err)
+                showErrorMsg('toy stock not changed ' + toy._Id)
             })
     }
 
@@ -63,7 +63,7 @@ export function ToyIndex() {
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
                 <div>Loading...</div> : <>
-                    <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleToy={onToggleToy} />
+                    <ToyList toys={toys}  onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
                     <div style={{ width: '60%', margin: 'auto' }}>
