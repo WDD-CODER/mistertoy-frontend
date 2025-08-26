@@ -6,21 +6,26 @@ import { useSelector } from "react-redux"
 import { Labels } from "../cmps/Labels.jsx"
 import { ToyInfo } from "../cmps/ToyInfo.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { toyService } from "../services/toy.service.js"
 
 export function ToyDetails() {
 
     const isLoading = useSelector(state => state.toyModule.isLoading)
-    const toys = useSelector(state => state.toyModule.toys)
+    // const toys = useSelector(state => state.toyModule.toys)
+    // אותו נושא של לנהל את הצעצעו המקומי ורק כשהוא מוכן לשלוח לסטור
     const [toy, setToy] = useState(null)
+    console.log("🚀 ~ ToyDetails ~ toy:", toy)
     const { toyId } = useParams()
+    console.log("🚀 ~ ToyDetails ~ toyId:", toyId)
 
 
     useEffect(() => {
         if (toyId) {
-            getToy(toyId)
+            // getToy(toyId)
+            toyService.get(toyId)
                 .then(setToy)
         }
-    }, [toyId, toys])
+    }, [toyId])
 
     function onToggleInStock(toy) {
         const toyToSave = { ...toy, inStock: !toy.inStock }
@@ -40,6 +45,7 @@ export function ToyDetails() {
 // אני לא מבין כיצד לבטל את ההמתנה הארוכה לרנדור זה מרגיש לי לא נכון
 
     if (isLoading) return <div>Loading...</div>
+    console.log("🚀 ~ ToyDetails ~ toy:", toy)
     if (!toy) return null
 
     return (

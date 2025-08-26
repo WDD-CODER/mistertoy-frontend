@@ -3,6 +3,8 @@ import { storageService } from './async-storage.service.js'
 
 const TOY_KEY = 'toyDB'
 _createToys()
+'use strict';
+
 
 export const toyService = {
     query,
@@ -12,10 +14,12 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
-    getpriceStats,
+    getPriceStats,
+    setSearchParamsFromFilter
 }
 // For Debug (easy access from console):
 window.cs = toyService
+// LIST
 
 function query(filterBy = {}) {
     return storageService.query(TOY_KEY)
@@ -42,7 +46,7 @@ function query(filterBy = {}) {
 
             if (filterBy.sortBy) {
                 const sortDir = filterBy.sortDir ? -1 : 1
-
+                
                 if (filterBy.sortBy === 'txt') {
                     toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
                 }
@@ -63,58 +67,9 @@ function query(filterBy = {}) {
         })
 }
 
-function get(toyId) {
-    return storageService.get(TOY_KEY, toyId)
-        .then(toy => {
-            toy = _setNextPrevToyId(toy)
-            return toy
-        })
-}
 
-function remove(toyId) {
-    return storageService.remove(TOY_KEY, toyId)
-}
+// CREATE
 
-function save(toy) {
-    if (toy._id) {
-        // TOY - updatable fields
-        toy.updatedAt = Date.now()
-        return storageService.put(TOY_KEY, toy)
-    } else {
-        toy.createdAt = toy.updatedAt = Date.now()
-
-        return storageService.post(TOY_KEY, toy)
-    }
-}
-
-function getEmptyToy(txt = '', price = 0) {
-    return { txt, imgUrl: "", price, labels: [], inStock: true }
-}
-
-function getDefaultFilter() {
-    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: 1 }
-}
-
-function getFilterFromSearchParams(searchParams) {
-    const defaultFilter = getDefaultFilter()
-    const filterBy = {}
-    for (const field in defaultFilter) {
-        if (field === 'labels') filterBy[field] = filterBy[field] ? searchParams.getAll(field) : []
-        else filterBy[field] = searchParams.get(field) || ''
-        return filterBy
-    }
-}
-
-
-function getpriceStats() {
-    return storageService.query(TOY_KEY)
-        .then(toys => {
-            const toyCountBypriceMap = _getToyCountBypriceMap(toys)
-            const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
-            return data
-        })
-
-}
 
 function _createToys() {
     let toys = utilService.loadFromStorage(TOY_KEY)
@@ -148,6 +103,72 @@ function _createToy(txt, price) {
     return toy
 }
 
+// READ
+function get(toyId) {
+    return storageService.get(TOY_KEY, toyId)
+        .then(toy => {
+            toy = _setNextPrevToyId(toy)
+            return toy
+        })
+}
+
+function getEmptyToy(txt = '', price = 0) {
+    return { txt, imgUrl: "", price, labels: [], inStock: true }
+}
+
+function getDefaultFilter() {
+    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: true }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    const defaultFilter = getDefaultFilter()
+    const filterBy = {}
+    for (const field in defaultFilter) {
+        if (field === 'labels') filterBy[field] = filterBy[field] ? searchParams.getAll(field) : []
+        else filterBy[field] = searchParams.get(field) || ''
+        return filterBy
+    }
+}
+
+
+function getPriceStats() {
+    return storageService.query(TOY_KEY)
+        .then(toys => {
+            const toyCountBypriceMap = _getToyCountBypriceMap(toys)
+            const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
+            return data
+        })
+
+}
+
+
+
+function _getToyCountBypriceMap(toys) {
+    const toyCountBypriceMap = toys.reduce((map, toy) => {
+        if (toy.price < 3) map.low++
+        else if (toy.price < 7) map.normal++
+        else map.urgent++
+        return map
+    }, { low: 0, normal: 0, urgent: 0 })
+    return toyCountBypriceMap
+}
+
+// UPDATE
+
+export 
+
+function save(toy) {
+    if (toy._id) {
+        // TOY - updatable fields
+        toy.updatedAt = Date.now()
+        return storageService.put(TOY_KEY, toy)
+    } else {
+        toy.createdAt = toy.updatedAt = Date.now()
+
+        return storageService.post(TOY_KEY, toy)
+    }
+}
+
 function _setNextPrevToyId(toy) {
     return storageService.query(TOY_KEY).then((toys) => {
         const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
@@ -159,14 +180,10 @@ function _setNextPrevToyId(toy) {
     })
 }
 
-function _getToyCountBypriceMap(toys) {
-    const toyCountBypriceMap = toys.reduce((map, toy) => {
-        if (toy.price < 3) map.low++
-        else if (toy.price < 7) map.normal++
-        else map.urgent++
-        return map
-    }, { low: 0, normal: 0, urgent: 0 })
-    return toyCountBypriceMap
+// DELETE
+
+function remove(toyId) {
+    return storageService.remove(TOY_KEY, toyId)
 }
 
 

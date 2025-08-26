@@ -17,9 +17,7 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
 
     function handleChange({ target }) {
         const field = target.name
-        console.log("🚀 ~ handleChange ~ field:", field)
         let value = target.value
-        console.log("🚀 ~ handleChange ~ value:", value)
 
         var updatedField = []
 
@@ -100,7 +98,7 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                 <div className="selections flex">
                     <label htmlFor="sortBy" className="sortBy">
                         Descending
-                        <input value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
+                        <input checked={checkedValue} value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
                         <select value={sortBy} name="sortBy" id="sortBy" onChange={handleChange}>
                             <option value="" disabled >Sort By</option>
                             <option value="txt">By Name</option>

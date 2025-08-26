@@ -1,5 +1,4 @@
 export function ToyPreview({ toy, onToggleInStock }) {
-    console.log("🚀 ~ toy.inStock:", toy.inStock)
 
     const inStock = toy.inStock ? false : true
     return (
