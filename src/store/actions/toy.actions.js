@@ -15,6 +15,7 @@ import {
 
 // LIST
 export function loadToys(filterBy) {
+    console.log("🚀 ~ loadToys ~ filterBy:", filterBy)
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.query(filterBy)
         .then(toys => store.dispatch({ type: GET_TOYS, toys }))
@@ -94,20 +95,8 @@ export function removeToy(toyId) {
 
 }
 
-export function removeLabel(toy, label) {
-    const toyLabels = toy.labels.filter(curLabel => curLabel !== label)
-    const modifiedToy = { ...toy, labels: toyLabels }
-    return toyService.save(modifiedToy)
-        .then(toy => {
-            store.dispatch({ type: UPDATE_TOY, toy })
-            return toy
-        })
-        .catch(err => {
-            console.log('toy.action -> cant remove toy label', err)
-            throw err
-        })
 
-}
+// }
 
 
 // UTIL 
