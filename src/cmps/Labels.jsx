@@ -7,6 +7,7 @@ export function Labels({ toy }) {
     const [labels, setLabels] = useState(toy.labels)
 
 
+
     function onRemoveLabel(label) {
         setLabels(labels.filter(curLabel => curLabel !== label))
         removeLabel(toy, label)
@@ -22,7 +23,6 @@ export function Labels({ toy }) {
         if (labels.includes(target.value)) return showErrorMsg('toy label exist already')
         setLabels(prevLabels => {
             const updateLabels = [...prevLabels, ...labelsToAdd]
-            onUpdateToy(updateLabels)
             return updateLabels
         })
     }
@@ -43,7 +43,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
+                <select onBlur={()=>onUpdateToy(labels)} multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
