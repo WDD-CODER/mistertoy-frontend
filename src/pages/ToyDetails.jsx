@@ -8,11 +8,13 @@ import { ToyInfo } from "../cmps/ToyInfo.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { toyService } from "../services/toy.service.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
+import { Loader } from "../cmps/Loader.jsx"
 
 export function ToyDetails() {
 
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const [toy, setToy] = useState(null)
+    console.log("🚀 ~ ToyDetails ~ toy:", toy)
     const { toyId } = useParams()
 
 
@@ -21,8 +23,6 @@ export function ToyDetails() {
             toyService.getById(toyId)
                 .then(setToy)
         }
-
-
     }, [toyId])
 
     function onToggleInStock(toy) {
@@ -30,7 +30,7 @@ export function ToyDetails() {
         setToy(toyToSave)
     }
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loader/>
     if (!toy) return null
 
 

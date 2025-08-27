@@ -5,6 +5,7 @@ import { getToy, saveToy } from "../store/actions/toy.actions.js"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
+import { Loader } from "../cmps/Loader.jsx"
 
 export function ToyEdit() {
 
@@ -55,7 +56,7 @@ export function ToyEdit() {
 
     const { txt, price, isDone } = toyToEdit
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loader/>
     return (
         <section className="toy-edit">
             <form onSubmit={onSaveToy} >

@@ -7,6 +7,7 @@ import { loadToys, removeToy, saveToy, SetFilter } from "../store/actions/toy.ac
 import { useEffect } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
+import { Loader } from "../cmps/Loader.jsx"
 
 export function ToyIndex() {
 
@@ -20,7 +21,7 @@ export function ToyIndex() {
         SetFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
-// יש לי בעיה שאם אני מכניס בכוח את הכתובת עם הפילטר שלי הוא עדיין מרנדר ושולח לי את כל הצעצעועים ולא רק את מה שאני באמת צריך
+    // יש לי בעיה שאם אני מכניס בכוח את הכתובת עם הפילטר שלי הוא עדיין מרנדר ושולח לי את כל הצעצעועים ולא רק את מה שאני באמת צריך
     useEffect(() => {
         setSearchParamsFromFilter()
         loadToys(filterBy)
@@ -41,7 +42,6 @@ export function ToyIndex() {
         }
         if (filterBy.labels?.length) {
             sp.set('labels', [...filterBy.labels])
-            //   const  filterBy.labels.forEach(label => sp.append('labels', label))
         }
         if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
         if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
@@ -81,11 +81,12 @@ export function ToyIndex() {
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
-                <div>Loading...</div> : <>
+               <Loader/> : <>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
                     <div style={{ width: '60%', margin: 'auto' }}>
+                        
                     </div>
                 </>
             }
