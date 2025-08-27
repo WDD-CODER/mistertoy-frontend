@@ -60,8 +60,6 @@ function query(filterBy = {}) {
 
             }
 
-
-
             return toys
         })
 }
