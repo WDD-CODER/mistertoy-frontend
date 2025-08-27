@@ -1,4 +1,4 @@
-export function PopUp({ children, header, footer, isOpen(){ () => { } }) {
+export function PopUp({ children, header, footer, isOpen(){ () => { } }}) {
 
     return (
         <div className="pop-up">
