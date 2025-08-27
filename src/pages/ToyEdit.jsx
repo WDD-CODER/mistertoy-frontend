@@ -3,11 +3,11 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"  
+import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 export function ToyEdit() {
-    
+
     const isLoading = useSelector(state => state.toyModule.isLoading)
     // const stateToy = useSelector(state => state.toyModule.toy)
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
@@ -54,7 +54,7 @@ export function ToyEdit() {
     }
 
     const { txt, price, isDone } = toyToEdit
-    
+
     if (isLoading) return <div>Loading...</div>
     return (
         <section className="toy-edit">
