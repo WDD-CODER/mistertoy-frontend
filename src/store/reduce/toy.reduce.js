@@ -1,7 +1,7 @@
 import { toyService } from "../../services/toy.service.js"
 
 export const GET_TOYS = 'GET_TOYS'
-export const GET_TOY = 'GET_TOY'
+export const SET_TOY = 'SET_TOY'
 export const ADD_TOY = 'ADD_TOY'
 export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
@@ -19,7 +19,7 @@ export function toyReducer(state = initialState, cmd = {}) {
     switch (cmd.type) {
         case GET_TOYS:
             return { ...state, toys: cmd.toys }
-        case GET_TOY:
+        case SET_TOY:
             return { ...state, toy: cmd.toy }
         case ADD_TOY:
             return { ...state, toys: [...state.toys, cmd.toy] }

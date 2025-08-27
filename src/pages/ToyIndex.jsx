@@ -20,7 +20,7 @@ export function ToyIndex() {
         SetFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
-
+// יש לי בעיה שאם אני מכניס בכוח את הכתובת עם הפילטר שלי הוא עדיין מרנדר ושולח לי את כל הצעצעועים ולא רק את מה שאני באמת צריך
     useEffect(() => {
         setSearchParamsFromFilter()
         loadToys(filterBy)
@@ -63,13 +63,13 @@ export function ToyIndex() {
             })
     }
 
-    function onToggleToy(toy) {
-        const toyToSave = { ...toy, isDone: !toy.isDone }
+    function onToggleInStock(toy) {
+        const toyToSave = { ...toy, inStock: !toy.inStock }
         saveToy(toyToSave)
-            .then((savedToy) => showSuccessMsg(`Toy is ${(savedToy.isDone) ? 'done' : 'back on your list'}`))
+            .then((savedToy) => showSuccessMsg(`Toy ${(savedToy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`))
             .catch(err => {
-                console.log('problem trying to toggle', err)
-                showErrorMsg('toy not toggle ' + toy._Id)
+                console.log('problem setting toy stock', err)
+                showErrorMsg('toy stock not changed ' + toy._Id)
             })
     }
 
@@ -82,7 +82,7 @@ export function ToyIndex() {
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
                 <div>Loading...</div> : <>
-                    <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleToy={onToggleToy} />
+                    <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
                     <div style={{ width: '60%', margin: 'auto' }}>

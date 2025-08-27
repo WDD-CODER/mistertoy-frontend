@@ -3,7 +3,7 @@ import { utilService } from "../../services/util.service.js";
 import { store } from "../store.js";
 
 import {
-    GET_TOY,
+    SET_TOY,
     REMOVE_TOY,
     SET_FILTER_BY,
     SET_IS_LOADING,
@@ -30,7 +30,10 @@ export function loadToys(filterBy) {
 export function getToy(toyId) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.getById(toyId)
-        .then(toy=>toy)
+        .then(toy => {
+            store.dispatch({ type: SET_TOY, toy })
+            return toy
+        })
         .catch(err => {
             console.log('toy action -> cant get toy ', err)
             throw err
@@ -63,13 +66,8 @@ export function SetFilter(filterBy) {
 }
 
 
-export function addToyLabels(toy, addLabels) {
-    const toyLabels = [...toy.labels]
-    addLabels.forEach(label => {
-        if (!toyLabels.includes(label)) toyLabels.push(label)
-    })
-    const modifiedToy = { ...toy, labels: toyLabels }
-    return toyService.save(modifiedToy)
+export function updateToy(toy) {
+    return toyService.save(toy)
         .then(toy => {
             store.dispatch({ type: UPDATE_TOY, toy })
             return toy
@@ -80,7 +78,6 @@ export function addToyLabels(toy, addLabels) {
         })
 
 }
-
 
 // DELETE
 export function removeToy(toyId) {

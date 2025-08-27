@@ -38,14 +38,14 @@ function query(filterBy = {}) {
                         return filterBy.labels.every(label => toy.labels.includes(label))
                     })
             }
-            
+
             if (typeof filterBy.inStock === 'boolean') {
                 toys = toys.filter(toy => toy.inStock === filterBy.inStock)
             }
 
             if (filterBy.sortBy) {
                 const sortDir = filterBy.sortDir ? -1 : 1
-                
+
                 if (filterBy.sortBy === 'txt') {
                     toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
                 }
@@ -106,18 +106,17 @@ function _createToy(txt, price) {
 function getById(toyId) {
     return storageService.get(TOY_KEY, toyId)
         .then(toy => {
-            console.log("🚀 ~ getById ~ toy:", toy)
             toy = _setNextPrevToyId(toy)
             return toy
         })
 }
 
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, imgUrl: "", price, labels: [], inStock: true }
+    return { txt, imgUrl: "", price, labels: [], inStock: '' }
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: true }
+    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: false }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -155,9 +154,9 @@ function _getToyCountBypriceMap(toys) {
 
 // UPDATE
 
-export 
+export
 
-function save(toy) {
+    function save(toy) {
     if (toy._id) {
         // TOY - updatable fields
         toy.updatedAt = Date.now()
