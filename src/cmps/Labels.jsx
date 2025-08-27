@@ -1,21 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
-import { updateToy, removeLabel } from "../store/actions/toy.actions"
+import { updateToy } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
 
     const [labels, setLabels] = useState(toy.labels)
 
+    useEffect(() => {
+        onUpdateToy()
+    }, [labels])
 
 
     function onRemoveLabel(label) {
         setLabels(labels.filter(curLabel => curLabel !== label))
-        removeLabel(toy, label)
-            .then(() => showSuccessMsg('removed Toy labels'))
-            .catch(err => {
-                console.log('problem removing toy label', err)
-                showErrorMsg('Label was not removed')
-            })
     }
 
     function onAddLabel({ target }) {
@@ -25,12 +22,13 @@ export function Labels({ toy }) {
             const updateLabels = [...prevLabels, ...labelsToAdd]
             return updateLabels
         })
+
     }
 
-    function onUpdateToy(labelsToAdd) {
-        const updatedToy = { ...toy, labels: labelsToAdd }
+    function onUpdateToy() {
+        const updatedToy = { ...toy, labels: labels }
         updateToy(updatedToy)
-            .then(() => showSuccessMsg('add Toy labels'))
+            .then(() => showSuccessMsg('add Toy labels updated'))
             .catch(err => {
                 console.log(`Couldn't add label`, err)
                 showErrorMsg('toy label not add'), err
@@ -43,7 +41,7 @@ export function Labels({ toy }) {
             <h4>labels</h4>
             <label className="actions" htmlFor="labels">
                 Label:
-                <select onBlur={()=>onUpdateToy(labels)} multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
+                <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
                     <option value="on-wheels">On Wheels</option>
                     <option value="box-game">Box Game</option>
                     <option value="art">Art</option>
