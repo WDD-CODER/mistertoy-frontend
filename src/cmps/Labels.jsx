@@ -1,15 +1,10 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
-import { addToyLabels, removeLabel } from "../store/actions/toy.actions"
-
-// אני לא מצליח להבין איך אני אמור לנהל את זה נכון שזה לא יעשה עדכון כל פעם שאני מוסיף לייבל אלא אם אני מנהל סטייט מקומי
+import { updateToy, removeLabel } from "../store/actions/toy.actions"
 
 export function Labels({ toy }) {
 
     const [labels, setLabels] = useState(toy.labels)
-    useEffect(() => {
-
-    }, [])
 
 
     function onRemoveLabel(label) {
@@ -25,9 +20,16 @@ export function Labels({ toy }) {
     function onAddLabel({ target }) {
         const labelsToAdd = [target.value]
         if (labels.includes(target.value)) return showErrorMsg('toy label exist already')
-        setLabels(prevLabels => [...prevLabels, ...labelsToAdd])
+        setLabels(prevLabels => {
+            const updateLabels = [...prevLabels, ...labelsToAdd]
+            onUpdateToy(updateLabels)
+            return updateLabels
+        })
+    }
 
-        addToyLabels(toy, labelsToAdd)
+    function onUpdateToy(labelsToAdd) {
+        const updatedToy = { ...toy, labels: labelsToAdd }
+        updateToy(updatedToy)
             .then(() => showSuccessMsg('add Toy labels'))
             .catch(err => {
                 console.log(`Couldn't add label`, err)
