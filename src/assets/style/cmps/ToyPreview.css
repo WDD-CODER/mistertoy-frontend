@@ -14,8 +14,7 @@
 .toy-preview img {
     max-width: 100px;
 }
-.toy-preview .outOfStock {
-  /* align-content: ; */
-  text-decoration: line-through;
-  font-style: italic;
+
+.toy-preview .checked-box {
+     accent-color: red;
 }

@@ -4,3 +4,16 @@
     margin: 1em 0;
 }
 
+.toy-filter .sortFilter {
+    padding: 10px;
+    gap: 10px;
+}
+
+.toy-filter .selections {
+    display: grid;
+    place-items: center;
+}
+
+.toy-filter .selections button {
+    background-color: gray;
+}

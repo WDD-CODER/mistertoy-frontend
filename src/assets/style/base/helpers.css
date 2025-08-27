@@ -20,6 +20,9 @@
     align-items: center;
 }
 
+.grid{
+    display: grid;
+}
 /* text helpers */
 
 .colored-text {

@@ -2,11 +2,10 @@
     display: grid;
     place-items: center;
     
-    border: 1px solid #ccc;
     padding: 1rem;
     width: 250px;
-    background: #f9f9f9;
-    border-radius: 8px;
+
+    text-align: center;
 }
 
 .toy-info img {
