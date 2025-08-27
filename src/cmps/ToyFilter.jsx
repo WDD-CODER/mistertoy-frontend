@@ -82,53 +82,52 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                 <input value={price} onChange={handleChange}
                     type="number" placeholder="By price" id="price" name="price"
                 />
-
-                <div className="selections flex">
-                    <label htmlFor="sortBy" className="sortBy">
-                        Descending
-                        <input checked={(sortDir > 0) ? 'checked' : ''} value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
-                        <select value={sortBy} name="sortBy" id="sortBy" onChange={handleChange}>
-                            <option value="" disabled >Sort By</option>
-                            <option value="txt">By Name</option>
-                            <option value="price">By Price</option>
-                            <option value="createdAt">Time Of Creation</option>
-                        </select>
-                    </label>
-                    <label className="actions flex" htmlFor="inStock"  >
-                        <section className="actions">
-                            <h4>availability:</h4>
+                <div className="sortFilter flex">
+                    <section className="selections">
+                        <h4>Descending</h4>
+                        <label className="selections sortBy" htmlFor="sortBy">
+                            <input checked={(sortDir) ? 'checked' : ''} value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
+                            <select value={sortBy} name="sortBy" id="sortBy" onChange={handleChange}>
+                                <option value="" disabled >Sort By</option>
+                                <option value="txt">By Name</option>
+                                <option value="price">By Price</option>
+                                <option value="createdAt">Time Of Creation</option>
+                            </select>
+                        </label>
+                    </section>
+                    <section className="selections">
+                        <h4>availability</h4>
+                        <label className="selections" htmlFor="inStock"  >
                             <button name="inStock" value={inStock} className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>
-                        </section>
-                        <select value={inStock} name="inStock" id="inStock" onChange={handleChange}>
-                            <option value="" disabled>Stock Status</option>
-                            <option value="">All</option>
-                            <option value="true">In Stock</option>
-                            <option value="false">Out of Stock</option>
-                        </select>
-                    </label>
-
-                    <label className="actions flex" htmlFor="labels"  >
-                        <section className="actions">
-                            <h4>Labels:</h4>
+                            <select value={inStock} name="inStock" id="inStock" onChange={handleChange}>
+                                <option value="" disabled>Stock Status</option>
+                                <option value="">All</option>
+                                <option value="true">In Stock</option>
+                                <option value="false">Out of Stock</option>
+                            </select>
+                        </label>
+                    </section>
+                    <section className="selections">
+                        <h4>Labels</h4>
+                        <label htmlFor="labels" className="selections" >
                             <button name="labels" className="clear-select" onClick={onClearFieldFromFilter}>Clear Labels</button>
-                        </section>
-                        <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
-                            <option value="" disabled>Labels</option>
-                            <option value="on-wheels">On Wheels</option>
-                            <option value="box-game">Box Game</option>
-                            <option value="art">Art</option>
-                            <option value="baby">Baby</option>
-                            <option value="doll">Doll</option>
-                            <option value="puzzle">Puzzle</option>
-                            <option value="out-door">Out Door</option>
-                            <option value="battery-powered">Battery Powered</option>
-                        </select>
-                    </label>
+                            <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
+                                <option value="" disabled>Labels</option>
+                                <option value="on-wheels">On Wheels</option>
+                                <option value="box-game">Box Game</option>
+                                <option value="art">Art</option>
+                                <option value="baby">Baby</option>
+                                <option value="doll">Doll</option>
+                                <option value="puzzle">Puzzle</option>
+                                <option value="out-door">Out Door</option>
+                                <option value="battery-powered">Battery Powered</option>
+                            </select>
+                        </label>
+                    </section>
                 </div>
                 <div>
                     {labels.map(label => <button key={label} onClick={() => removeLabelFromFilter(label)}>{label}</button>)}
                 </div>
-
                 <button hidden>Set Filter</button>
             </form>
         </section >
