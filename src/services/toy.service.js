@@ -110,7 +110,7 @@ function getById(toyId) {
 }
 
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, imgUrl: "", price, labels: [], inStock: '' }
+    return { txt, imgUrl: "", price, labels: [], inStock: '' , color:utilService.getRandomColor()}
 }
 
 function getDefaultFilter() {
