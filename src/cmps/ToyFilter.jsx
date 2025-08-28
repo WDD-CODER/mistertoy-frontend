@@ -1,11 +1,13 @@
 import { utilService } from "../services/util.service.js"
 
 import { useEffect, useRef, useState } from "react"
+import { setFilter } from "../store/actions/toy.actions.js"
 
-export function ToyFilter({ filterBy, onSetFilterBy }) {
+export function ToyFilter({filterBy}) {
 
-    const debouncedOnSetFilter = useRef(utilService.debounce(onSetFilterBy, 500)).current
+    const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500)).current
     const [filterByToEdit, onSetFilterByToEdit] = useState(filterBy)
+    
     const { txt, price, inStock, sortDir, sortBy, labels } = filterByToEdit
 
     useEffect(() => {
