@@ -7,7 +7,7 @@ import { loadToys, removeToy, saveToy, SetFilter } from "../store/actions/toy.ac
 import { useEffect } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { Loader } from "../cmps/Loader.jsx"
+import { PopUp } from "../cmps/PopUp.jsx"
 
 export function ToyIndex() {
 
@@ -42,6 +42,7 @@ export function ToyIndex() {
         }
         if (filterBy.labels?.length) {
             sp.set('labels', [...filterBy.labels])
+            //   const  filterBy.labels.forEach(label => sp.append('labels', label))
         }
         if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
         if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
@@ -81,12 +82,11 @@ export function ToyIndex() {
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
-               <Loader/> : <>
+                <div>Loading...</div> : <>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
                     <div style={{ width: '60%', margin: 'auto' }}>
-                        
                     </div>
                 </>
             }

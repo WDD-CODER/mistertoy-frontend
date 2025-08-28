@@ -15,7 +15,6 @@ import {
 
 // LIST
 export function loadToys(filterBy) {
-    console.log("🚀 ~ loadToys ~ filterBy:", filterBy)
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.query(filterBy)
         .then(toys => store.dispatch({ type: GET_TOYS, toys }))
