@@ -24,7 +24,6 @@ export function ToyDetails() {
         if (toyId) {
             getToy(toyId)
             .then(setToy)
-            // toyService.getById(toyId)
         }
     }, [toyId])
 
