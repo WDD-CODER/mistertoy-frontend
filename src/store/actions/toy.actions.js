@@ -15,7 +15,11 @@ import {
 
 // LIST
 export function loadToys(filterBy) {
+    // לשים לב באיזה דרך אני מעביר את המידע ממקום אפשר בשתי הדרכים רק לשמור על אחידות ועל פעולה נכונה לפונקציה הרלוונטית!
+    console.log('store.getState(', store.getState())
+    
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+    // אפשרות להשתמש בגישה אופטימיסטית בכידי למנוע פליקרים 
     return toyService.query(filterBy)
         .then(toys => store.dispatch({ type: GET_TOYS, toys }))
         .catch(err => {
