@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { PopUp } from "../cmps/PopUp.jsx"
+import { Loader } from "../cmps/Loader.jsx"
 
 export function ToyIndex() {
 
@@ -84,7 +85,7 @@ export function ToyIndex() {
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
-                <div>Loading...</div> : <>
+               <Loader/> : <>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
