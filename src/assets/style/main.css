@@ -11,6 +11,7 @@
 /* Components */
 @import "cmps/UserMsg.css";
 
+@import "cmps/DashBoard.css";
 @import "cmps/Loader.css";
 @import "cmps/PopUp.css";
 @import "cmps/ToyInfo.css";

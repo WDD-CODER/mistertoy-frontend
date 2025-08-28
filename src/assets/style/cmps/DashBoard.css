@@ -1,0 +1,28 @@
+.dash-board {
+}
+
+.dash-board-container {
+  /* gap: 20px;
+  padding: 20px; */
+}
+
+.circle-charts{
+  border: 1px solid black;
+}
+
+/* .doughnut-chart-container {
+  grid-area: doughnut;
+  border: 1px solid black;
+  width: 300px;
+}  */
+
+/* .bar-chart-container {
+  grid-area: bar;
+  border: 1px solid black;
+} */
+
+ /* .pie-chart-container {
+  grid-area: pie;
+  border: 1px solid black;
+  height: 1000px;
+} */
