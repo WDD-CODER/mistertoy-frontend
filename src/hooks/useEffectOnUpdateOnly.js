@@ -11,7 +11,7 @@ export function useEffectOnUpdate(func, dependencies) {
         } else {
             func()
         }
-    }, dependencies)
+    }, [dependencies])
 
 
 }
