@@ -24,10 +24,14 @@ export function ToyIndex() {
         SetFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
-    console.log('variable', count)
-    
+    // console.log('variable', count)
+
     useEffect(() => {
         setSearchParamsFromFilter()
+    }, [filterBy])
+
+
+    useEffect(() => {
         loadToys(filterBy)
             .catch(err => {
                 console.log(' Problem while trying to load toys ', err)
@@ -85,7 +89,7 @@ export function ToyIndex() {
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
-               <Loader/> : <>
+                <Loader /> : <>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
