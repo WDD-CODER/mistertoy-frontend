@@ -84,18 +84,22 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                 />
                 <div className="sortFilter flex">
                     <section className="selections">
-                        <h4>Descending</h4>
                         <label className="selections sortBy" htmlFor="sortBy">
+                            <h4>{(sortDir) ? 'Descending' : ' Ascending'}</h4>
                             <input checked={(sortDir) ? 'checked' : ''} value={sortDir} onChange={handleChange} type="checkbox" name="sortDir" id="sortDir" />
+                        </label>
+                    </section>
+                    <section className="selections">
+                        <h4>Sort By</h4>
+                        <label htmlFor="sortBy" >
                             <select value={sortBy} name="sortBy" id="sortBy" onChange={handleChange}>
-                                <option value="" disabled >Sort By</option>
+                                <option value="" disabled >Select Sort By</option>
                                 <option value="txt">By Name</option>
                                 <option value="price">By Price</option>
                                 <option value="createdAt">Time Of Creation</option>
                             </select>
                         </label>
-                    </section>
-                    <section className="selections">
+
                         <h4>availability</h4>
                         <label className="selections" htmlFor="inStock"  >
                             <button name="inStock" value={inStock} className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>

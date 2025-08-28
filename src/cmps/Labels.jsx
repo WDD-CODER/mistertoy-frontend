@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { updateToy } from "../store/actions/toy.actions"
+import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
 
 export function Labels({ toy }) {
 
     const [labels, setLabels] = useState(toy.labels)
 
-    useEffect(() => {
-        onUpdateToy()
-    }, [labels])
-
+    useEffectOnUpdate(onUpdateToy, labels)
 
     function onRemoveLabel(label) {
         setLabels(labels.filter(curLabel => curLabel !== label))
@@ -18,11 +16,7 @@ export function Labels({ toy }) {
     function onAddLabel({ target }) {
         const labelsToAdd = [target.value]
         if (labels.includes(target.value)) return showErrorMsg('toy label exist already')
-        setLabels(prevLabels => {
-            const updateLabels = [...prevLabels, ...labelsToAdd]
-            return updateLabels
-        })
-
+        setLabels(prevLabels => [...prevLabels, ...labelsToAdd])
     }
 
     function onUpdateToy() {
@@ -32,7 +26,6 @@ export function Labels({ toy }) {
             .catch(err => {
                 console.log(`Couldn't add label`, err)
                 showErrorMsg('toy label not add'), err
-
             })
     }
 

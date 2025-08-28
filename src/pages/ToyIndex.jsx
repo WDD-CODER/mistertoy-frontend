@@ -4,7 +4,7 @@ import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, removeToy, saveToy, SetFilter } from "../store/actions/toy.actions.js"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { PopUp } from "../cmps/PopUp.jsx"
@@ -17,11 +17,14 @@ export function ToyIndex() {
     // Special hook for accessing search-params:
     const [searchParams, setSearchParams] = useSearchParams()
 
+    const count = useRef(0)
+    count.current += 1
     useEffect(() => {
         SetFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
-    // יש לי בעיה שאם אני מכניס בכוח את הכתובת עם הפילטר שלי הוא עדיין מרנדר ושולח לי את כל הצעצעועים ולא רק את מה שאני באמת צריך
+    console.log('variable', count)
+    
     useEffect(() => {
         setSearchParamsFromFilter()
         loadToys(filterBy)
@@ -42,7 +45,6 @@ export function ToyIndex() {
         }
         if (filterBy.labels?.length) {
             sp.set('labels', [...filterBy.labels])
-            //   const  filterBy.labels.forEach(label => sp.append('labels', label))
         }
         if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
         if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
