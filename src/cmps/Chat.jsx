@@ -42,7 +42,7 @@ export function Chat() {
         <div className="chat-container">
             <div ref={msgsRef} className="chat-msgs">
                 {msgs.map(msg => {
-                   return <div className={`message ${msg.from === 'user' ? 'user' : 'other'}`}>
+                   return <div key={msg.id} className={`message ${msg.from === 'user' ? 'user' : 'other'}`}>
                         <section>
                             <span className="timestamp">{msg.timestamp}</span>
                             <h3>{msg.from === 'user' ? 'You' : msg.from}: </h3>
