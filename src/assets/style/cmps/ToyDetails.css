@@ -21,3 +21,14 @@
     display: block;
     margin: auto;
 }
+
+.toy-details .prev-next-btns {
+
+    gap: 10px;
+}
+
+.toy-details .prev-next-btns a {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 1vh;
+}
