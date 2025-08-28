@@ -1,4 +1,4 @@
-import { saveToy } from "../store/actions/toy.actions.js"
+import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
@@ -22,8 +22,9 @@ export function ToyDetails() {
 
     useEffect(() => {
         if (toyId) {
-            toyService.getById(toyId)
-                .then(setToy)
+            getToy(toyId)
+            .then(setToy)
+            // toyService.getById(toyId)
         }
     }, [toyId])
 
