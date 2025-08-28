@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 
 export function Chat() {
+    
     const [msgs, setMsgs] = useState([])
     const [userInput, setUserInput] = useState('')
     const msgsRef = useRef()
