@@ -2,18 +2,18 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadToys, removeToy, saveToy, setFilter } from "../store/actions/toy.actions.js"
+import { loadToys, removeToy, saveToy, setFilter, setToysLabels } from "../store/actions/toy.actions.js"
 
 import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Loader } from "../cmps/Loader.jsx"
+import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
 
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
-    console.log("🚀 ~ ToyIndex ~ toys:", toys)
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     // Special hook for accessing search-params:
@@ -25,7 +25,8 @@ export function ToyIndex() {
         setFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
-    // console.log('variable', count)
+
+    useEffectOnUpdate(setToysLabels,toys)
 
     useEffect(() => {
         setSearchParamsFromFilter()
@@ -40,6 +41,7 @@ export function ToyIndex() {
             })
 
     }, [filterBy])
+
 
     function setSearchParamsFromFilter() {
         const sp = new URLSearchParams()
@@ -80,7 +82,7 @@ export function ToyIndex() {
 
     return (
         <section className="toy-index">
-            <ToyFilter filterBy={filterBy}/>
+            <ToyFilter filterBy={filterBy} />
             <div>
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
                 <Link to="/toy/dashBoard" className="btn" >Go To DashBoard</Link>
