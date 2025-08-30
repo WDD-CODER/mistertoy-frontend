@@ -34,7 +34,8 @@ export function PiaChart({ items }) {
                 },
                 title: {
                     display: true,
-                    text: "Toy Prices (Pie Chart)",
+                    text: "   Toy Prices (Pie Chart)",
+                    align: "start",
                     font: {
                         size: 18
                     }
