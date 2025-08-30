@@ -1,18 +1,31 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
 import { Pie } from "react-chartjs-2"
-import { utilService } from "../../services/util.service"
+import { toyService } from "../../services/toy.service"
+import { useState } from "react"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 export function PiaChart({ items }) {
-    const title = 'My Pia Chart'
+    const title = "   Toys In Stock By Label"
+
+    const [labels, setLabels] = useState(toyService.getLabelsFromToys(items))
+
+    const selectedItems = items.filter(item => item.labels.some(label => labels.includes(label)))
+    const totalToysInStockByLabel = selectedItems.reduce((groups, item) => {
+        item.labels.forEach(label => {
+            if (!groups[label]) groups[label] = [];
+            groups[label].push(item);
+        });
+        return groups;
+    }, {});
+
 
     function getData() {
         const data = {
-            labels: items.map(item => item.txt),
+            labels: labels,
             datasets: [
                 {
                     label: title,
-                    data: items.map(item => item.price),
+                    data:  toyService.getPercentages(totalToysInStockByLabel),
                     backgroundColor: items.map(item => item.color),
                     borderColor:items.map(item => item.color),
                     borderWidth: 1,
@@ -34,7 +47,7 @@ export function PiaChart({ items }) {
                 },
                 title: {
                     display: true,
-                    text: "   Toy Prices (Pie Chart)",
+                    text: title,
                     align: "start",
                     font: {
                         size: 18
@@ -45,7 +58,7 @@ export function PiaChart({ items }) {
                         label: (context) => {
                             const toyName = context.label
                             const value = context.raw
-                            return `${toyName}: $${value}`
+                            return `${toyName}: %${value}`
                         }
                     }
                 }

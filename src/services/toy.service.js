@@ -17,6 +17,7 @@ export const toyService = {
     getPriceStats,
     getToysLabels,
     getLabelsFromToys,
+    getPercentages,
 }
 // For Debug (easy access from console):
 window.cs = toyService
@@ -203,6 +204,21 @@ function _setNextPrevToyId(toy) {
 
 function remove(toyId) {
     return storageService.remove(TOY_KEY, toyId)
+}
+
+function getPercentages(groupedItems) {
+  const allItems = Object.values(groupedItems).flat();
+  const totalCount = allItems.length;
+
+  if (totalCount === 0) {
+    return [];
+  }
+
+  const percentages = Object.values(groupedItems).map(labelItems => {
+    return (labelItems.length / totalCount) * 100;
+  });
+
+  return percentages;
 }
 
 
