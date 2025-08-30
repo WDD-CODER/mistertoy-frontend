@@ -31,8 +31,10 @@ export function DashBoard() {
     if (!toys) return <Loader />
     return (
         <div className="dash-board">
-            <ToyFilter filterBy={filterBy} />
-            <Link to="/toy" className="btn" >Go To Toys</Link>
+            {/* <ToyFilter filterBy={filterBy} /> */}
+            <button className="back-btn">
+                <Link to="/toy" className="btn" >Go To Toys</Link>
+            </button>
             <section className="dash-board-container">
                 <div className="circle-charts">
                     <article className="doughnut-chart-container">

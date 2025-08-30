@@ -39,7 +39,7 @@ export function DoughnutChart({ items = {} }) {
                 },
                 title: {
                     display: true,
-                    text: "Toy Prices   ",
+                    text: "Prices per label   ",
                     align: "end",
                     font: { size: 18 },
                 },
