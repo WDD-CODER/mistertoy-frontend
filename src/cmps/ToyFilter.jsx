@@ -2,12 +2,14 @@ import { utilService } from "../services/util.service.js"
 
 import { useEffect, useRef, useState } from "react"
 import { setFilter } from "../store/actions/toy.actions.js"
+import { useSelector } from "react-redux"
 
-export function ToyFilter({filterBy}) {
+export function ToyFilter({ filterBy }) {
 
     const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500)).current
     const [filterByToEdit, onSetFilterByToEdit] = useState(filterBy)
-    
+    const stateLabels = useSelector(state => state.toyModule.labels)
+
     const { txt, price, inStock, sortDir, sortBy, labels } = filterByToEdit
 
     useEffect(() => {
@@ -66,6 +68,7 @@ export function ToyFilter({filterBy}) {
     }
 
 
+
     // Optional support for LAZY Filtering with a button
     function onSubmitFilter(ev) {
         ev.preventDefault()
@@ -106,6 +109,7 @@ export function ToyFilter({filterBy}) {
                         <label className="selections" htmlFor="inStock"  >
                             <button name="inStock" value={inStock} className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>
                             <select value={inStock} name="inStock" id="inStock" onChange={handleChange}>
+                                { }
                                 <option value="" disabled>Stock Status</option>
                                 <option value="">All</option>
                                 <option value="true">In Stock</option>
@@ -117,17 +121,13 @@ export function ToyFilter({filterBy}) {
                         <h4>Labels</h4>
                         <label htmlFor="labels" className="selections" >
                             <button name="labels" className="clear-select" onClick={onClearFieldFromFilter}>Clear Labels</button>
-                            <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
-                                <option value="" disabled>Labels</option>
-                                <option value="on-wheels">On Wheels</option>
-                                <option value="box-game">Box Game</option>
-                                <option value="art">Art</option>
-                                <option value="baby">Baby</option>
-                                <option value="doll">Doll</option>
-                                <option value="puzzle">Puzzle</option>
-                                <option value="out-door">Out Door</option>
-                                <option value="battery-powered">Battery Powered</option>
-                            </select>
+                            {stateLabels.length > 0 &&
+                                <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
+                                    <option value="" disabled>Labels</option>
+                                    {stateLabels.map(label => {
+                                        return <option key={label}>{label}</option>
+                                    })}
+                                </select>}
                         </label>
                     </section>
                 </div>
