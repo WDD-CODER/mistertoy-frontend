@@ -16,7 +16,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function DashBoard() {
 
-    const filterBy = useSelector(state => state.toyModule.filterBy)
     const [toys, setToys] = useState()
 
     useEffect(() => {
@@ -25,7 +24,7 @@ export function DashBoard() {
                 setToys(toys)
             })
 
-    }, [filterBy])
+    }, [])
 
 
     if (!toys) return <Loader />
