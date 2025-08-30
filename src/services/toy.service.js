@@ -15,6 +15,8 @@ export const toyService = {
     getDefaultFilter,
     getFilterFromSearchParams,
     getPriceStats,
+    getToysLabels,
+    getLabelsFromToys,
 }
 // For Debug (easy access from console):
 window.cs = toyService
@@ -101,6 +103,26 @@ function _createToy(txt, price) {
 }
 
 // READ
+
+
+function getToysLabels() {
+    return storageService.query(TOY_KEY)
+        .then(getLabelsFromToys)
+}
+
+function getLabelsFromToys(toys) {
+    const labels = []
+     toys.forEach(toy => {
+        (toy.labels || []).forEach(label => {
+            if (!labels.includes(label)) labels.push(label)
+        })
+    })
+    return labels
+}
+
+
+
+
 function getById(toyId) {
     return storageService.get(TOY_KEY, toyId)
         .then(toy => {
@@ -110,7 +132,7 @@ function getById(toyId) {
 }
 
 function getEmptyToy(txt = '', price = 0) {
-    return { txt, imgUrl: "", price, labels: [], inStock: '' , color:utilService.getRandomColor()}
+    return { txt, imgUrl: "", price, labels: [], inStock: '', color: utilService.getRandomColor() }
 }
 
 function getDefaultFilter() {
@@ -131,7 +153,7 @@ function getFilterFromSearchParams(searchParams) {
 function getPriceStats() {
     return storageService.query(TOY_KEY)
         .then(toys => {
-            const toyCountBypriceMap = _getToyCountBypriceMap(toys)
+            const toyCountBypriceMap = _getToyCountByPriceMap(toys)
             const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
             return data
         })
@@ -140,7 +162,7 @@ function getPriceStats() {
 
 
 
-function _getToyCountBypriceMap(toys) {
+function _getToyCountByPriceMap(toys) {
     const toyCountBypriceMap = toys.reduce((map, toy) => {
         if (toy.price < 3) map.low++
         else if (toy.price < 7) map.normal++
