@@ -1,5 +1,4 @@
 import { Doughnut } from "react-chartjs-2";
-import { utilService } from "../../services/util.service";
 import {
     Chart as ChartJS,
     ArcElement,      // donut arcs
@@ -32,7 +31,7 @@ export function DoughnutChart({ items = {} }) {
 
             plugins: {
                 legend: {
-                    position: "right",        // "top" | "bottom" | "left" | "right"
+                    position: "left",        // "top" | "bottom" | "left" | "right"
                     labels: {
                         boxWidth: 20,           // size of the legend color box
                         padding: 15             // spacing between legend items
@@ -40,10 +39,9 @@ export function DoughnutChart({ items = {} }) {
                 },
                 title: {
                     display: true,
-                    text: "Toy Prices",
-                    font: {
-                        size: 18
-                    }
+                    text: "Toy Prices   ",
+                    align: "end",
+                    font: { size: 18 },
                 },
                 tooltip: {
                     callbacks: {
@@ -57,14 +55,14 @@ export function DoughnutChart({ items = {} }) {
             },
 
             cutout: "60%",  // size of inner hole (50% by default) → smaller = more "pie-like"
-            radius: "90%",  // how large the chart is relative to canvas
+            radius: "80%",  // how large the chart is relative to canvas
         }
         return { data, options }
     }
 
-    const { data, options ={}} = getData()
+    const { data, options = {} } = getData()
     return (
-        <Doughnut data={data} options={options}/>
+        <Doughnut data={data} options={options} />
     )
 
 }
