@@ -7,10 +7,12 @@ import {
     REMOVE_TOY,
     SET_FILTER_BY,
     SET_IS_LOADING,
-    GET_TOYS,
+    SET_TOYS,
     UPDATE_TOY,
-    ADD_TOY
+    ADD_TOY,
+    SET_LABELS
 } from "../reduce/toy.reduce.js";
+import { Labels } from "../../cmps/Labels.jsx";
 'use strict';
 
 // LIST
@@ -19,9 +21,9 @@ export function loadToys(filterBy) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     // אפשרות להשתמש בגישה אופטימיסטית בכידי למנוע פליקרים 
     return toyService.query(filterBy)
-        .then(toys =>{
-            store.dispatch({ type: GET_TOYS, toys })
-        return toys    
+        .then(toys => {
+            store.dispatch({ type: SET_TOYS, toys })
+            return toys
         })
         .catch(err => {
             console.log('toy.action -> cant get toys}', err)
@@ -31,6 +33,11 @@ export function loadToys(filterBy) {
 }
 
 // READ
+
+export function setToysLabels() {
+    toyService.getToysLabels()
+        .then(labels => store.dispatch({ type: SET_LABELS, labels }))
+}
 
 export function getToy(toyId) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })

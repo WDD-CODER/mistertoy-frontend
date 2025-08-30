@@ -1,6 +1,7 @@
 import { toyService } from "../../services/toy.service.js"
 
-export const GET_TOYS = 'GET_TOYS'
+export const SET_TOYS = 'SET_TOYS'
+export const SET_LABELS = 'SET_LABELS'
 export const SET_TOY = 'SET_TOY'
 export const ADD_TOY = 'ADD_TOY'
 export const UPDATE_TOY = 'UPDATE_TOY'
@@ -12,13 +13,16 @@ const initialState = {
     toys: [],
     toy: {},
     isLoading: '',
+    labels:[],
     filterBy: toyService.getDefaultFilter()
 }
 
 export function toyReducer(state = initialState, cmd = {}) {
     switch (cmd.type) {
-        case GET_TOYS:
+        case SET_TOYS:
             return { ...state, toys: cmd.toys }
+        case SET_LABELS:
+            return { ...state, labels: cmd.labels }
         case SET_TOY:
             return { ...state, toy: cmd.toy }
         case ADD_TOY:
