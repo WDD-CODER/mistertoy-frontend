@@ -1,4 +1,10 @@
-.dash-board {}
+.dash-board {
+  display: grid;
+  margin: 1em;
+  gap: 1em;
+  /* display: grid; */
+
+}
 
 .dash-board-container {
   display: grid;
@@ -6,7 +12,7 @@
   gap: 10px;
   margin-bottom: 1em;
 
-  height: 60vh;
+  height: 85vh;
 }
 
 .circle-charts {
@@ -29,4 +35,8 @@
 
 .bar-chart-container {
   border: 1px solid black;
+}
+
+.dash-board .back-btn{
+  width: fit-content;
 }
