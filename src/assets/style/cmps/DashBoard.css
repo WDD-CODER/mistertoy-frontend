@@ -1,28 +1,32 @@
-.dash-board {
-}
+.dash-board {}
 
 .dash-board-container {
-  /* gap: 20px;
-  padding: 20px; */
+  display: grid;
+
+  gap: 10px;
+  margin-bottom: 1em;
+
+  height: 60vh;
 }
 
-.circle-charts{
+.circle-charts {
+  display: flex;
+  gap: 10px;
+  height: 200px;
+
+}
+
+.doughnut-chart-container {
+  width: 50%;
   border: 1px solid black;
 }
 
-/* .doughnut-chart-container {
-  grid-area: doughnut;
-  border: 1px solid black;
-  width: 300px;
-}  */
 
-/* .bar-chart-container {
-  grid-area: bar;
+.pia-chart-container {
+  width: 50%;
   border: 1px solid black;
-} */
+}
 
- /* .pie-chart-container {
-  grid-area: pie;
+.bar-chart-container {
   border: 1px solid black;
-  height: 1000px;
-} */
+}
