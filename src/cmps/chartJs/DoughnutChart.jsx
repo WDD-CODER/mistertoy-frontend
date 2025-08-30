@@ -12,6 +12,7 @@ import { useState } from "react";
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function DoughnutChart({ items = {} }) {
+    const title = "Average Prices per label   "
 
     const [labels, setLabels] = useState(toyService.getLabelsFromToys(items))
 
@@ -22,12 +23,14 @@ export function DoughnutChart({ items = {} }) {
             groups[label].push(item.price);
         });
         return groups;
-    }, []);
+    }, {});
 
     const evgPricePerLabel = Object.values(totalPriceByLabel).map((label) => {
         const totalLabelPrice = label.reduce((sum, price) => sum + price, 0)
+        console.log("🚀 ~ DoughnutChart ~ totalLabelPrice:", totalLabelPrice)
         return totalLabelPrice / label.length
     });
+    console.log("🚀 ~ DoughnutChart ~ evgPricePerLabel:", evgPricePerLabel)
 
     function getData() {
         const data = {
@@ -57,7 +60,7 @@ export function DoughnutChart({ items = {} }) {
                 },
                 title: {
                     display: true,
-                    text: " Average Prices per label   ",
+                    text: title,
                     align: "end",
                     font: { size: 18 },
                 },
