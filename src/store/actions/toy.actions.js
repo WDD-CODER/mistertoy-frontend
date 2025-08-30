@@ -15,13 +15,14 @@ import {
 
 // LIST
 export function loadToys(filterBy) {
-    // לשים לב באיזה דרך אני מעביר את המידע ממקום אפשר בשתי הדרכים רק לשמור על אחידות ועל פעולה נכונה לפונקציה הרלוונטית!
-    console.log('store.getState(', store.getState())
-    
+    // לשים לב באיזה דרך אני מעביר את המידע ממקום אפשר בשתי הדרכים רק לשמור על אחידות ועל פעולה נכונה לפונקציה הרלוונטית!    
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     // אפשרות להשתמש בגישה אופטימיסטית בכידי למנוע פליקרים 
     return toyService.query(filterBy)
-        .then(toys => store.dispatch({ type: GET_TOYS, toys }))
+        .then(toys =>{
+            store.dispatch({ type: GET_TOYS, toys })
+        return toys    
+        })
         .catch(err => {
             console.log('toy.action -> cant get toys}', err)
             throw err
@@ -65,7 +66,7 @@ export function saveToy(toy) {
 
 // UPDATE
 
-export function SetFilter(filterBy) {
+export function setFilter(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })
 }
 

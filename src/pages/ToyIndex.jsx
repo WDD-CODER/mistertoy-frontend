@@ -2,7 +2,7 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadToys, removeToy, saveToy, SetFilter } from "../store/actions/toy.actions.js"
+import { loadToys, removeToy, saveToy, setFilter } from "../store/actions/toy.actions.js"
 
 import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
@@ -13,6 +13,7 @@ import { Loader } from "../cmps/Loader.jsx"
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
+    console.log("🚀 ~ ToyIndex ~ toys:", toys)
     const isLoading = useSelector(state => state.toyModule.isLoading)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     // Special hook for accessing search-params:
@@ -21,7 +22,7 @@ export function ToyIndex() {
     const count = useRef(0)
     count.current += 1
     useEffect(() => {
-        SetFilter(toyService.getFilterFromSearchParams(searchParams))
+        setFilter(toyService.getFilterFromSearchParams(searchParams))
     }, [])
 
     // console.log('variable', count)
@@ -58,10 +59,6 @@ export function ToyIndex() {
     }
 
 
-    function onSetFilterBy(curFilter) {
-        SetFilter(curFilter)
-    }
-
     function onRemoveToy(toyId) {
         removeToy(toyId)
             .then(() => showSuccessMsg(`Toy removed`))
@@ -83,9 +80,10 @@ export function ToyIndex() {
 
     return (
         <section className="toy-index">
-            <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+            <ToyFilter filterBy={filterBy}/>
             <div>
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
+                <Link to="/toy/dashBoard" className="btn" >Go To DashBoard</Link>
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?
