@@ -13,8 +13,8 @@ export function PiaChart({ items }) {
                 {
                     label: title,
                     data: items.map(item => item.price),
-                    backgroundColor: items.map(() => utilService.getRandomColor()),
-                    borderColor: items.map(() => utilService.getRandomColor()),
+                    backgroundColor: items.map(item => item.color),
+                    borderColor:items.map(item => item.color),
                     borderWidth: 1,
                 },
             ],

@@ -5,19 +5,37 @@ import {
     Tooltip,         // optional
     Legend           // optional
 } from "chart.js"
+import { useSelector } from "react-redux";
+import { toyService } from "../../services/toy.service";
+import { useState } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function DoughnutChart({ items = {} }) {
-    const title = 'My Doughnut  Chart'
+
+    const [labels, setLabels] = useState(toyService.getLabelsFromToys(items))
+
+    const selectedItems = items.filter(item => item.labels.some(label => labels.includes(label)))
+    const totalPriceByLabel = selectedItems.reduce((groups, item) => {
+        item.labels.forEach(label => {
+            if (!groups[label]) groups[label] = [];
+            groups[label].push(item.price);
+        });
+        return groups;
+    }, []);
+
+    const evgPricePerLabel = Object.values(totalPriceByLabel).map((label) => {
+        const totalLabelPrice = label.reduce((sum, price) => sum + price, 0)
+        return totalLabelPrice / label.length
+    });
 
     function getData() {
         const data = {
-            labels: items.map(item => item.txt),
+            labels: labels.map(item => item),
             datasets: [
                 {
-                    label: title,
-                    data: items.map(item => item.price),
+                    // label: title,
+                    data: evgPricePerLabel.map(item => item),
                     backgroundColor: items.map(item => item.color),
                     borderColor: items.map(item => item.color),
                     borderWidth: 1,
@@ -39,7 +57,7 @@ export function DoughnutChart({ items = {} }) {
                 },
                 title: {
                     display: true,
-                    text: "Prices per label   ",
+                    text: " Average Prices per label   ",
                     align: "end",
                     font: { size: 18 },
                 },
