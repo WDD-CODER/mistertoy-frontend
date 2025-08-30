@@ -4,6 +4,17 @@ import { updateToy } from "../store/actions/toy.actions"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
 
 export function Labels({ toy }) {
+   const demoLabels = [
+  "on-wheels",
+  "box-game",
+  "art",
+  "baby",
+  "doll",
+  "puzzle",
+  "out-door",
+  "battery-powered"
+]
+
 
     const [labels, setLabels] = useState(toy.labels)
 
@@ -35,14 +46,11 @@ export function Labels({ toy }) {
             <label className="actions" htmlFor="labels">
                 Label:
                 <select multiple={true} size="3" value={labels} name="labels" id="labels" onChange={onAddLabel}>
-                    <option value="on-wheels">On Wheels</option>
-                    <option value="box-game">Box Game</option>
-                    <option value="art">Art</option>
-                    <option value="baby">Baby</option>
-                    <option value="doll">Doll</option>
-                    <option value="puzzle">Puzzle</option>
-                    <option value="out-door">Out Door</option>
-                    <option value="battery-powered">Battery Powered</option>
+                    <option disabled >Add Label</option>
+                    {demoLabels.map(label => {
+                        return <option key={label}>{label}</option>
+                    })}
+
                 </select>
             </label>
             {labels.length > 0 &&
