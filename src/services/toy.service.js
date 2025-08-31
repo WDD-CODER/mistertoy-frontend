@@ -216,7 +216,7 @@ function getPercentages(groupedItems) {
     }
 
     const percentages = Object.values(groupedItems).map(labelItems => {
-        return (labelItems.length / totalCount) * 100;
+        return  Math.floor((labelItems.length / totalCount) * 100);
     });
 
     return percentages;
