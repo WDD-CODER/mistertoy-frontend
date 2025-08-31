@@ -1,13 +1,9 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Bar, Doughnut } from "react-chartjs-2";
-import { useSelector } from "react-redux";
-import { ToyFilter } from "../cmps/ToyFilter";
 import { Link } from "react-router-dom";
 import { Loader } from "../cmps/Loader";
 import { useEffect, useState } from "react";
 import { loadToys } from "../store/actions/toy.actions";
-// import { ChartDoughnut, DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
-import { BarChart } from "../cmps/chartJs/BarChart.jsx";
+import { LineChart } from "../cmps/chartJs/LineChart.jsx";
 import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
 
@@ -30,7 +26,6 @@ export function DashBoard() {
     if (!toys) return <Loader />
     return (
         <div className="dash-board">
-            {/* <ToyFilter filterBy={filterBy} /> */}
             <button className="back-btn">
                 <Link to="/toy" className="btn" >Go To Toys</Link>
             </button>
@@ -43,8 +38,8 @@ export function DashBoard() {
                         <PiaChart className="pia-chart" items={toys} />
                     </article>
                 </div>
-                <article className="bar-chart-container">
-                    <BarChart className="bar-chart" items={toys} />
+                <article className="line-chart-container">
+                    <LineChart className="line-chart" items={toys} />
                 </article>
             </section>
         </div>
