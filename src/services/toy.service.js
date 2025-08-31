@@ -3,7 +3,6 @@ import { storageService } from './async-storage.service.js'
 
 const TOY_KEY = 'toyDB'
 _createToys()
-'use strict';
 
 
 export const toyService = {
@@ -19,8 +18,7 @@ export const toyService = {
     getLabelsFromToys,
     getPercentages,
 }
-// For Debug (easy access from console):
-window.cs = toyService
+
 // LIST
 
 function query(filterBy = {}) {
@@ -96,7 +94,11 @@ function _createToys() {
 }
 
 function _createToy(txt, price) {
+
     const toy = getEmptyToy(txt, price)
+    const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
+
+    toy.sales = dates.map((date)=> {return ({date, amount:utilService.getRandomIntInclusive(50,500)})})
     toy._id = utilService.makeId()
 
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
@@ -113,7 +115,7 @@ function getToysLabels() {
 
 function getLabelsFromToys(toys) {
     const labels = []
-     toys.forEach(toy => {
+    toys.forEach(toy => {
         (toy.labels || []).forEach(label => {
             if (!labels.includes(label)) labels.push(label)
         })
@@ -179,7 +181,6 @@ export
 
     function save(toy) {
     if (toy._id) {
-        // TOY - updatable fields
         toy.updatedAt = Date.now()
         return storageService.put(TOY_KEY, toy)
     } else {
@@ -207,28 +208,18 @@ function remove(toyId) {
 }
 
 function getPercentages(groupedItems) {
-  const allItems = Object.values(groupedItems).flat();
-  const totalCount = allItems.length;
+    const allItems = Object.values(groupedItems).flat();
+    const totalCount = allItems.length;
 
-  if (totalCount === 0) {
-    return [];
-  }
+    if (totalCount === 0) {
+        return [];
+    }
 
-  const percentages = Object.values(groupedItems).map(labelItems => {
-    return (labelItems.length / totalCount) * 100;
-  });
+    const percentages = Object.values(groupedItems).map(labelItems => {
+        return (labelItems.length / totalCount) * 100;
+    });
 
-  return percentages;
+    return percentages;
 }
 
 
-// Data Model:
-// const toy = {
-// _id: 't101',
-// name: 'Talking Doll',
-// imgUrl: 'hardcoded-url-for-now',
-// price: 123,
-// labels: ['Doll', 'Battery Powered', 'Baby'],
-// createdAt: 1631031801011,
-// inStock: true,
-// }
