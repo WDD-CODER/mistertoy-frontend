@@ -1,20 +1,19 @@
 import { Doughnut } from "react-chartjs-2";
 import {
     Chart as ChartJS,
-    ArcElement,      // donut arcs
-    Tooltip,         // optional
-    Legend           // optional
+    ArcElement,      
+    Tooltip,       
+    Legend         
 } from "chart.js"
-import { useSelector } from "react-redux";
 import { toyService } from "../../services/toy.service";
-import { useState } from "react";
+import { Loader } from "../Loader";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function DoughnutChart({ items = {} }) {
     const title = "Average Prices per label   "
 
-    const [labels, setLabels] = useState(toyService.getLabelsFromToys(items))
+    const labels = toyService.getLabelsFromToys(items)
 
     const selectedItems = items.filter(item => item.labels.some(label => labels.includes(label)))
     const totalPriceByLabel = selectedItems.reduce((groups, item) => {
@@ -27,20 +26,18 @@ export function DoughnutChart({ items = {} }) {
 
     const evgPricePerLabel = Object.values(totalPriceByLabel).map((label) => {
         const totalLabelPrice = label.reduce((sum, price) => sum + price, 0)
-        console.log("🚀 ~ DoughnutChart ~ totalLabelPrice:", totalLabelPrice)
         return totalLabelPrice / label.length
     });
-    console.log("🚀 ~ DoughnutChart ~ evgPricePerLabel:", evgPricePerLabel)
 
     function getData() {
         const data = {
             labels: labels.map(item => item),
             datasets: [
                 {
-                    // label: title,
+                    label: title,
                     data: evgPricePerLabel.map(item => item),
                     backgroundColor: items.map(item => item.color),
-                    borderColor: items.map(item => item.color),
+                    borderColor: "black",
                     borderWidth: 1,
                 },
             ],
@@ -48,14 +45,14 @@ export function DoughnutChart({ items = {} }) {
 
         const options = {
             responsive: true,
-            maintainAspectRatio: false,   // let it grow/shrink inside container
+            maintainAspectRatio: false,
 
             plugins: {
                 legend: {
-                    position: "left",        // "top" | "bottom" | "left" | "right"
+                    position: "left",
                     labels: {
-                        boxWidth: 20,           // size of the legend color box
-                        padding: 15             // spacing between legend items
+                        boxWidth: 20,
+                        padding: 15
                     }
                 },
                 title: {
@@ -75,13 +72,14 @@ export function DoughnutChart({ items = {} }) {
                 }
             },
 
-            cutout: "60%",  // size of inner hole (50% by default) → smaller = more "pie-like"
-            radius: "80%",  // how large the chart is relative to canvas
+            cutout: "60%",
+            radius: "80%",
         }
         return { data, options }
     }
 
     const { data, options = {} } = getData()
+    if (!data.labels.length) return <div style={{margin:'100px'}}> No labels selected </div>
     return (
         <Doughnut data={data} options={options} />
     )
