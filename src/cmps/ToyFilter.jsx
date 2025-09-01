@@ -3,6 +3,7 @@ import { utilService } from "../services/util.service.js"
 import { useEffect, useRef, useState } from "react"
 import { setFilter } from "../store/actions/toy.actions.js"
 import { useSelector } from "react-redux"
+import { MultiSelect } from "../cmps/MeterialUi/MultiSelect.jsx";
 
 export function ToyFilter({ filterBy }) {
 
@@ -17,8 +18,11 @@ export function ToyFilter({ filterBy }) {
     }, [filterByToEdit])
 
     function handleChange({ target }) {
+        console.log("🚀 ~ handleChange ~ target:", target)
         const field = target.name
+        console.log("🚀 ~ handleChange ~ field:", field)
         let value = target.value
+        console.log("🚀 ~ handleChange ~ value:", value)
 
         var updatedField = []
 
@@ -104,7 +108,6 @@ export function ToyFilter({ filterBy }) {
                                 <option value="createdAt">Time Of Creation</option>
                             </select>
                         </label>
-
                         <h4>availability</h4>
                         <label className="selections" htmlFor="inStock"  >
                             <button name="inStock" value={inStock} className="clear-select" onClick={onClearFieldFromFilter}>Clear Stock</button>
@@ -118,6 +121,7 @@ export function ToyFilter({ filterBy }) {
                         </label>
                     </section>
                     <section className="selections">
+                        <MultiSelect onSetFilterByToEdit={onSetFilterByToEdit} filterByToEdit={filterByToEdit} items={stateLabels} />
                         <h4>Labels</h4>
                         <label htmlFor="labels" className="selections" >
                             <button name="labels" className="clear-select" onClick={onClearFieldFromFilter}>Clear Labels</button>
