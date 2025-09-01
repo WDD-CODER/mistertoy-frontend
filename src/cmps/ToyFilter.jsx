@@ -121,18 +121,7 @@ export function ToyFilter({ filterBy }) {
                         </label>
                     </section>
                     <section className="selections">
-                        <MultiSelect onSetFilterByToEdit={onSetFilterByToEdit} filterByToEdit={filterByToEdit} items={stateLabels} />
-                        <h4>Labels</h4>
-                        <label htmlFor="labels" className="selections" >
-                            <button name="labels" className="clear-select" onClick={onClearFieldFromFilter}>Clear Labels</button>
-                            {stateLabels.length > 0 &&
-                                <select multiple={true} size="4" value={labels} name="labels" id="labels" onChange={handleChange}>
-                                    <option value="" disabled>Labels</option>
-                                    {stateLabels.map(label => {
-                                        return <option key={label}>{label}</option>
-                                    })}
-                                </select>}
-                        </label>
+                        <MultiSelect  onSetFilterByToEdit={onSetFilterByToEdit} filterByToEdit={filterByToEdit} items={stateLabels} />
                     </section>
                 </div>
                 <div>
