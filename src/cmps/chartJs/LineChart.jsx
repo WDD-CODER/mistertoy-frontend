@@ -22,8 +22,6 @@ ChartJS.register(
 
 
 export function LineChart({ items }) {
-    console.log("🚀 ~ LineChart ~ items:", items)
-
     function getData() {
         const data = {
             labels: items[0].sales.map(s => s.date),

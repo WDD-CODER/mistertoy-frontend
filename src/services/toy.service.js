@@ -94,14 +94,8 @@ function _createToys() {
 }
 
 function _createToy(txt, price) {
-
     const toy = getEmptyToy(txt, price)
-    console.log("🚀 ~ _createToy ~ toy:", toy)
-    const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
-
-    toy.sales = dates.map((date)=> {return ({date, amount:utilService.getRandomIntInclusive(50,500)})})
     toy._id = utilService.makeId()
-
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
 }
@@ -124,9 +118,6 @@ function getLabelsFromToys(toys) {
     return labels
 }
 
-
-
-
 function getById(toyId) {
     return storageService.get(TOY_KEY, toyId)
         .then(toy => {
@@ -136,8 +127,15 @@ function getById(toyId) {
 }
 /// הרגע שיניתי את זה
 function getEmptyToy(txt = '', price = 0) {
-    // return { txt, imgUrl: "", price, labels: [], inStock: [], color: utilService.getRandomColor() }
-    return { txt, imgUrl: "", price, labels: [], inStock: '', color: utilService.getRandomColor() }
+    const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
+    return {
+        txt,
+        imgUrl: "",
+        price, labels: [],
+        inStock: '',
+        color: utilService.getRandomColor(),
+        sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
+    }
 }
 
 function getDefaultFilter() {
@@ -218,7 +216,7 @@ function getPercentages(groupedItems) {
     }
 
     const percentages = Object.values(groupedItems).map(labelItems => {
-        return  Math.floor((labelItems.length / totalCount) * 100);
+        return Math.floor((labelItems.length / totalCount) * 100);
     });
 
     return percentages;
