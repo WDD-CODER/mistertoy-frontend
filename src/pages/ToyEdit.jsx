@@ -6,11 +6,12 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { Loader } from "../cmps/Loader.jsx"
+import MyForm from "../cmps/formik/MyForm.jsx"
+import { AppHeader } from "../cmps/AppHeader.jsx"
 
 export function ToyEdit() {
 
     const isLoading = useSelector(state => state.toyModule.isLoading)
-    // const stateToy = useSelector(state => state.toyModule.toy)
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const navigate = useNavigate()
     const { toyId } = useParams()
@@ -20,31 +21,12 @@ export function ToyEdit() {
             .then(toy => setToyToEdit(toy))
     }, [])
 
-    function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
 
-        switch (target.type) {
-            case 'number':
-            case 'range':
-                value = +value || ''
-                break
-
-            case 'checkbox':
-                value = target.checked
-                break
-
-            default:
-                break
-        }
-
-        setToyToEdit(prevToyToEdit => ({ ...prevToyToEdit, [field]: value }))
-    }
-
-    function onSaveToy(ev) {
-        ev.preventDefault()
+    function onSaveToy(toyToEdit) {
         saveToy(toyToEdit)
             .then((savedToy) => {
+                console.log('savedToy')
+
                 navigate('/toy')
                 showSuccessMsg(`Toy Saved (id: ${savedToy._id})`)
             })
@@ -54,24 +36,15 @@ export function ToyEdit() {
             })
     }
 
-    const { txt, price, isDone } = toyToEdit
+    if (isLoading) return <Loader />
 
-    if (isLoading) return <Loader/>
     return (
         <section className="toy-edit">
-            <form onSubmit={onSaveToy} >
-                <label htmlFor="txt">Text:</label>
-                <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
-
-                <label htmlFor="price">price:</label>
-                <input onChange={handleChange} value={price} type="number" name="price" id="price" />
-
-                <label htmlFor="isDone">isDone:</label>
-                <input onChange={handleChange} value={isDone} type="checkbox" name="isDone" id="isDone" />
-
-
-                <button>Save</button>
-            </form>
+             <AppHeader/>
+            <MyForm
+                key={toyToEdit._id || 'new'}
+                onSaveToy={onSaveToy}
+                toyToEdit={toyToEdit} />
         </section>
     )
 }
