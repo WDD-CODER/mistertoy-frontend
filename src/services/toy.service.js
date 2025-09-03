@@ -96,6 +96,7 @@ function _createToys() {
 function _createToy(txt, price) {
 
     const toy = getEmptyToy(txt, price)
+    console.log("🚀 ~ _createToy ~ toy:", toy)
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
 
     toy.sales = dates.map((date)=> {return ({date, amount:utilService.getRandomIntInclusive(50,500)})})
@@ -133,8 +134,9 @@ function getById(toyId) {
             return toy
         })
 }
-
+/// הרגע שיניתי את זה
 function getEmptyToy(txt = '', price = 0) {
+    // return { txt, imgUrl: "", price, labels: [], inStock: [], color: utilService.getRandomColor() }
     return { txt, imgUrl: "", price, labels: [], inStock: '', color: utilService.getRandomColor() }
 }
 

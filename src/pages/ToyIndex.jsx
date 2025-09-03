@@ -48,7 +48,7 @@ export function ToyIndex() {
 
         if (filterBy.txt) sp.set('txt', filterBy.txt)
         if (filterBy.price) sp.set('price', filterBy.price)
-        if (filterBy.inStock !== '' && filterBy.inStock !== undefined) {
+        if (filterBy.inStock !== '' && filterBy.inStock !== undefined ) {
             sp.set('inStock', filterBy.inStock)
         }
         if (filterBy.labels?.length) {
@@ -72,6 +72,7 @@ export function ToyIndex() {
 
     function onToggleInStock(toy) {
         const toyToSave = { ...toy, inStock: !toy.inStock }
+        console.log("🚀 ~ onToggleInStock ~ toy:", toy)
         saveToy(toyToSave)
             .then((savedToy) => showSuccessMsg(`Toy ${(savedToy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`))
             .catch(err => {
