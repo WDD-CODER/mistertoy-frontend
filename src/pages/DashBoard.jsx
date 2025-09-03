@@ -6,6 +6,7 @@ import { loadToys } from "../store/actions/toy.actions";
 import { LineChart } from "../cmps/chartJs/LineChart.jsx";
 import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
+import { AppHeader } from "../cmps/AppHeader.jsx";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -26,9 +27,7 @@ export function DashBoard() {
     if (!toys) return <Loader />
     return (
         <div className="dash-board">
-            <button className="back-btn">
-                <Link to="/toy" className="btn" >Go To Toys</Link>
-            </button>
+             <AppHeader/>
             <section className="dash-board-container">
                 <div className="circle-charts">
                     <article className="doughnut-chart-container">

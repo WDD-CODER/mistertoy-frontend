@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
+import { AppHeader } from "../cmps/AppHeader.jsx"
 
 export function ToyIndex() {
 
@@ -83,10 +84,10 @@ export function ToyIndex() {
 
     return (
         <section className="toy-index">
+            <AppHeader/>
             <ToyFilter filterBy={filterBy} />
             <div>
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
-                <Link to="/toy/dashBoard" className="btn" >Go To DashBoard</Link>
             </div>
             <h2>Toys List</h2>
             {isLoading && !toys.length ?

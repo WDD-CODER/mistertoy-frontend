@@ -11,6 +11,7 @@ import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
+import { AppHeader } from "../cmps/AppHeader.jsx"
 
 export function ToyDetails() {
 
@@ -38,6 +39,7 @@ export function ToyDetails() {
 
     return (
         <section className={'toy-details'}>
+             <AppHeader/>
             <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
             <Labels toy={toy} setToy={setToy} />
             <button><Link to={`/toy/`}>Back to list</Link></button>

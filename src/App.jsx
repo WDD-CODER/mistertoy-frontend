@@ -10,6 +10,7 @@ import './assets/style/main.css'
 import { store } from './store/store'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { DashBoard } from './pages/DashBoard.jsx'
+import { Home } from './pages/Home.jsx'
 
 const Router =
   import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
@@ -26,7 +27,7 @@ function App() {
                         <UserMsg />
                         <main>
                             <Routes>
-                                <Route path="/" element={<ToyIndex />} />
+                                <Route path="/" element={<Home/>} />
                                 <Route path="/toy/:toyId" element={<ToyDetails />} />
                                 <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
                                 <Route path="/toy/edit" element={<ToyEdit />} />
