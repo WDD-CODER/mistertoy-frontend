@@ -2,13 +2,12 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Rating } from '@mui/material'
 import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MapController from './MapController'
 import { toyService } from '../services/toy.service'
 import { ImgCmp } from './ImgCmp'
 import { useSelector } from 'react-redux'
 import { setUpdatedBranches } from '../store/actions/toy.actions'
-import { showErrorMsg } from '../services/event-bus.service'
 
 function MyMap() {
     const API_KEY = 'AIzaSyD2Kd_xOK37FqjaQVKLW3uIiIcw-Xi8tPg'
@@ -17,13 +16,12 @@ function MyMap() {
     const [branch, setBranch] = useState()
     const [isOpen, setIsOpen] = useState(false);
     const [markerColor, setMarkerColor] = useState();
-
+    const curBranchIdx = useRef()
 
     useEffect(() => {
         if (!branches) {
             setUpdatedBranches(toyService.createBranches())
         }
-        else setBranch(branches[0])
     }, [branches])
 
 
@@ -40,16 +38,18 @@ function MyMap() {
         }
     }
 
-    function onSelectBranch(branch) {
+    function onSelectBranch(selectedBranch) {
         setIsOpen(false)
-        setBranch(branch)
-        setMarkerColor(branch.color)
+        curBranchIdx.current = branches.findIndex(branch => branch._id === selectedBranch._id)
+        setBranch(selectedBranch)
+        setMarkerColor(selectedBranch.color)
     }
 
     function onSetRating(newValue) {
         const newBranch = ({ ...branch, rating: newValue })
         setBranch(newBranch)
-        toyService.saveBranch(newBranch)
+        const updatedBranches = branches.map(branch => branch._id === newBranch._id ? newBranch : branch)
+        setUpdatedBranches(updatedBranches)
 
     }
 
@@ -64,6 +64,8 @@ function MyMap() {
 
         <APIProvider apiKey={API_KEY}>
             <Box sx={{ height: '70vh', textAlign: 'center' }}>
+                <h1> Shope branch Map </h1>
+
                 <List component="nav" sx={{ display: 'flex' }}>
 
                     {branches && branches.map(branch => {
@@ -83,7 +85,6 @@ function MyMap() {
                     })}
 
                 </List>
-                <h1> Shope branch Map </h1>
                 <Map
                     defaultCenter={position}
                     defaultZoom={10}
