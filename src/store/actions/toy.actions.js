@@ -75,8 +75,8 @@ export function saveToy(toy) {
 export function setUpdatedBranches(branches) {
     store.dispatch({ type: SET_BRANCHES, branches })
     try {
-        toyService.saveBranches(branches)
         store.dispatch({ type: SET_BRANCHES, branches })
+        toyService.saveBranches(branches)
     } catch (err) {
         console.log('toy.actions -> cant update branches', err)
         throw err
