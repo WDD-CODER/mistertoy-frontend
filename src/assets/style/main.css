@@ -11,11 +11,12 @@
 /* Components */
 @import "cmps/UserMsg.css";
 
+@import "cmps/ImgCmp.css";
 @import "cmps/DashBoard.css";
 @import "cmps/Loader.css";
 @import "cmps/PopUp.css";
 @import "cmps/ToyInfo.css";
-@import "cmps/Labels.css";
+@import "cmps/LabelsList.css";
 @import "cmps/ToyFilter.css";
 @import "cmps/ToyList.css";
 @import "cmps/ToyPreview.css";
