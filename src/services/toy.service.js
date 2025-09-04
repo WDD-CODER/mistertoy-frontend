@@ -211,18 +211,13 @@ function save(toy) {
 }
 
 function saveBranches(branches) {
-return utilService.saveToStorage(BRANCH_KEY, branches)
+ utilService.saveToStorage(BRANCH_KEY, branches)
 }
 
 function saveBranch(branch) {
-    console.log("🚀 ~ saveBranch ~ branch:", branch)
     if (branch._id) {
-        console.log('put')
-        
         return storageService.put(BRANCH_KEY, branch)
     } else {
-                console.log('post')
-
         return storageService.post(BRANCH_KEY, branch)
     }
 }

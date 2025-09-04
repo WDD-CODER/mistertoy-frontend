@@ -18,7 +18,6 @@ const initialState = {
     labels: [],
     filterBy: toyService.getDefaultFilter()
 }
-    console.log("🚀 ~ initialState.branches:", initialState.branches)
 
 
 export function toyReducer(state = initialState, cmd = {}) {
