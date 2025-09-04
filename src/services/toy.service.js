@@ -2,6 +2,7 @@ import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
 const TOY_KEY = 'toyDB'
+const BRANCH_KEY = 'branchDB'
 _createToys()
 
 
@@ -17,6 +18,10 @@ export const toyService = {
     getToysLabels,
     getLabelsFromToys,
     getPercentages,
+    getBranches,
+    createBranches,
+    saveBranch,
+    saveBranches,
 }
 
 // LIST
@@ -65,8 +70,26 @@ function query(filterBy = {}) {
         })
 }
 
+function getBranches() {
+    return storageService.query(BRANCH_KEY)
+}
+
 
 // CREATE
+
+function createBranches() {
+    const branches = [
+        { name: "Tel-Aviv", location: { lat: 32.0853, lng: 34.7818 }, color: 'blue', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Tel-Aviv/400/300" },
+        { name: "Pardes-Hanna", location: { lat: 32.4741, lng: 34.9706 }, color: 'red', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Pardes-Hanna/400/300"  },
+        { name: "Haifa", location: { lat: 32.7940, lng: 34.9896 }, color: 'orange', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Haifa/400/300"  },
+        { name: "Beersheba", location: { lat: 31.2529, lng: 34.7915 }, color: 'indigo', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Beersheba/400/300"  },
+        { name: "Eilat", location: { lat: 29.5577, lng: 34.9519 }, color: 'pink', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Eilat/400/300"  },
+        { name: "Herzliya", location: { lat: 32.1663, lng: 34.8436 }, color: 'green', rating: 0, _id: utilService.makeId(), src:"https://picsum.photos/seed/Herzliya/400/300"  },
+    ];
+    utilService.saveToStorage(BRANCH_KEY, branches)
+
+    return branches
+}
 
 
 function _createToys() {
@@ -125,7 +148,7 @@ function getById(toyId) {
             return toy
         })
 }
-/// הרגע שיניתי את זה
+
 function getEmptyToy(txt = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
@@ -177,18 +200,33 @@ function _getToyCountByPriceMap(toys) {
 
 // UPDATE
 
-export
-
-    function save(toy) {
+function save(toy) {
     if (toy._id) {
         toy.updatedAt = Date.now()
         return storageService.put(TOY_KEY, toy)
     } else {
         toy.createdAt = toy.updatedAt = Date.now()
-
         return storageService.post(TOY_KEY, toy)
     }
 }
+
+function saveBranches(branches) {
+return utilService.saveToStorage(BRANCH_KEY, branches)
+}
+
+function saveBranch(branch) {
+    console.log("🚀 ~ saveBranch ~ branch:", branch)
+    if (branch._id) {
+        console.log('put')
+        
+        return storageService.put(BRANCH_KEY, branch)
+    } else {
+                console.log('post')
+
+        return storageService.post(BRANCH_KEY, branch)
+    }
+}
+
 
 function _setNextPrevToyId(toy) {
     return storageService.query(TOY_KEY).then((toys) => {

@@ -1,59 +1,127 @@
-import * as React from 'react';
-import * as L from 'leaflet';
 
-async function createLeafletStyles(doc) {
-    let styles = doc.getElementById('leaflet-css');
-    if (styles) {
-        return;
-    }
-    const res = await fetch('https://esm.sh/leaflet/dist/leaflet.css');
-    if (!res.ok) {
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
-    const css = await res.text();
-    styles = doc.createElement('style');
-    styles.id = 'leaflet-css';
-    styles.appendChild(doc.createTextNode(css));
-    doc.head.appendChild(styles);
-}
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Rating } from '@mui/material'
+import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps'
+import { useEffect, useState } from 'react'
+import MapController from './MapController'
+import { toyService } from '../services/toy.service'
+import { ImgCmp } from './ImgCmp'
+import { useSelector } from 'react-redux'
+import { setUpdatedBranches } from '../store/actions/toy.actions'
+import { showErrorMsg } from '../services/event-bus.service'
 
-function Leaflet({ lat, long, zoom }) {
-    const root = React.useRef(null);
-    const mapRef = React.useRef();
-    const [stylesInitialized, setStylesIitialized] = React.useState(false);
-    const [error, setError] = React.useState();
+function MyMap() {
+    const API_KEY = 'AIzaSyD2Kd_xOK37FqjaQVKLW3uIiIcw-Xi8tPg'
+    const [position, setPosition] = useState({ lat: 32.0853, lng: 34.7818 })
+    const branches = useSelector(state => state.toyModule.branches)
+    const [branch, setBranch] = useState()
+    const [isOpen, setIsOpen] = useState(false);
+    const [markerColor, setMarkerColor] = useState();
 
-    React.useEffect(() => {
-        const doc = root.current.ownerDocument;
-        createLeafletStyles(doc).then(
-            () => setStylesIitialized(true),
-            (err) => setError(err),
-        );
-    }, []);
 
-    React.useEffect(() => {
-        if (!mapRef.current && stylesInitialized) {
-            mapRef.current = L.map(root.current);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap',
-            }).addTo(mapRef.current);
+    useEffect(() => {
+        if (!branches) {
+            setUpdatedBranches(toyService.createBranches())
         }
+        else setBranch(branches[0])
+    }, [branches])
 
-        if (mapRef.current) {
-            mapRef.current.setView([lat, long], zoom);
+
+    // Get a reference to the marker
+    const [markerRef, marker] = useAdvancedMarkerRef();
+
+    function handleChange(ev) {
+        const { lat, lng } = ev.detail.latLng
+        ev.map.panTo({ lat, lng })
+        setPosition({ lat, lng })
+        if (ev.detail.latLng !== branch.location) {
+            setIsOpen(false)
+            setMarkerColor('black')
         }
-    }, [stylesInitialized, lat, long, zoom]);
+    }
+
+    function onSelectBranch(branch) {
+        setIsOpen(false)
+        setBranch(branch)
+        setMarkerColor(branch.color)
+    }
+
+    function onSetRating(newValue) {
+        const newBranch = ({ ...branch, rating: newValue })
+        setBranch(newBranch)
+        toyService.saveBranch(newBranch)
+
+    }
+
+    function onClickMarker(ev) {
+
+        if (position === branch?.location) setIsOpen(true)
+    }
+
+
 
     return (
-        <div style={{ height: 400, width: 600 }}>
-            {error ? (
-                error.message
-            ) : (
-                <div style={{ width: '100%', height: '100%' }} ref={root} />
-            )}
-        </div>
+
+        <APIProvider apiKey={API_KEY}>
+            <Box sx={{ height: '70vh', textAlign: 'center' }}>
+                <List component="nav" sx={{ display: 'flex' }}>
+
+                    {branches && branches.map(branch => {
+                        return <ListItemButton
+                            key={branch.name}
+                            // selected={isSelected}
+                            onClick={() => onSelectBranch(branch)}
+                            disableRipple={false}
+                        // divider={true}
+                        >
+                            <ListItemIcon>
+                                <LocationOnIcon sx={{ color: branch.color }} />
+                            </ListItemIcon>
+                            <ListItemText primary={branch.name} secondary="Click to view on map" />
+                        </ListItemButton>
+
+                    })}
+
+                </List>
+                <h1> Shope branch Map </h1>
+                <Map
+                    defaultCenter={position}
+                    defaultZoom={10}
+                    mapId="DEMO_MAP_ID"
+                    onClick={handleChange}
+                >
+
+                    <AdvancedMarker
+
+                        ref={markerRef}
+                        position={position}
+                        onClick={onClickMarker}
+                    >
+                        <Pin background={markerColor} borderColor={'#e6e6e6ff'} glyphColor={'#cf8f8fff'} />
+                    </AdvancedMarker>
+
+                    {isOpen && marker && branch && (
+                        <InfoWindow
+                            anchor={marker}
+                            onCloseClick={() => setIsOpen(false)}
+                        >
+                            <div style={{ padding: '10px', placeItems: 'anchor-center' }}>
+                                <h4>welcome to {branch.name} Branch </h4>
+                                <p> Would love to see you over at our branch here at  {branch.name}
+                                    <br />
+                                    Please rate. Our branch to your liking
+                                </p>
+                                <ImgCmp imgSrc={branch.src} imgTitle={'Branch Img'} />
+                                <Rating onChange={(_, newValue) => onSetRating(newValue)} value={branch.rating} size='large' />
+                            </div>
+                        </InfoWindow>
+                    )}
+
+                    <MapController branch={branch} setPosition={setPosition} />
+                </Map>
+            </Box>
+        </APIProvider>
     );
 }
 
-export default Leaflet;
+export default MyMap;
