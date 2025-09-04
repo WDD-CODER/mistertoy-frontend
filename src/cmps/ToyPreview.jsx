@@ -1,3 +1,4 @@
+import { ImgCmp } from "./ImgCmp"
 
 export function ToyPreview({ toy, onToggleInStock }) {
     var checkedBox = ''
@@ -35,7 +36,8 @@ export function ToyPreview({ toy, onToggleInStock }) {
                 <h4>Toy price: ${toy.price}</h4>
                 <article className="createdAt">Created At:{date}</article>
             </section>
-            <img className="toy-img" src={`https://robohash.org/${toy._id}`} alt="Toy Image" />
+             <ImgCmp imgSrc={`https://robohash.org/${toy._id}`} imgTitle={'Toy Image'}/>
+            {/* <img className="toy-img" src={`https://robohash.org/${toy._id}`} alt="Toy Image" /> */}
             <h4>{header}</h4>
             <label htmlFor="checkbox" className="grid">
                 {`Set Toy Stock To ${setStockTo}`}

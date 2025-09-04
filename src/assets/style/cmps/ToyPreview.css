@@ -11,10 +11,6 @@
     color: black;
 }
 
-.toy-preview img {
-    max-width: 100px;
-}
-
 .toy-preview .checked-box {
      accent-color: red;
 }
