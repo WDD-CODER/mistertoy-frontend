@@ -11,11 +11,12 @@ import { store } from './store/store'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { DashBoard } from './pages/DashBoard.jsx'
 import { Home } from './pages/Home.jsx'
+import { Loader } from './cmps/Loader.jsx'
 
 const Router =
-  import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
-    ? HashRouter
-    : BrowserRouter
+    import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
+        ? HashRouter
+        : BrowserRouter
 
 function App() {
 
@@ -24,10 +25,9 @@ function App() {
             <Provider store={store} >
                 <Router>
                     <section className="app main-layout">
-                        <UserMsg />
                         <main>
                             <Routes>
-                                <Route path="/" element={<Home/>} />
+                                <Route path="/" element={<Home />} />
                                 <Route path="/toy/:toyId" element={<ToyDetails />} />
                                 <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
                                 <Route path="/toy/edit" element={<ToyEdit />} />
@@ -36,6 +36,8 @@ function App() {
                             </Routes>
                         </main>
                     </section>
+                    <UserMsg />
+                    <Loader />
                 </Router>
             </Provider>
         </>

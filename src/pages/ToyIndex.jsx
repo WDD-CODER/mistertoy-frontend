@@ -7,15 +7,12 @@ import { loadToys, removeToy, saveToy, setFilter, setToysLabels } from "../store
 import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { PopUp } from "../cmps/PopUp.jsx"
-import { Loader } from "../cmps/Loader.jsx"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
-    const isLoading = useSelector(state => state.toyModule.isLoading)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     // Special hook for accessing search-params:
     const [searchParams, setSearchParams] = useSearchParams()
@@ -73,7 +70,6 @@ export function ToyIndex() {
 
     function onToggleInStock(toy) {
         const toyToSave = { ...toy, inStock: !toy.inStock }
-        console.log("🚀 ~ onToggleInStock ~ toy:", toy)
         saveToy(toyToSave)
             .then((savedToy) => showSuccessMsg(`Toy ${(savedToy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`))
             .catch(err => {
@@ -90,8 +86,8 @@ export function ToyIndex() {
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
             </div>
             <h2>Toys List</h2>
-            {isLoading && !toys.length ?
-                <Loader /> : <>
+            { toys &&
+             <>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
                     <hr />
                     <h2>Toys Table</h2>
@@ -101,5 +97,4 @@ export function ToyIndex() {
             }
         </section>
     )
-    //לא מצאתי פתרון איך למנוע פליקר בלי להגדיר גם אם לודינג וגם אם המטלות ריקות ומרגיש לי שאני מפספס משהו
 }

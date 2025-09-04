@@ -6,7 +6,6 @@ import {
     Legend         
 } from "chart.js"
 import { toyService } from "../../services/toy.service";
-import { Loader } from "../Loader";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

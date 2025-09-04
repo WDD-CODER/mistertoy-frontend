@@ -4,14 +4,11 @@ import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { Loader } from "../cmps/Loader.jsx"
 import MyForm from "../cmps/formik/MyForm.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 
 export function ToyEdit() {
 
-    const isLoading = useSelector(state => state.toyModule.isLoading)
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const navigate = useNavigate()
     const { toyId } = useParams()
@@ -36,7 +33,6 @@ export function ToyEdit() {
             })
     }
 
-    if (isLoading) return <Loader />
 
     return (
         <section className="toy-edit">
