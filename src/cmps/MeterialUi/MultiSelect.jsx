@@ -31,7 +31,7 @@ export function MultiSelect({ items, onSetFilterByToEdit, handleChange, filterBy
                     <TextField
                         {...params}
                         variant="standard"
-                        label="Choose Labels"
+                        label="Choose LabelsList"
                         placeholder="Select Label "
                     />
                 )}

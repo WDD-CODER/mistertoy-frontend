@@ -1,4 +1,4 @@
-import { Labels } from "./Labels.jsx"
+import { LabelsList } from "./LabelsList.jsx"
 import { ToyPreview } from "./ToyPreview.jsx"
 import { Link } from "react-router-dom"
 
@@ -11,7 +11,7 @@ export function ToyList({ toys, onRemoveToy, onToggleInStock }) {
             {toys.map(toy =>
                 <li key={toy._id}>
                     <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
-                    <Labels toy={toy} />
+                    <LabelsList toy={toy} />
                     <section>
                         <button onClick={() => onRemoveToy(toy._id)}>Remove</button>
                         <button onClick={() => console.log('Details')}><Link to={`/toy/${toy._id}`}>Details</Link></button>
