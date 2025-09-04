@@ -1,0 +1,23 @@
+.labels-btn {
+    display: grid;
+    grid:
+        "h4"
+        "buttons"
+    ;
+
+    place-items: center;
+    padding: 0 1rem 1rem 1rem;
+
+    border-radius: 2vh;
+    border: 2px solid gray;
+}
+
+.labels-btn h4 {
+    grid-area: h4;
+}
+
+.labels-btn button {
+    grid-area: buttons;
+
+    background-color: rgb(75, 103, 107);
+}

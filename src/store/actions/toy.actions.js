@@ -10,9 +10,10 @@ import {
     SET_TOYS,
     UPDATE_TOY,
     ADD_TOY,
-    SET_LABELS
+    SET_LABELS,
+    SET_BRANCHES
 } from "../reduce/toy.reduce.js";
-import { Labels } from "../../cmps/Labels.jsx";
+import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST
@@ -69,6 +70,17 @@ export function saveToy(toy) {
         })
         .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 
+}
+
+export function setUpdatedBranches(branches) {
+    store.dispatch({ type: SET_BRANCHES, branches })
+    try {
+        toyService.saveBranches(branches)
+        store.dispatch({ type: SET_BRANCHES, branches })
+    } catch (err) {
+        console.log('toy.actions -> cant update branches', err)
+        throw err
+    }
 }
 
 // UPDATE
