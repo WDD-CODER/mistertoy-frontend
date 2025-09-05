@@ -91,7 +91,8 @@ export function setFilter(filterBy) {
 
 
 export function updateToy(toy) {
-    store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+    console.log("🚀 ~ updateToy ~ toy:", toy)
+    // store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.save(toy)
         .then(toy => {
             store.dispatch({ type: UPDATE_TOY, toy })
@@ -101,14 +102,14 @@ export function updateToy(toy) {
             console.log('toy.action -> cant add toy label', err)
             throw err
         })
-        .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
+        // .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 
 
 }
 
 // DELETE
 export function removeToy(toyId) {
-    if (!confirm('Are you Sure you want to delete the task?!')) return Promise.reject('task not deleted!')
+    if (!confirm('Are you Sure you want to delete the toy?!')) return Promise.reject('toy not deleted!')
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.remove(toyId)
         .then(() => store.dispatch({ type: REMOVE_TOY, toyId }))
