@@ -12,6 +12,8 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { DashBoard } from './pages/DashBoard.jsx'
 import { Home } from './pages/Home.jsx'
 import { Loader } from './cmps/Loader.jsx'
+import PartsCmp from './cmps/PartsCmp.jsx'
+import { Container } from '@mui/material'
 
 const Router =
     import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
@@ -24,7 +26,7 @@ function App() {
         <>
             <Provider store={store} >
                 <Router>
-                    <section className="app main-layout">
+                    <Container className="app main-layout">
                         <main>
                             <Routes>
                                 <Route path="/" element={<Home />} />
@@ -33,9 +35,10 @@ function App() {
                                 <Route path="/toy/edit" element={<ToyEdit />} />
                                 <Route path="/toy/dashBoard" element={<DashBoard />} />
                                 <Route path="/toy" element={<ToyIndex />} />
+                                <Route path="/parts" element={<PartsCmp />} />
                             </Routes>
                         </main>
-                    </section>
+                    </Container>
                     <UserMsg />
                     <Loader />
                 </Router>

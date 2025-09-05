@@ -1,3 +1,4 @@
+import { Card, CardContent, Container } from "@mui/material"
 import { ImgCmp } from "./ImgCmp"
 
 export function ToyPreview({ toy, onToggleInStock }) {
@@ -9,40 +10,31 @@ export function ToyPreview({ toy, onToggleInStock }) {
 
     const date = new Date(toy.createdAt).toLocaleDateString()
 
-    getStockStatus()
-
-    function getStockStatus() {
-        if (toy.inStock === true) {
+    // getStockStatus()
+    // function getStockStatus() {
+        if (toy.inStock === 'Available') {
             checkedBox = 'checked'
-            unavailable = 'available'
             style = 'green'
             header = 'Toy is in Stock'
         }
-        if (toy.inStock === false) {
+        if (toy.inStock === 'Unavailable') {
             checkedBox = 'checked'
-            unavailable = 'unavailable'
             style = 'red'
             header = 'Toy is Not available'
         }
-    }
+    // }
 
-    if (unavailable === '' || unavailable === 'unavailable') setStockTo = 'available'
-    if (unavailable === 'available') setStockTo = 'unavailable'
+    if (toy.inStock === '' || toy.inStock === 'Unavailable') setStockTo = 'available'
+    if (toy.inStock === 'available') setStockTo = 'Unavailable'
 
     return (
-        <article className={`toy-preview`}>
-            <section className={` ${unavailable}`}>
+        <Card  sx={{textAlign: "center"}}>
+            <CardContent className={` ${toy.inStock}`}>
                 <h2> Toy's Name: {toy.txt}</h2>
                 <h4>Toy price: ${toy.price}</h4>
                 <article className="createdAt">Created At:{date}</article>
-            </section>
              <ImgCmp imgSrc={`https://robohash.org/${toy._id}`} imgTitle={'Toy Image'}/>
-            {/* <img className="toy-img" src={`https://robohash.org/${toy._id}`} alt="Toy Image" /> */}
-            <h4>{header}</h4>
-            <label htmlFor="checkbox" className="grid">
-                {`Set Toy Stock To ${setStockTo}`}
-                <input style={{ accentColor: style }} checked={checkedBox} onChange={() => onToggleInStock(toy)} type="checkbox" name="in-stock" id="in-stock" />
-            </label>
-        </article>
+            </CardContent>
+         </Card > 
     )
 }

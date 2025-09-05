@@ -63,10 +63,10 @@ function MyMap() {
     return (
 
         <APIProvider apiKey={API_KEY}>
-            <Box sx={{ height: '70vh', textAlign: 'center' }}>
+            <Box sx={{ height: '80vh', textAlign: 'center' }}>
                 <h1> Shope branch Map </h1>
 
-                <List component="nav" sx={{ display: 'flex' }}>
+                <List component="nav"  sx={{ display: 'flex' , padding : '.0em'}}>
 
                     {branches && branches.map(branch => {
                         return <ListItemButton
