@@ -2,13 +2,14 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadToys, removeToy, saveToy, setFilter, setToysLabels } from "../store/actions/toy.actions.js"
+import { loadToys, removeToy, saveToy, setFilter, setToysLabels, updateToy } from "../store/actions/toy.actions.js"
 
 import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
 import { AppHeader } from "../cmps/AppHeader.jsx"
+import { Box, Container } from "@mui/material"
 
 export function ToyIndex() {
 
@@ -24,7 +25,7 @@ export function ToyIndex() {
     }, [])
 
 
-    useEffectOnUpdate(setToysLabels,toys)
+    useEffectOnUpdate(setToysLabels, toys)
 
     useEffect(() => {
         setSearchParamsFromFilter()
@@ -46,7 +47,7 @@ export function ToyIndex() {
 
         if (filterBy.txt) sp.set('txt', filterBy.txt)
         if (filterBy.price) sp.set('price', filterBy.price)
-        if (filterBy.inStock !== '' && filterBy.inStock !== undefined ) {
+        if (filterBy.inStock !== '' && filterBy.inStock !== undefined) {
             sp.set('inStock', filterBy.inStock)
         }
         if (filterBy.labels?.length) {
@@ -70,7 +71,7 @@ export function ToyIndex() {
 
     function onToggleInStock(toy) {
         const toyToSave = { ...toy, inStock: !toy.inStock }
-        saveToy(toyToSave)
+        updateToy(toyToSave)
             .then((savedToy) => showSuccessMsg(`Toy ${(savedToy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`))
             .catch(err => {
                 console.log('problem setting toy stock', err)
@@ -79,22 +80,19 @@ export function ToyIndex() {
     }
 
     return (
-        <section className="toy-index">
-            <AppHeader/>
+        <Container>
+            <AppHeader />
             <ToyFilter filterBy={filterBy} />
-            <div>
+            <Box >
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
-            </div>
-            <h2>Toys List</h2>
-            { toys &&
-             <>
+            </Box>
+            {toys &&
+                <Container>
+                    <h2>Toys List</h2>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
-                    <hr />
-                    <h2>Toys Table</h2>
-                    <div style={{ width: '60%', margin: 'auto' }}>
-                    </div>
-                </>
+                </Container>
+
             }
-        </section>
+        </Container>
     )
 }
