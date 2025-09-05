@@ -3,7 +3,7 @@ import { utilService } from "../services/util.service.js"
 import { useEffect, useRef, useState } from "react"
 import { setFilter } from "../store/actions/toy.actions.js"
 import { useSelector } from "react-redux"
-import { MultiSelect } from "../cmps/MeterialUi/MultiSelect.jsx";
+import { FilterMultiSelect } from "./MeterialUi/FilterMultiSelect.jsx";
 
 export function ToyFilter({ filterBy }) {
 
@@ -20,7 +20,6 @@ export function ToyFilter({ filterBy }) {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-
         var updatedField = []
 
 
@@ -37,7 +36,7 @@ export function ToyFilter({ filterBy }) {
                     value = utilService.getInStockValue(value)
                 }
                 break
-            case 'MultiSelect':
+            case 'FilterMultiSelect':
                 if (value === 'Available') value = true
                 else if (value === 'Unavailable') value = false
                 else value = ''
@@ -88,7 +87,7 @@ export function ToyFilter({ filterBy }) {
                 />
                 <div className="sortFilter flex">
                     <section className="selections">
-                        <MultiSelect handleChange={handleChange} onSetFilterByToEdit={onSetFilterByToEdit} filterByToEdit={filterByToEdit} items={stateLabels} />
+                        <FilterMultiSelect handleChange={handleChange} onSetFilterByToEdit={onSetFilterByToEdit} filterByToEdit={filterByToEdit} items={stateLabels} />
                     </section>
                 </div>
                 <div>
