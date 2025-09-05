@@ -32,7 +32,7 @@ export function LineChart({ items }) {
                     borderColor: item.color,
                     backgroundColor: "lightblue",
                     fill: false,
-                    tension: 0.3,
+                    tension: 0.1,
                 }
             })
         }
