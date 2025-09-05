@@ -1,3 +1,4 @@
+import { Box, Container } from "@mui/material"
 import { useEffect, useState } from "react"
 
 export function PopUp({ children, header, footer, isOpen = false, onClose = () => { } }) {
@@ -26,14 +27,14 @@ export function PopUp({ children, header, footer, isOpen = false, onClose = () =
 
     if (!isOpenPopUp) return null
     return (
-        <div onClick={onClosePopUp} className="popup-backdrop">
-            <div onClick={ev => ev.stopPropagation()} className="popup-container">
+        <Box  onClick={onClosePopUp} className="popup-backdrop">
+            <Box onClick={ev => ev.stopPropagation()} className="popup-container">
                 {header && <header className="popup-header">{header}</header>}
-                <main className="popup-main">
+                <Container className="popup-main">
                     {children}
-                </main>
+                </Container>
                 {footer && <footer className="popup-footer">{footer}</footer>}
-            </div>
-        </div>
+            </Box>
+        </Box>
     )
 }
