@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import MyForm from "../cmps/formik/MyForm.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
+import { Box, Container } from "@mui/material"
 
 export function ToyEdit() {
 
@@ -33,12 +34,14 @@ export function ToyEdit() {
 
 
     return (
-        <section className="toy-edit">
-             <AppHeader/>
-            <MyForm
-                key={toyToEdit._id || 'new'}
-                onSaveToy={onSaveToy}
-                toyToEdit={toyToEdit} />
-        </section>
+        <Container className="toy-edit">
+            <AppHeader />
+            <Box display="flex" sx={{width:'300px'}}>
+                <MyForm
+                    key={toyToEdit._id || 'new'}
+                    onSaveToy={onSaveToy}
+                    toyToEdit={toyToEdit} />
+            </Box>
+        </Container>
     )
 }

@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import { useState } from 'react'
 
 export function ImgCmp({ imgSrc ,imgTitle }) {
@@ -8,7 +9,7 @@ export function ImgCmp({ imgSrc ,imgTitle }) {
     }
 
     return (
-        <div className="img-container">
+        <Box  className="img-cmp">
             {isImgLoading && <div className="skeleton-loader"></div>}
             <img
                 src={imgSrc}
@@ -17,6 +18,6 @@ export function ImgCmp({ imgSrc ,imgTitle }) {
                 onLoad={handleImageLoaded}
                 className={isImgLoading ? '' : 'loaded'}
             />
-        </div>
+        </Box>
     )
 }
