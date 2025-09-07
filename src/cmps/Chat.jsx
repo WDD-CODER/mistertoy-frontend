@@ -1,7 +1,8 @@
+import { Box, Button, Container, Paper, Stack, TextField, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
 
 export function Chat() {
-    
+
     const [msgs, setMsgs] = useState([])
     const [userInput, setUserInput] = useState('')
     const msgsRef = useRef()
@@ -16,13 +17,13 @@ export function Chat() {
     }, [msgs])
 
     function addMsg(text, from) {
-
         const newMsg = {
             id: Date.now(),
             text,
             from,
-            timeStemp: new Date().toLocaleTimeString()
+            timeStamp: new Date().toLocaleTimeString()
         }
+        console.log("🚀 ~ addMsg ~ newMsg.timeStamp:", newMsg.timeStamp)
         setMsgs(prevMsg => [...prevMsg, newMsg])
     }
 
@@ -40,27 +41,27 @@ export function Chat() {
     }
 
     return (
-        <div className="chat-container">
-            <div ref={msgsRef} className="chat-msgs">
+        <Container className="chat-container">
+            <Stack gap={2} ref={msgsRef} className="chat-msgs">
                 {msgs.map(msg => {
-                   return <div key={msg.id} className={`message ${msg.from === 'user' ? 'user' : 'other'}`}>
-                        <section>
-                            <span className="timestamp">{msg.timestamp}</span>
-                            <h3>{msg.from === 'user' ? 'You' : msg.from}: </h3>
-                        </section>
-                         <p>{msg.text}</p>
-                    </div>
+                    return <Box key={msg.id} className={`message ${msg.from === 'user' ? 'user' : 'other'}`}>
+                        <Paper elevation={3} sx={{ p: 2 }}>
+                            <Typography fontSize={10} color="green" className="timestamp">{msg.timeStamp}</Typography >
+                            <Typography fontSize={12} color={msg.from === 'user' ? 'blue' : 'red'} variant="body2">{msg.from === 'user' ? 'You' : msg.from} </Typography>
+                            <Typography variant="body1">{msg.text}</Typography>
+                        </Paper>
+                    </Box>
                 })}
-            </div>
-            <form onSubmit={handleSubmit} className="chat-input-form">
-                <input
+            </Stack>
+            <Stack gap={1} marginTop={2} direction="column" className="chat-input-form" >
+                <TextField
                     type="text"
                     value={userInput}
                     onChange={(ev) => setUserInput(ev.target.value)}
                     placeholder="Type your message..."
                 />
-                <button type="submit">Send</button>
-            </form>
-        </div>
+                <Button variant="contained" type="submit" onClick={handleSubmit}>Send</Button>
+            </Stack>
+        </Container>
     )
 }

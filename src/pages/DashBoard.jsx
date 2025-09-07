@@ -6,6 +6,7 @@ import { LineChart } from "../cmps/chartJs/LineChart.jsx";
 import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
 import { AppHeader } from "../cmps/AppHeader.jsx";
+import { Box, Container } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -22,26 +23,25 @@ export function DashBoard() {
 
     }, [])
 
-
     return (
-        <>
-            {toys && <div className="dash-board">
-                <AppHeader />
-                <section className="dash-board-container">
-                    <div className="circle-charts">
-                        <article className="doughnut-chart-container">
-                            <DoughnutChart className="doughnut-chart" items={toys} />
-                        </article>
-                        <article className="pia-chart-container">
-                            <PiaChart className="pia-chart" items={toys} />
-                        </article>
-                    </div>
-                    <article className="line-chart-container">
-                        <LineChart className="line-chart" items={toys} />
-                    </article>
-                </section>
-            </div>}
-        </>
+        <Container >
+            <AppHeader />
+            {toys &&
+                <Box >
+                    <Container sx={{ display: "flex", justifyContent: 'space-evenly' }} className="dash-board-container">
+                        <Box sx={{ height: '30vh' }}>
+                            <DoughnutChart items={toys} />
+                        </Box>
+                        <Box sx={{ height: '30vh' }}>
+                            <PiaChart items={toys} />
+                        </Box>
+                    </Container>
+                        <Box sx={{ height: '50vh' }} className="line-chart-container">
+                               <LineChart className="line-chart" items={toys} />
+                        </Box>
+                </Box>
+                }
+        </Container>
     )
 
 }

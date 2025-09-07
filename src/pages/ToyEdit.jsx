@@ -22,8 +22,6 @@ export function ToyEdit() {
     function onSaveToy(toyToEdit) {
         saveToy(toyToEdit)
             .then((savedToy) => {
-                console.log('savedToy')
-
                 navigate('/toy')
                 showSuccessMsg(`Toy Saved (id: ${savedToy._id})`)
             })

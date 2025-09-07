@@ -11,6 +11,7 @@ import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
+import { Box, Button, Container, Stack, Toolbar } from "@mui/material"
 
 export function ToyDetails() {
 
@@ -23,7 +24,7 @@ export function ToyDetails() {
     useEffect(() => {
         if (toyId) {
             getToy(toyId)
-            .then(setToy)
+                .then(setToy)
         }
     }, [toyId])
 
@@ -35,26 +36,28 @@ export function ToyDetails() {
 
 
     return (
-        <>
-       {toy && <section className={'toy-details'}>
-             <AppHeader/>
-            <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
-            <LabelsList toy={toy} setToy={setToy} />
-            <button><Link to={`/toy/`}>Back to list</Link></button>
-            <div className="prev-next-btns flex" >
-                <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link>
-                <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link>
-            </div>
-            <PopUp
-                header={<h3>Chat About {toy.txt}s</h3>}
-                footer={<h4>&copy; 2025-9999 Toys INC.</h4>}
-                onClose={() => setIsChatOpen(false)}
-                isOpen={isChatOpen}
-            >
-                <Chat />
-            </PopUp>
-            {!isChatOpen && <button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</button>}
-        </section>}
-                </>
+        <Container>
+            <AppHeader />
+            {toy && <Box className={'toy-details'}>
+                <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
+                <LabelsList toy={toy} setToy={setToy} />
+                
+                <Button><Link to={`/toy/`}>Back to list</Link></Button>
+                {!isChatOpen && <Button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</Button>}
+
+                <Toolbar className="prev-next-btns flex" >
+                    <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link>
+                    <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link>
+                </Toolbar>
+                <PopUp
+                    header={<h3>Chat About {toy.txt}s</h3>}
+                    footer={<h4>&copy; 2025-9999 Toys INC.</h4>}
+                    onClose={() => setIsChatOpen(false)}
+                    isOpen={isChatOpen}
+                >
+                    <Chat />
+                </PopUp>
+            </Box>}
+        </Container>
     )
 }

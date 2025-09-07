@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export function MultiSelect({ items, onSetFilterByToEdit, handleChange, filterByToEdit }) {
+export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, filterByToEdit }) {
     const sortByOptions = ['txt', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
     const stockValue = getData()
@@ -42,7 +42,7 @@ export function MultiSelect({ items, onSetFilterByToEdit, handleChange, filterBy
                 multiple={false}
                 options={selectOptions}
                 value={stockValue}
-                onChange={(event, newValue) => handleChange({ target: { name: 'inStock', type: 'MultiSelect', value: newValue } })}
+                onChange={(event, newValue) => handleChange({ target: { name: 'inStock', type: 'FilterMultiSelect', value: newValue } })}
                 renderInput={(params) => (
                     <TextField
                         {...params}

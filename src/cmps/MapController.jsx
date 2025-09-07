@@ -2,11 +2,12 @@ import { useMap } from '@vis.gl/react-google-maps';
 import { useEffect } from 'react';
 
 
-const MapController = ({ branch ,setPosition}) => {
+const MapController = ({ branch, setPosition, isOpen }) => {
     const map = useMap();
 
     useEffect(() => {
-                if (map && branch && branch.location) {
+        if (isOpen) return
+        if (map && branch && branch.location) {
             map.panTo(branch.location)
             setPosition(branch.location)
         }
