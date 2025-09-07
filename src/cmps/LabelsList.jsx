@@ -77,12 +77,6 @@ const demoLabels = toyService.getDemoLabels()
                     />
                 )}
             />
-            {/* <Box className="sortBy flex">
-                <FormControlLabel control={<Checkbox onChange={() => handleChange({
-                    target: { name: 'sortDir', type: 'checkbox', }
-                })} />}
-                    label={"sortDir"} />
-            </Box> */}
         </Stack>
 
 
