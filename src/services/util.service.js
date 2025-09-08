@@ -7,7 +7,7 @@ export const utilService = {
     animateCSS,
     debounce,
     throttle,
-    getInStockValue,
+    getStockModifiedValue,
     getRandomColor
 }
 
@@ -81,10 +81,10 @@ function throttle(fn, delay) {
     }
 }
 
-function getInStockValue(inStock) {
-    if (inStock === '') return ''
-    if (inStock === 'true') return true
-    if (inStock === 'false') return false
+function getStockModifiedValue(value) {
+    if (value === 'All') return ''
+    if (value === 'Available') return true
+    if (value === 'Unavailable') return false
 }
 
 function getRandomColor() {
