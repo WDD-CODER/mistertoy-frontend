@@ -8,6 +8,7 @@ import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
 import { AppHeader } from "../cmps/AppHeader.jsx";
 import { Box, Container } from "@mui/material";
 import { showErrorMsg } from "../services/event-bus.service.js";
+import { AppFooter } from "../cmps/AppFooter.jsx";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -29,7 +30,7 @@ export function DashBoard() {
         fetchToys()
     }, [])
 
-    
+
     return (
         <Container >
             <AppHeader />
@@ -48,6 +49,7 @@ export function DashBoard() {
                     </Box>
                 </Box>
             }
+            <AppFooter />
         </Container>
     )
 

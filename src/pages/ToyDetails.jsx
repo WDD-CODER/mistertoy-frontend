@@ -12,6 +12,7 @@ import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Button, Container, Stack, Toolbar } from "@mui/material"
+import { AppFooter } from "../cmps/AppFooter.jsx"
 
 export function ToyDetails() {
 
@@ -58,6 +59,7 @@ export function ToyDetails() {
                     <Chat />
                 </PopUp>
             </Box>}
+            <AppFooter/>
         </Container>
     )
 }

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import MyForm from "../cmps/formik/MyForm.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"
+import { AppFooter } from "../cmps/AppFooter.jsx"
 
 export function ToyEdit() {
 
@@ -42,6 +43,7 @@ export function ToyEdit() {
                     onSaveToy={onSaveToy}
                     toyToEdit={toyToEdit} />
             </Box>
+            <AppFooter/>
         </Container>
     )
 }
