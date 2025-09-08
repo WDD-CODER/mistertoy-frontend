@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { TextFields } from '@mui/icons-material';
-import { FormControl, InputLabel, MenuItem, Select, Switch } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import { useSelector } from "react-redux"
 import { FilterMultiSelect } from "./MeterialUi/FilterMultiSelect.jsx";
 import { Container, Typography } from "@mui/material";
@@ -35,7 +35,7 @@ export function ToyFilter({ filterBy }) {
         let value = target.value
         var updatedField = []
 
-        switch (target.type || target.name ) {
+        switch (target.type || target.name) {
             case 'number':
             case 'range':
                 value = +value || ''
@@ -71,91 +71,104 @@ export function ToyFilter({ filterBy }) {
     }
 
     return (
-        <Container sx={{ placeItems: "center" }} className="toy-filter">
-            <Stack sx={{ border: 1, padding: 1 }} >
-                <Typography variant="h4">Filter Toys</Typography>
-                <FormControl >
-                    <TextField
-                        value={txt}
-                        onChange={handleChange}
-                        type="search"
-                        label="Search By Txt"
-                        id="txt" name="txt"
-                    />
-                </FormControl>
+        <Container sx={{ placeItems: "center", backgroundColor: 'secondary.main', padding:'1em'}} >
+            <Typography variant="h4">Filter Toys</Typography>
+            <Grid container spacing={2} >
+                <Grid item xs={12} sm={6}>
+                    <FormControl >
+                        <TextField
+                            value={txt}
+                            onChange={handleChange}
+                            type="search"
+                            label="Search By Txt"
+                            id="txt" name="txt"
+                        />
+                    </FormControl>
+                </Grid>
 
-                <FormControl>
-                    <TextField
-                        value={price}
-                        onChange={handleChange}
-                        type="number"
-                        label="Minimum Price"
-                        id="price"
-                        name="price"
-                    />
-                </FormControl>
+                <Grid item xs={12} sm={6}>
+                    <FormControl>
+                        <TextField
+                            value={price}
+                            onChange={handleChange}
+                            type="number"
+                            label="Minimum Price"
+                            id="price"
+                            name="price"
+                        />
+                    </FormControl>
+                </Grid>
 
-                <FormControl>
-                    <InputLabel id="labels-select-label">Choose LabelsList</InputLabel>
-                    <Select
-                        multiple
-                        value={filterByToEdit.labels}
-                        onChange={handleChange}
-                        type='select-multiple'
-                        name="labels"
-                        variant="standard"
-                    >
-                        <MenuItem disabled value=""></MenuItem>
-                        {stateLabels.map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <Grid item xs={12} sm={6}>
+                    <FormControl>
+                        <InputLabel id="labels-select-label">Choose LabelsList</InputLabel>
+                        <Select
+                            multiple
+                            value={filterByToEdit.labels}
+                            onChange={handleChange}
+                            type='select-multiple'
+                            name="labels"
+                            variant="standard"
+                        >
+                            <MenuItem disabled value=""></MenuItem>
+                            {stateLabels.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
 
-                <FormControl>
-                    <InputLabel id="availability">Select Toy availability</InputLabel>
-                    <Select
-                        value={getStockData()}
-                        onChange={handleChange}
-                        name="inStock"
-                        variant="standard"
-                    >
-                        <MenuItem value='All'>All</MenuItem>
-                        <MenuItem value='Available'>Available</MenuItem>
-                        <MenuItem value='Unavailable'>Unavailable</MenuItem>
-                    </Select>
-                </FormControl>
+                <Grid item xs={12} sm={6}>
+                    <FormControl>
+                        <InputLabel id="availability">Select Toy availability</InputLabel>
+                        <Select
+                            value={getStockData()}
+                            onChange={handleChange}
+                            name="inStock"
+                            variant="standard"
+                        >
+                            <MenuItem value='All'>All</MenuItem>
+                            <MenuItem value='Available'>Available</MenuItem>
+                            <MenuItem value='Unavailable'>Unavailable</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
 
-                <FormControl>
-                    <InputLabel id="availability">Select Sort By</InputLabel>
-                    <Select
-                        value={filterByToEdit.sortBy}
-                        onChange={handleChange}
-                        name="sortBy"
-                        variant="standard"
-                    >
-                        <MenuItem value='txt'>Toy Name</MenuItem>
-                        <MenuItem value='price'>Toy Price</MenuItem>
-                        <MenuItem value='createdAt'>Time of creation</MenuItem>
-                    </Select>
-                </FormControl>
+                <Grid item xs={12} sm={6}>
+                    <FormControl>
+                        <InputLabel id="availability">Select Sort By</InputLabel>
+                        <Select
+                            value={filterByToEdit.sortBy}
+                            onChange={handleChange}
+                            name="sortBy"
+                            variant="standard"
+                        >
+                            <MenuItem value='txt'>Toy Name</MenuItem>
+                            <MenuItem value='price'>Toy Price</MenuItem>
+                            <MenuItem value='createdAt'>Time of creation</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
 
-                <FormControl>
-                    <FormControlLabel
-                        label={filterByToEdit.sortDir ? 'Descending' : 'Ascending'}
-                        control={
-                            <Switch
-                                name='sortDir'
-                                type='checkbox'
-                                checked={filterByToEdit.sortDir}
-                                onChange={handleChange}
-                            />
-                        }
-                    />
-                </FormControl>
-            </Stack>
+                <Grid item xs={12} sm={6}>
+                    <FormControl>
+                        <FormControlLabel
+                            label={filterByToEdit.sortDir ? 'Descending' : 'Ascending'}
+                            control={
+                                <Switch
+                                    name='sortDir'
+                                    type='checkbox'
+                                    checked={filterByToEdit.sortDir}
+                                    onChange={handleChange}
+                                />
+                            }
+                        />
+                    </FormControl>
+                </Grid>
+                
+            </Grid>
         </Container >
     )
 }
