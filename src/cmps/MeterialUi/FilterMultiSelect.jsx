@@ -6,8 +6,12 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { TextFields } from '@mui/icons-material';
+import { FormControl, MenuItem } from '@mui/material';
 
 export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, filterByToEdit }) {
+    console.log("🚀 ~ FilterMultiSelect ~ filterByToEdit:", filterByToEdit)
+    console.log("🚀 ~ FilterMultiSelect ~ items:", items)
     const sortByOptions = ['txt', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
     const stockValue = getData()
@@ -20,6 +24,8 @@ export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, fi
 
     return (
         <Stack spacing={3} sx={{ width: 350, border: 1, padding: 1 }} >
+            <FormControl fullWidth variant="standard">
+
             <Autocomplete
                 multiple
                 id="tags-standard"
@@ -29,29 +35,28 @@ export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, fi
                 getOptionLabel={(option) => option}
                 renderInput={(params) => (
                     <TextField
-                        {...params}
+                    {...params}
                         variant="standard"
                         label="Choose LabelsList"
                         placeholder="Select Label "
                     />
                 )}
-            />
-
-            <Autocomplete
-                id="tags-filled"
-                multiple={false}
-                options={selectOptions}
-                value={stockValue}
-                onChange={(event, newValue) => handleChange({ target: { name: 'inStock', type: 'FilterMultiSelect', value: newValue } })}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Stock Status"
-                        variant="filled"
-                        placeholder="Filter By Availability"
-                    />
-                )}
-            />
+                />
+                </FormControl>
+{/* 
+            <TextField
+                select
+                label="Choose LabelsList"
+                value={filterByToEdit.labels}
+                onChange={(event) => onSetFilterByToEdit(prevFilter => ({ ...prevFilter, labels: event.target.value }))}
+                variant="standard"
+            >
+                {items.map((option) => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </TextField>
             <div className="sortBy flex">
                 <FormControlLabel control={<Checkbox onChange={() => handleChange({
                     target: { name: 'sortDir', type: 'checkbox', }
@@ -63,7 +68,9 @@ export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, fi
                     multiple={false}
                     options={sortByOptions}
                     value={filterByToEdit.sortBy}
-                    onChange={(event, newValue) => handleChange({ target: { name: 'sortBy', type: 'select-one', value: newValue } })}
+                    onChange={(event, newValue) =>
+                        handleChange({ target: { name: 'sortDir', type: 'checkbox', checked: event.target.checked } })
+                    }
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -73,7 +80,7 @@ export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, fi
                         />
                     )}
                 />
-            </div>
+            </div> */}
         </Stack>
     );
 }
