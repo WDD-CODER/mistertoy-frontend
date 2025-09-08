@@ -7,22 +7,29 @@ import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
 import { AppHeader } from "../cmps/AppHeader.jsx";
 import { Box, Container } from "@mui/material";
+import { showErrorMsg } from "../services/event-bus.service.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export function DashBoard() {
 
+    async function fetchToys() {
+        try {
+            const toys = await loadToys()
+            setToys(toys)
+        } catch (error) {
+            showErrorMsg(" Can't load toys properly ")
+        }
+    }
+
     const [toys, setToys] = useState()
 
     useEffect(() => {
-        loadToys()
-            .then(toys => {
-                setToys(toys)
-            })
-
+        fetchToys()
     }, [])
 
+    
     return (
         <Container >
             <AppHeader />
@@ -36,11 +43,11 @@ export function DashBoard() {
                             <PiaChart items={toys} />
                         </Box>
                     </Container>
-                        <Box sx={{ height: '50vh' }} className="line-chart-container">
-                               <LineChart className="line-chart" items={toys} />
-                        </Box>
+                    <Box sx={{ height: '50vh' }} className="line-chart-container">
+                        <LineChart className="line-chart" items={toys} />
+                    </Box>
                 </Box>
-                }
+            }
         </Container>
     )
 
