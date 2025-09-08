@@ -6,8 +6,8 @@ import { Autocomplete, Stack, TextField } from "@mui/material"
 import { toyService } from "../services/toy.service"
 
 export function LabelsList({ toy }) {
-const stockValues = toyService.getStockValues().slice(1)
-const demoLabels = toyService.getDemoLabels()
+    const stockValues = toyService.getStockValues().slice(1)
+    const demoLabels = toyService.getDemoLabels()
 
     const [labels, setLabels] = useState(toy.labels)
     const [inStock, setInStock] = useState(toy.inStock)
@@ -22,28 +22,42 @@ const demoLabels = toyService.getDemoLabels()
     }
 
     function onUpdateToyLabels() {
-        const updatedToy = { ...toy, labels}
-        updateToy(updatedToy)
-            .then(() => showSuccessMsg('Updated Toy Labels'))
-            .catch(err => {
-                console.log(`Couldn't add label`, err)
-                showErrorMsg('toy label not add'), err
-            })
+        const updatedToy = { ...toy, labels }
+        try {
+            updateToy(updatedToy)
+            showSuccessMsg('Updated Toy Labels')
+        } catch (err) {
+            console.log(`Couldn't add label`, err)
+            showErrorMsg('toy label not add'), err
+        }
     }
 
-    function onUpdateToyStockValue() {
-        const updatedToy = { ...toy, inStock}
-        updateToy(updatedToy)
-            .then(() => showSuccessMsg('Updated Toy Stock Value'))
-            .catch(err => {
-                console.log(`Couldn't add label`, err)
-                showErrorMsg('toy label not add'), err
-            })
+
+    async function onUpdateToyStockValue() {
+        try {
+            const updatedToy = { ...toy, inStock }
+            await updateToy(updatedToy)
+            showSuccessMsg('Updated Toy Stock Value')
+        } catch (error) {
+            console.log(`Couldn't add label`, err)
+            showErrorMsg('toy label not add'), err
+        }
+    }
+
+    async function onUpdateToyStockValue() {
+        const updatedToy = { ...toy, inStock }
+        try {
+            await updateToy(updatedToy)
+            showSuccessMsg('Updated Toy Stock Value')
+        } catch (err) {
+            console.log(`Couldn't update toy stock`, err)
+            showErrorMsg('Failed to update toy stock.')
+        }
     }
 
     return (
-        <Stack spacing={3} sx={{ width: 'auto', border: 1, padding: 1, justifyContent:'space-evenly' }} >
-            <Autocomplete
+        <Stack spacing={3} sx={{ width: 'auto', border: 1, padding: 1, justifyContent: 'space-evenly' }} >
+            {/* <Autocomplete
                 multiple
                 id="tags-standard"
                 options={demoLabels}
@@ -60,9 +74,9 @@ const demoLabels = toyService.getDemoLabels()
                         placeholder="Select Label "
                     />
                 )}
-            />
+            /> */}
 
-            <Autocomplete
+            {/* <Autocomplete
                 id="tags-filled"
                 multiple={false}
                 options={stockValues}
@@ -76,7 +90,7 @@ const demoLabels = toyService.getDemoLabels()
                         placeholder="Select Toy Stock Value"
                     />
                 )}
-            />
+            /> */}
         </Stack>
 
 

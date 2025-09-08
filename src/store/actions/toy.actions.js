@@ -91,8 +91,6 @@ export function setFilter(filterBy) {
 
 
 export function updateToy(toy) {
-    console.log("🚀 ~ updateToy ~ toy:", toy)
-    // store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     return toyService.save(toy)
         .then(toy => {
             store.dispatch({ type: UPDATE_TOY, toy })
@@ -102,7 +100,6 @@ export function updateToy(toy) {
             console.log('toy.action -> cant add toy label', err)
             throw err
         })
-        // .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 
 
 }
