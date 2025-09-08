@@ -7,7 +7,7 @@ export function AppHeader() {
     return (
         <AppBar position="static" sx={{ padding: 2, marginBottom: 1 }}>
             {/* All h1 styling is handled by the theme */}
-            <Typography variant="h2" sx={{ textAlign: 'center' }}>
+            <Typography margin={0} variant="h2" sx={{ textAlign: 'center' }}>
                 Mister Toy Shope
             </Typography>
             <Toolbar variant="dense" sx={{ justifyContent: "flex-end" }}>
