@@ -54,7 +54,7 @@ object {
   width: 50%;
 }
 
-.Unavailable {
+.unavailable {
   text-decoration: line-through;
   font-style: italic;
 }
