@@ -30,49 +30,54 @@ export const toyService = {
 
 // LIST
 
-function query(filterBy = {}) {
-    return storageService.query(TOY_KEY)
-        .then(toys => {
-            if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                toys = toys.filter(toy => regExp.test(toy.txt))
+async function query(filterBy = {}) {
+    let toys
+    try {
+        toys = await storageService.query(TOY_KEY)
+        if (filterBy.txt) {
+            const regExp = new RegExp(filterBy.txt, 'i')
+            toys = toys.filter(toy => regExp.test(toy.txt))
+        }
+
+        if (filterBy.price) {
+            toys = toys.filter(toy => toy.price >= filterBy.price)
+        }
+
+        if (filterBy.labels) {
+            if (filterBy.labels.length)
+                toys = toys.filter(toy => {
+                    return filterBy.labels.every(label => toy.labels.includes(label))
+                })
+        }
+
+        if (typeof filterBy.inStock === 'boolean') {
+            toys = toys.filter(toy => toy.inStock === filterBy.inStock)
+        }
+
+        if (filterBy.sortBy) {
+            const sortDir = filterBy.sortDir ? -1 : 1
+            if (filterBy.sortBy === 'txt') {
+
+
+                toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
             }
 
-            if (filterBy.price) {
-                toys = toys.filter(toy => toy.price >= filterBy.price)
+            if (filterBy.sortBy === 'price') {
+                toys = toys.sort((a, b) => (a.price - b.price) * sortDir)
             }
 
-            if (filterBy.labels) {
-                if (filterBy.labels.length)
-                    toys = toys.filter(toy => {
-                        return filterBy.labels.every(label => toy.labels.includes(label))
-                    })
+            if (filterBy.sortBy === 'createdAt') {
+                toys = toys.sort((a, b) => (a.createdAt - b.createdAt) * sortDir)
             }
 
-            if (typeof filterBy.inStock === 'boolean') {
-                toys = toys.filter(toy => toy.inStock === filterBy.inStock)
-            }
+        }
 
-            if (filterBy.sortBy) {
-                const sortDir = filterBy.sortDir ? -1 : 1
-                if (filterBy.sortBy === 'txt') {
+    } catch (error) {
+        console.log(" Can't load toys")
+    }
+    finally { return toys }
 
 
-                    toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
-                }
-
-                if (filterBy.sortBy === 'price') {
-                    toys = toys.sort((a, b) => (a.price - b.price) * sortDir)
-                }
-
-                if (filterBy.sortBy === 'createdAt') {
-                    toys = toys.sort((a, b) => (a.createdAt - b.createdAt) * sortDir)
-                }
-
-            }
-
-            return toys
-        })
 }
 
 function getBranches() {
@@ -163,6 +168,17 @@ function getLabelsFromToys(toys) {
     })
     return labels
 }
+
+// async function getById(toyId) {
+//     try {
+//      const toy = await storageService.get(TOY_KEY, toyId)
+//      _setNextPrevToyId(toy)
+//         return toy
+//     } catch (error) {
+//         console.log(" Can't get toy by ID")
+//     }
+// }
+
 
 function getById(toyId) {
     return storageService.get(TOY_KEY, toyId)
