@@ -23,7 +23,6 @@ export function Chat() {
             from,
             timeStamp: new Date().toLocaleTimeString()
         }
-        console.log("🚀 ~ addMsg ~ newMsg.timeStamp:", newMsg.timeStamp)
         setMsgs(prevMsg => [...prevMsg, newMsg])
     }
 

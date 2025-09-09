@@ -10,8 +10,6 @@ import { TextFields } from '@mui/icons-material';
 import { FormControl, MenuItem } from '@mui/material';
 
 export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, filterByToEdit }) {
-    console.log("🚀 ~ FilterMultiSelect ~ filterByToEdit:", filterByToEdit)
-    console.log("🚀 ~ FilterMultiSelect ~ items:", items)
     const sortByOptions = ['txt', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
     const stockValue = getData()

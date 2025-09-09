@@ -15,7 +15,6 @@ function MyMap() {
     const [position, setPosition] = useState({ lat: 32.0853, lng: 34.7818 })
     const branches = useSelector(state => state.toyModule.branches)
     const [branch, setBranch] = useState()
-    console.log("🚀 ~ MyMap ~ branch:", branch)
     const [isOpen, setIsOpen] = useState(false);
     const [markerColor, setMarkerColor] = useState();
     const curBranchIdx = useRef()

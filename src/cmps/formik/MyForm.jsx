@@ -16,8 +16,6 @@ const SignupSchema = Yup.object().shape({
 });
 
 const MyForm = ({ onSaveToy, toyToEdit }) => {
-    console.log("🚀 ~ MyForm ~ toyToEdit:", toyToEdit)
-
     return (
 
         <Container >
@@ -47,7 +45,7 @@ const MyForm = ({ onSaveToy, toyToEdit }) => {
                             sx={{ color: values.inStock ? 'success.main' : 'error.main' }}
                             control={<Field name="inStock" as={Switch} />}
                         />
-                        {errors.inStock && touched.inStock ? (<Box>{errors.inStock}</Box>) : null}
+                        {/* {errors.inStock && touched.inStock ? (<Box>{errors.inStock}</Box>) : null} */}
                     </FormLabel>
                     <Button type="submit">Submit</Button>
                 </Form>)}
