@@ -97,7 +97,7 @@ export function updateToy(toy) {
             return toy
         })
         .catch(err => {
-            console.log('toy.action -> cant add toy label', err)
+            console.log('toy.action -> cant update Toy', err)
             throw err
         })
 }
