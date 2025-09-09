@@ -113,7 +113,7 @@ function _createToys() {
             'Turbo Tumble',
             'Wobble-Whirl'
         ]
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 10; i++) {
             const txt = toyNames[i]
             toys.push(_createToy(txt, utilService.getRandomIntInclusive(10, 300)))
         }
