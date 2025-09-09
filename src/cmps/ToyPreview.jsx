@@ -1,7 +1,7 @@
 import { Card, CardContent} from "@mui/material"
 import { ImgCmp } from "./ImgCmp"
 
-export function ToyPreview({ toy, onToggleInStock }) {
+export function ToyPreview({ toy }) {
     var setStockTo
     const date = new Date(toy.createdAt).toLocaleDateString()
 
