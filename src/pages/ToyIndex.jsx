@@ -30,7 +30,7 @@ export function ToyIndex() {
     useEffectOnUpdate(setToysLabels, toys)
 
     useEffect(() => {
-        setSearchParamsFromFilter()
+       toyService.setSearchParamsFromFilter(filterBy,setSearchParams )
     }, [filterBy])
 
 
@@ -44,41 +44,26 @@ export function ToyIndex() {
     }, [filterBy])
 
 
-    function setSearchParamsFromFilter() {
-        const sp = new URLSearchParams()
-
-        if (filterBy.txt) sp.set('txt', filterBy.txt)
-        if (filterBy.price) sp.set('price', filterBy.price)
-        if (filterBy.inStock !== '' && filterBy.inStock !== undefined) {
-            sp.set('inStock', filterBy.inStock)
-        }
-        if (filterBy.labels?.length) {
-            sp.set('labels', [...filterBy.labels])
-        }
-        if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
-        if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
-
-        setSearchParams(sp)
-    }
-
 
     function onRemoveToy(toyId) {
-        removeToy(toyId)
-            .then(() => showSuccessMsg(`Toy removed`))
-            .catch(err => {
-                console.log(' Problem while trying to remove toy', err)
-                showErrorMsg('toy was not removed!')
-            })
+        try {
+            removeToy(toyId)
+            showSuccessMsg(`Toy removed`)
+        } catch (err) {
+            console.log(' Problem while trying to remove toy', err)
+            showErrorMsg('toy was not removed!')
+        }
     }
 
     function onToggleInStock(toy) {
-        const toyToSave = { ...toy, inStock: !toy.inStock }
-        updateToy(toyToSave)
-            .then((savedToy) => showSuccessMsg(`Toy ${(savedToy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`))
-            .catch(err => {
-                console.log('problem setting toy stock', err)
-                showErrorMsg('toy stock not changed ' + toy._Id)
-            })
+        try {
+            const toyToSave = { ...toy, inStock: !toy.inStock }
+            updateToy(toyToSave)
+            showSuccessMsg(`Toy ${(toy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`)
+        } catch (err) {
+            console.log('problem setting toy stock', err)
+            showErrorMsg('toy stock not changed ' + toy._Id)
+        }
     }
 
     return (
@@ -92,7 +77,7 @@ export function ToyIndex() {
                 <Container>
                     <h2>Toys List</h2>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
-                    <AppFooter/>
+                    <AppFooter />
                 </Container>
             }
         </Container>

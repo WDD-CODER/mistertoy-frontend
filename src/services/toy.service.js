@@ -24,6 +24,8 @@ export const toyService = {
     saveBranches,
     getStockValues,
     getDemoLabels,
+    getStockValueToShow,
+    setSearchParamsFromFilter
 }
 
 // LIST
@@ -53,8 +55,9 @@ function query(filterBy = {}) {
 
             if (filterBy.sortBy) {
                 const sortDir = filterBy.sortDir ? -1 : 1
-
                 if (filterBy.sortBy === 'txt') {
+
+
                     toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
                 }
 
@@ -110,7 +113,7 @@ function _createToys() {
             'Turbo Tumble',
             'Wobble-Whirl'
         ]
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 3; i++) {
             const txt = toyNames[i]
             toys.push(_createToy(txt, utilService.getRandomIntInclusive(10, 300)))
         }
@@ -142,9 +145,13 @@ function getDemoLabels() {
     ]
 }
 
-function getToysLabels() {
-    return storageService.query(TOY_KEY)
-        .then(getLabelsFromToys)
+async function getToysLabels() {
+    try {
+        const toys = await storageService.query(TOY_KEY)
+        return getLabelsFromToys(toys)
+    } catch (error) {
+        console.log("Couldn't get toys labels")
+    }
 }
 
 function getLabelsFromToys(toys) {
@@ -213,6 +220,30 @@ function _getToyCountByPriceMap(toys) {
     }, { low: 0, normal: 0, urgent: 0 })
     return toyCountBypriceMap
 }
+
+function getStockValueToShow(item) {
+    if (item.inStock === '') return 'all'
+    else if (item.inStock === false) return 'unavailable'
+    else return 'available'
+}
+
+function setSearchParamsFromFilter(filterBy, setSearchParams) {
+    const sp = new URLSearchParams()
+
+    if (filterBy.txt) sp.set('txt', filterBy.txt)
+    if (filterBy.price) sp.set('price', filterBy.price)
+    if (filterBy.inStock !== '' && filterBy.inStock !== undefined) {
+        sp.set('inStock', filterBy.inStock)
+    }
+    if (filterBy.labels?.length) {
+        sp.set('labels', [...filterBy.labels])
+    }
+    if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
+    if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
+
+    setSearchParams(sp)
+}
+
 
 // UPDATE
 

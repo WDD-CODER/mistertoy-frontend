@@ -16,34 +16,44 @@ export function ToyEdit() {
     const { toyId } = useParams()
 
     useEffect(() => {
-        if (toyId) getToy(toyId)
-            .then(toy => setToyToEdit(toy))
+        fetchToy()
     }, [])
 
+    async function fetchToy() {
+        try {
+            if (toyId) {
+                const toy = await getToy(toyId)
+                setToyToEdit(toy)
+            }
+        } catch (error) {
+            showErrorMsg("can't get toy ")
+        }
+    }
 
-    function onSaveToy(toyToEdit) {
-        saveToy(toyToEdit)
-            .then((savedToy) => {
-                navigate('/toy')
-                showSuccessMsg(`Toy Saved (id: ${savedToy._id})`)
-            })
-            .catch(err => {
-                console.log('Problem while trying to save toy', err)
-                showErrorMsg('Cannot save toy')
-            })
+
+
+    async function onSaveToy(toyToEdit) {
+        try {
+            saveToy(toyToEdit)
+            navigate('/toy')
+            showSuccessMsg(`Toy Saved (id: ${toyToEdit.tzt})`)
+        } catch (err) {
+            console.log('Problem while trying to save toy', err)
+            showErrorMsg('Cannot save toy')
+        }
     }
 
 
     return (
         <Container className="toy-edit">
             <AppHeader />
-            <Box display="flex" sx={{width:'300px'}}>
+            <Box display="flex" sx={{ width: '300px' }}>
                 <MyForm
                     key={toyToEdit._id || 'new'}
                     onSaveToy={onSaveToy}
                     toyToEdit={toyToEdit} />
             </Box>
-            <AppFooter/>
+            <AppFooter />
         </Container>
     )
 }

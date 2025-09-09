@@ -13,20 +13,17 @@ import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Button, Container, Stack, Toolbar } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
+import { Loader } from "../cmps/Loader.jsx"
 
 export function ToyDetails() {
 
-    const isLoading = useSelector(state => state.toyModule.isLoading)
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
 
 
     useEffect(() => {
-        if (toyId) {
-            getToy(toyId)
-                .then(setToy)
-        }
+        fetchToy()
     }, [toyId])
 
     function onToggleInStock(toy) {
@@ -34,15 +31,24 @@ export function ToyDetails() {
         setToy(toyToSave)
     }
 
-
-
+    async function fetchToy() {
+        try {
+            if (toyId) {
+                const toy = await getToy(toyId)
+                setToy(toy)
+            }
+        } catch (error) {
+            showErrorMsg("can't get toy ")
+        }
+    }
+    
     return (
         <Container>
             <AppHeader />
-            {toy && <Box className={'toy-details'}>
+            {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
                 <LabelsList toy={toy} setToy={setToy} />
-                
+
                 <Button><Link to={`/toy/`}>Back to list</Link></Button>
                 {!isChatOpen && <Button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</Button>}
 
@@ -58,8 +64,10 @@ export function ToyDetails() {
                 >
                     <Chat />
                 </PopUp>
-            </Box>}
-            <AppFooter/>
+            </Box>
+             :
+             <Loader/>}
+            <AppFooter />
         </Container>
     )
 }

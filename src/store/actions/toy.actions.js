@@ -100,8 +100,6 @@ export function updateToy(toy) {
             console.log('toy.action -> cant add toy label', err)
             throw err
         })
-
-
 }
 
 // DELETE
