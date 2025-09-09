@@ -82,9 +82,9 @@ function throttle(fn, delay) {
 }
 
 function getStockModifiedValue(value) {
-    if (value === 'All') return ''
-    if (value === 'Available') return true
-    if (value === 'Unavailable') return false
+    if (value === 'all') return ''
+    if (value === 'available') return true
+    if (value === 'unavailable') return false
 }
 
 function getRandomColor() {
