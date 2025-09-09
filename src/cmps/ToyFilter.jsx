@@ -68,7 +68,7 @@ export function ToyFilter({ filterBy }) {
         <Container sx={{ placeItems: "center" }} className="toy-filter">
             <Typography variant="h4">Filter Toys</Typography>
             <Grid container spacing={2}>
-                <Grid sm={6}>
+                <Grid >
 
                     <FormControl >
                         <TextField
@@ -80,7 +80,7 @@ export function ToyFilter({ filterBy }) {
                         />
                     </FormControl>
                 </Grid>
-                <Grid sm={6}>
+                <Grid >
 
                     <FormControl>
                         <TextField
@@ -93,7 +93,7 @@ export function ToyFilter({ filterBy }) {
                         />
                     </FormControl>
                 </Grid>
-                <Grid sm={6}>
+                <Grid>
                     <FormControl>
                         <InputLabel id="labels-select-label">Choose Labels</InputLabel>
                         <Select
@@ -113,7 +113,7 @@ export function ToyFilter({ filterBy }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid sm={6}>
+                <Grid>
 
 
                     <FormControl>
@@ -130,9 +130,7 @@ export function ToyFilter({ filterBy }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid sm={6}>
-
-
+                <Grid >
                     <FormControl>
                         <InputLabel id="sortBy">Select Sort By</InputLabel>
                         <Select
@@ -147,7 +145,7 @@ export function ToyFilter({ filterBy }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid sm={6}>
+                <Grid>
 
 
                     <FormControl>
