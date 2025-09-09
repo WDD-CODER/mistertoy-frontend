@@ -36,11 +36,7 @@ export function ToyIndex() {
 
     useEffect(() => {
         loadToys(filterBy)
-            .catch(err => {
-                console.log(' Problem while trying to load toys ', err)
-                showErrorMsg('Cannot get toys')
-            })
-
+            .catch(() => showErrorMsg('Cannot get toys'))
     }, [filterBy])
 
 
@@ -56,6 +52,7 @@ export function ToyIndex() {
     }
 
     function onToggleInStock(toy) {
+
         try {
             const toyToSave = { ...toy, inStock: !toy.inStock }
             updateToy(toyToSave)
@@ -76,7 +73,7 @@ export function ToyIndex() {
             {toys &&
                 <Container>
                     <h2>Toys List</h2>
-                    <ToyList toys={toys} onRemoveToy={onRemoveToy} onToggleInStock={onToggleInStock} />
+                    <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                     <AppFooter />
                 </Container>
             }
