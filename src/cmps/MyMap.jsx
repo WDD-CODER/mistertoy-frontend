@@ -14,7 +14,6 @@ function MyMap() {
     const API_KEY = 'AIzaSyD2Kd_xOK37FqjaQVKLW3uIiIcw-Xi8tPg'
     const [position, setPosition] = useState({ lat: 32.0853, lng: 34.7818 })
     const branches = useSelector(state => state.toyModule.branches)
-    console.log("🚀 ~ MyMap ~ branches:", branches)
     const [branch, setBranch] = useState()
     const [isOpen, setIsOpen] = useState(false);
     const [markerColor, setMarkerColor] = useState();
