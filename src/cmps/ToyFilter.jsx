@@ -69,7 +69,6 @@ export function ToyFilter({ filterBy }) {
             <Typography variant="h4">Filter Toys</Typography>
             <Grid container spacing={2}>
                 <Grid >
-
                     <FormControl >
                         <TextField
                             value={txt}
