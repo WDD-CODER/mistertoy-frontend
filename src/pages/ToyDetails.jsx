@@ -26,10 +26,10 @@ export function ToyDetails() {
         fetchToy()
     }, [toyId])
 
-    function onToggleInStock(toy) {
-        const toyToSave = { ...toy, inStock: !toy.inStock }
-        setToy(toyToSave)
-    }
+    // function onToggleInStock(toy) {
+    //     const toyToSave = { ...toy, inStock: !toy.inStock }
+    //     setToy(toyToSave)
+    // }
 
     async function fetchToy() {
         try {
@@ -46,7 +46,7 @@ export function ToyDetails() {
         <Container>
             <AppHeader />
             {toy ? <Box className={'toy-details'}>
-                <ToyPreview toy={toy} onToggleInStock={onToggleInStock} />
+                <ToyPreview toy={toy} />
                 <LabelsList toy={toy} setToy={setToy} />
 
                 <Button><Link to={`/toy/`}>Back to list</Link></Button>
