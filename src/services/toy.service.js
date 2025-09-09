@@ -14,7 +14,6 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
-    getPriceStats,
     getToysLabels,
     getLabelsFromToys,
     getPercentages,
@@ -169,23 +168,14 @@ function getLabelsFromToys(toys) {
     return labels
 }
 
-// async function getById(toyId) {
-//     try {
-//      const toy = await storageService.get(TOY_KEY, toyId)
-//      _setNextPrevToyId(toy)
-//         return toy
-//     } catch (error) {
-//         console.log(" Can't get toy by ID")
-//     }
-// }
-
-
-function getById(toyId) {
-    return storageService.get(TOY_KEY, toyId)
-        .then(toy => {
-            toy = _setNextPrevToyId(toy)
-            return toy
-        })
+async function getById(toyId) {
+    try {
+        const toy = await storageService.get(TOY_KEY, toyId)
+        _setNextPrevToyId(toy)
+        return toy
+    } catch (error) {
+        console.log(" Can't get toy by ID")
+    }
 }
 
 function getEmptyToy(txt = '', price = 0) {
@@ -212,17 +202,6 @@ function getFilterFromSearchParams(searchParams) {
         else filterBy[field] = searchParams.get(field) || ''
         return filterBy
     }
-}
-
-
-function getPriceStats() {
-    return storageService.query(TOY_KEY)
-        .then(toys => {
-            const toyCountBypriceMap = _getToyCountByPriceMap(toys)
-            const data = Object.keys(toyCountBypriceMap).map(speedName => ({ title: speedName, value: toyCountBypriceMap[speedName] }))
-            return data
-        })
-
 }
 
 
@@ -286,15 +265,18 @@ function saveBranch(branch) {
 }
 
 
-function _setNextPrevToyId(toy) {
-    return storageService.query(TOY_KEY).then((toys) => {
+async function _setNextPrevToyId(toy) {
+    try {
+        const toys = await storageService.query(TOY_KEY)
         const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
         const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
         const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
         toy.nextToyId = nextToy._id
         toy.prevToyId = prevToy._id
         return toy
-    })
+    } catch (error) {
+        console.log(" Problem setting next page toy")
+    }
 }
 
 // DELETE
