@@ -30,13 +30,11 @@ export function ToyEdit() {
         }
     }
 
-
-
     async function onSaveToy(toyToEdit) {
         try {
             saveToy(toyToEdit)
             navigate('/toy')
-            showSuccessMsg(`Toy Saved (id: ${toyToEdit.tzt})`)
+            showSuccessMsg(`Toy Saved (id: ${toyToEdit.txt})`)
         } catch (err) {
             console.log('Problem while trying to save toy', err)
             showErrorMsg('Cannot save toy')

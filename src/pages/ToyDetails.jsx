@@ -23,7 +23,7 @@ export function ToyDetails() {
 
 
     useEffect(() => {
-        fetchToy()
+        if (toyId) fetchToy()
     }, [toyId])
 
     // function onToggleInStock(toy) {
@@ -33,15 +33,13 @@ export function ToyDetails() {
 
     async function fetchToy() {
         try {
-            if (toyId) {
-                const toy = await getToy(toyId)
-                setToy(toy)
-            }
+            const toy = await getToy(toyId)
+            setToy(toy)
         } catch (error) {
             showErrorMsg("can't get toy ")
         }
     }
-    
+
     return (
         <Container>
             <AppHeader />
@@ -65,8 +63,8 @@ export function ToyDetails() {
                     <Chat />
                 </PopUp>
             </Box>
-             :
-             <Loader/>}
+                :
+                <Loader />}
             <AppFooter />
         </Container>
     )
