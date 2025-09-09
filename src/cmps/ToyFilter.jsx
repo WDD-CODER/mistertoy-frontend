@@ -6,8 +6,7 @@ import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { TextFields } from '@mui/icons-material';
-import { FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
-import { FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import { useSelector } from "react-redux"
 import { FilterMultiSelect } from "./MeterialUi/FilterMultiSelect.jsx";
 import { Container, Typography } from "@mui/material";
@@ -15,15 +14,16 @@ import { useEffect, useRef, useState } from "react"
 
 import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
+import { toyService } from '../services/toy.service.js';
 
 export function ToyFilter({ filterBy }) {
     const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500)).current
-    const [filterByToEdit, onSetFilterByToEdit] = useState(filterBy)
+    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
     const stateLabels = useSelector(state => state.toyModule.labels)
 
     const sortByOptions = ['txt', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
-    const stockValue = getStockData()
+
 
     const { txt, price, inStock, sortDir, sortBy, labels } = filterByToEdit
 
@@ -47,35 +47,28 @@ export function ToyFilter({ filterBy }) {
             case 'inStock':
                 value = utilService.getStockModifiedValue(value)
                 break
-
-            case 'select-multiple':
-                if (filterByToEdit.labels.some(curLabel => curLabel === value)) {
-                    updatedField = labels.filter(curLabel => curLabel !== value)
-                } else updatedField = [...labels, value]
-                value = updatedField
                 break
             default: break
         }
 
-        if (field === 'inStock') value = utilService.getStockModifiedValue(value)
+        // if (field === 'inStock') value = utilService.getStockModifiedValue(value)
 
-        onSetFilterByToEdit(prevFilter => {
+        setFilterByToEdit(prevFilter => {
             const curFilter = { ...prevFilter, [field]: value }
             return curFilter
         })
     }
 
-    function getStockData() {
-        if (filterByToEdit.inStock === '') return 'All'
-        else if (filterByToEdit.inStock === false) return 'Unavailable'
-        else return 'Available'
+    function onClearFilter() {
+        setFilterByToEdit(toyService.getDefaultFilter())
     }
+
 
     return (
         <Container sx={{ placeItems: "center" }} className="toy-filter">
             <Typography variant="h4">Filter Toys</Typography>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid sm={6}>
 
                     <FormControl >
                         <TextField
@@ -87,7 +80,7 @@ export function ToyFilter({ filterBy }) {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid sm={6}>
 
                     <FormControl>
                         <TextField
@@ -100,11 +93,9 @@ export function ToyFilter({ filterBy }) {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-
-
+                <Grid sm={6}>
                     <FormControl>
-                        <InputLabel id="labels-select-label">Choose LabelsList</InputLabel>
+                        <InputLabel id="labels-select-label">Choose Labels</InputLabel>
                         <Select
                             multiple
                             value={filterByToEdit.labels}
@@ -122,28 +113,28 @@ export function ToyFilter({ filterBy }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid sm={6}>
 
 
                     <FormControl>
                         <InputLabel id="availability">Select Toy availability</InputLabel>
                         <Select
-                            value={getStockData()}
+                            value={toyService.getStockValueToShow(filterByToEdit)}
                             onChange={handleChange}
                             name="inStock"
                             variant="standard"
                         >
-                            <MenuItem value='All'>All</MenuItem>
-                            <MenuItem value='Available'>Available</MenuItem>
-                            <MenuItem value='Unavailable'>Unavailable</MenuItem>
+                            <MenuItem value='all'>All</MenuItem>
+                            <MenuItem value='available'>Available</MenuItem>
+                            <MenuItem value='unavailable'>Unavailable</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid sm={6}>
 
 
                     <FormControl>
-                        <InputLabel id="availability">Select Sort By</InputLabel>
+                        <InputLabel id="sortBy">Select Sort By</InputLabel>
                         <Select
                             value={filterByToEdit.sortBy}
                             onChange={handleChange}
@@ -156,7 +147,7 @@ export function ToyFilter({ filterBy }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid sm={6}>
 
 
                     <FormControl>
@@ -165,7 +156,6 @@ export function ToyFilter({ filterBy }) {
                             control={
                                 <Switch
                                     name='sortDir'
-                                    type='checkbox'
                                     checked={filterByToEdit.sortDir}
                                     onChange={handleChange}
                                 />
@@ -173,6 +163,7 @@ export function ToyFilter({ filterBy }) {
                         />
                     </FormControl>
                 </Grid>
+                <><Button onClick={onClearFilter}>Clear Filter</Button></>
             </Grid>
         </Container >
     )
