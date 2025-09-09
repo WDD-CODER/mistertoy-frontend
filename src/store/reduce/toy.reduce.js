@@ -13,7 +13,7 @@ export const REMOVE_TOY = 'REMOVE_TOY'
 const initialState = {
     toys: null,
     toy: {},
-    branches: null,
+    branches: toyService.createBranches(),
     isLoading: '',
     labels: [],
     filterBy: toyService.getDefaultFilter()
@@ -25,6 +25,7 @@ export function toyReducer(state = initialState, cmd = {}) {
         case SET_TOYS:
             return { ...state, toys: cmd.toys }
         case SET_BRANCHES:
+            console.log('branches', state.branches)
             return { ...state, branches: cmd.branches }
         case SET_LABELS:
             return { ...state, labels: cmd.labels }
