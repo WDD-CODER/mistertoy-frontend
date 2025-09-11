@@ -28,6 +28,7 @@ export async function signupUser(credentials) {
     }
 }
 
-
-//נכון יותר לעשות את הקריאה בשרת ליוזר לםי שם ולעשות שם את הניקוי ואז לשלוח.
+export async function logout() {
+    store.dispatch({ type: LOGGED_OUT })
+}
 
