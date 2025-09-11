@@ -90,9 +90,9 @@ export function setFilter(filterBy) {
 }
 
 
-export async function updateToy(toy) {
+export async function updateToy(toyToUpdate) {
     try {
-        const toy = await toyService.save(toy)
+        const toy = await toyService.save(toyToUpdate)
         store.dispatch({ type: UPDATE_TOY, toy })
         return toy
     } catch (err) {
