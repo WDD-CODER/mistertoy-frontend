@@ -15,7 +15,7 @@ import { Loader } from './cmps/Loader.jsx'
 import PartsCmp from './cmps/PartsCmp.jsx'
 import { Container, ThemeProvider } from '@mui/material'
 import { customTheme } from './assets/style/theme/theme.js'
-
+import { LoginSignup } from './cmps/LoginSignup.jsx'
 const Router =
     import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
         ? HashRouter
@@ -28,7 +28,7 @@ function App() {
             <Provider store={store} >
                 <Router>
                     <ThemeProvider theme={customTheme}>
-                        <Container className="app main-layout">
+                        <Container sx={{padding:1,  width: '100vw' , height:'100vh'}} className="app main-layout">
                             <main>
                                 <Routes>
                                     <Route path="/" element={<Home />} />
@@ -37,6 +37,7 @@ function App() {
                                     <Route path="/toy/edit" element={<ToyEdit />} />
                                     <Route path="/toy/dashBoard" element={<DashBoard />} />
                                     <Route path="/toy" element={<ToyIndex />} />
+                                    <Route path="/auth" element={<LoginSignup />} />
                                     <Route path="/parts" element={<PartsCmp />} />
                                 </Routes>
                             </main>

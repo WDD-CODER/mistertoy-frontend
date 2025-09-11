@@ -16,6 +16,7 @@ import { AppFooter } from "../cmps/AppFooter.jsx"
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
+    console.log("🚀 ~ ToyIndex ~ toys:", toys)
     const filterBy = useSelector(state => state.toyModule.filterBy)
     // Special hook for accessing search-params:
     const [searchParams, setSearchParams] = useSearchParams()
