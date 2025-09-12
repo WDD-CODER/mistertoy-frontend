@@ -9,7 +9,7 @@ export function ToyPreview({ toy }) {
     return (
         <Card sx={{ textAlign: "center" }}>
             <CardContent className={` ${setStockTo}`}>
-                <h2> Toy's Name: {toy.name}</h2>
+                <h2>{toy.name}</h2>
                 <h4>Toy price: ${toy.price}</h4>
                 <article className="createdAt">Created At:{date}</article>
                 <ImgCmp imgSrc={`https://robohash.org/${toy._id}`} imgTitle={'Toy Image'} />
