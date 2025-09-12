@@ -10,7 +10,7 @@ import { TextFields } from '@mui/icons-material';
 import { FormControl, MenuItem } from '@mui/material';
 
 export function FilterMultiSelect({ items, onSetFilterByToEdit, handleChange, filterByToEdit }) {
-    const sortByOptions = ['txt', 'price', 'createdAt']
+    const sortByOptions = ['name', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
     const stockValue = getData()
     const sortDir = (filterByToEdit.sortDir) ? 'Descending' : ' Ascending'

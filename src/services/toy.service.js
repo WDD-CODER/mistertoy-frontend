@@ -33,9 +33,9 @@ async function query(filterBy = {}) {
     let toys
     try {
         toys = await storageService.query(TOY_KEY)
-        if (filterBy.txt) {
-            const regExp = new RegExp(filterBy.txt, 'i')
-            toys = toys.filter(toy => regExp.test(toy.txt))
+        if (filterBy.name) {
+            const regExp = new RegExp(filterBy.name, 'i')
+            toys = toys.filter(toy => regExp.test(toy.name))
         }
 
         if (filterBy.price) {
@@ -55,10 +55,10 @@ async function query(filterBy = {}) {
 
         if (filterBy.sortBy) {
             const sortDir = filterBy.sortDir ? -1 : 1
-            if (filterBy.sortBy === 'txt') {
+            if (filterBy.sortBy === 'name') {
 
 
-                toys = toys.sort((a, b) => a.txt.localeCompare(b.txt) * sortDir)
+                toys = toys.sort((a, b) => a.name.localeCompare(b.name) * sortDir)
             }
 
             if (filterBy.sortBy === 'price') {
@@ -118,15 +118,15 @@ function _createToys() {
             'Wobble-Whirl'
         ]
         for (let i = 0; i < 10; i++) {
-            const txt = toyNames[i]
-            toys.push(_createToy(txt, utilService.getRandomIntInclusive(10, 300)))
+            const name = toyNames[i]
+            toys.push(_createToy(name, utilService.getRandomIntInclusive(10, 300)))
         }
         utilService.saveToStorage(TOY_KEY, toys)
     }
 }
 
-function _createToy(txt, price) {
-    const toy = getEmptyToy(txt, price)
+function _createToy(name, price) {
+    const toy = getEmptyToy(name, price)
     toy._id = utilService.makeId()
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
@@ -178,10 +178,10 @@ async function getById(toyId) {
     }
 }
 
-function getEmptyToy(txt = '', price = 0) {
+function getEmptyToy(name = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
-        txt,
+        name,
         imgUrl: "",
         price, labels: [],
         inStock: '',
@@ -191,7 +191,7 @@ function getEmptyToy(txt = '', price = 0) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: 0, labels: [], inStock: '', sortBy: 'txt', sortDir: false }
+    return { name: '', price: 0, labels: [], inStock: '', sortBy: 'name', sortDir: false }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -225,7 +225,7 @@ function getStockValueToShow(item) {
 function setSearchParamsFromFilter(filterBy, setSearchParams) {
     const sp = new URLSearchParams()
 
-    if (filterBy.txt) sp.set('txt', filterBy.txt)
+    if (filterBy.name) sp.set('name', filterBy.name)
     if (filterBy.price) sp.set('price', filterBy.price)
     if (filterBy.inStock !== '' && filterBy.inStock !== undefined) {
         sp.set('inStock', filterBy.inStock)
