@@ -177,7 +177,7 @@ function getLabelsFromToys(toys) {
 
 async function getById(toyId) {
     try {
-        const toy = await httpService.get(TOY_URL, toyId)
+        const toy = await httpService.get(TOY_URL + toyId)
         _setNextPrevToyId(toy)
         return toy
     } catch (error) {
