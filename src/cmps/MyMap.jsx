@@ -4,7 +4,7 @@ import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Ratin
 import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps'
 import { useEffect, useRef, useState } from 'react'
 import MapController from './MapController'
-import { toyService } from '../services/toy.service'
+import { toyService } from '../services/toy.service.remote'
 import { ImgCmp } from './ImgCmp'
 import { useSelector } from 'react-redux'
 import { setUpdatedBranches } from '../store/actions/toy.actions'

@@ -1,4 +1,4 @@
-import { toyService } from "../../services/toy.service.js"
+import { toyService } from "../../services/toy.service.remote.js"
 
 export const SET_TOYS = 'SET_TOYS'
 export const SET_BRANCHES = 'SET_BRANCHES'
@@ -25,7 +25,6 @@ export function toyReducer(state = initialState, cmd = {}) {
         case SET_TOYS:
             return { ...state, toys: cmd.toys }
         case SET_BRANCHES:
-            console.log('branches', state.branches)
             return { ...state, branches: cmd.branches }
         case SET_LABELS:
             return { ...state, labels: cmd.labels }
@@ -40,7 +39,7 @@ export function toyReducer(state = initialState, cmd = {}) {
         case SET_FILTER_BY:
             return { ...state, filterBy: ({ ...state.filterBy, ...cmd.filterBy }) }
         case REMOVE_TOY:
-            return { ...state, toys: state.toys.filter(toy => toy._id !== cmd.toyId) }
+            return { ...state, toys: state.toys.filter(toy => toy._id !== cmd.toyIdToRemove) }
         default:
             return state
     }

@@ -14,18 +14,18 @@ import { useEffect, useRef, useState } from "react"
 
 import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
-import { toyService } from '../services/toy.service.js';
+import { toyService } from '../services/toy.service.remote.js';
 
 export function ToyFilter({ filterBy }) {
     const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500)).current
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
     const stateLabels = useSelector(state => state.toyModule.labels)
 
-    const sortByOptions = ['txt', 'price', 'createdAt']
+    const sortByOptions = ['name', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
 
 
-    const { txt, price, inStock, sortDir, sortBy, labels } = filterByToEdit
+    const { name, price, inStock, sortDir, sortBy, labels } = filterByToEdit
 
     useEffect(() => {
         debouncedOnSetFilter(filterByToEdit)
@@ -71,11 +71,11 @@ export function ToyFilter({ filterBy }) {
                 <Grid >
                     <FormControl >
                         <TextField
-                            value={txt}
+                            value={name}
                             onChange={handleChange}
                             type="search"
                             label="Search By Txt"
-                            id="txt" name="txt"
+                            id="name" name="name"
                         />
                     </FormControl>
                 </Grid>
@@ -138,7 +138,7 @@ export function ToyFilter({ filterBy }) {
                             name="sortBy"
                             variant="standard"
                         >
-                            <MenuItem value='txt'>Toy Name</MenuItem>
+                            <MenuItem value='name'>Toy Name</MenuItem>
                             <MenuItem value='price'>Toy Price</MenuItem>
                             <MenuItem value='createdAt'>Time of creation</MenuItem>
                         </Select>

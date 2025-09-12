@@ -1,4 +1,4 @@
-import { toyService } from "../../services/toy.service.js";
+import { toyService } from "../../services/toy.service.remote.js";
 import { utilService } from "../../services/util.service.js";
 import { store } from "../store.js";
 
@@ -17,7 +17,9 @@ import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST
-export async function loadToys(filterBy) {
+export async function loadToys() {
+    const { filterBy } = store.getState().toyModule
+
     // לשים לב באיזה דרך אני מעביר את המידע ממקום אפשר בשתי הדרכים רק לשמור על אחידות ועל פעולה נכונה לפונקציה הרלוונטית!    
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     // אפשרות להשתמש בגישה אופטימיסטית בכידי למנוע פליקרים 
@@ -31,6 +33,7 @@ export async function loadToys(filterBy) {
     }
     finally { store.dispatch({ type: SET_IS_LOADING, isLoading: false }) }
 }
+
 
 // READ
 
@@ -93,6 +96,7 @@ export function setFilter(filterBy) {
 export async function updateToy(toyToUpdate) {
     try {
         const toy = await toyService.save(toyToUpdate)
+        console.log("🚀 ~ updateToy ~ toy:", toy)
         store.dispatch({ type: UPDATE_TOY, toy })
         return toy
     } catch (err) {
@@ -102,12 +106,12 @@ export async function updateToy(toyToUpdate) {
 }
 
 // DELETE
-export async function removeToy(toyId) {
+export async function removeToy(toyIdToRemove) {
     if (!confirm('Are you Sure you want to delete the toy?!')) return Promise.reject('toy not deleted!')
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
-        const toyId = await toyService.remove(toyId)
-        store.dispatch({ type: REMOVE_TOY, toyId })
+        const toyId = await toyService.remove(toyIdToRemove)
+        store.dispatch({ type: REMOVE_TOY, toyIdToRemove })
     } catch (err) {
         console.log('toy.action -> cant remove toy', err)
         throw err

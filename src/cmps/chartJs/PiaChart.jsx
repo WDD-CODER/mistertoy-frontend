@@ -1,6 +1,6 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
 import { Pie } from "react-chartjs-2"
-import { toyService } from "../../services/toy.service"
+import { toyService } from "../../services/toy.service.remote"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 export function PiaChart({ items }) {

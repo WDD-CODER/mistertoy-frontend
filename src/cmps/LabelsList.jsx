@@ -3,7 +3,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 import { updateToy } from "../store/actions/toy.actions"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
 import { Autocomplete, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
-import { toyService } from "../services/toy.service"
+import { toyService } from "../services/toy.service.remote"
 import { utilService } from "../services/util.service"
 
 export function LabelsList({ toy }) {
@@ -11,9 +11,10 @@ export function LabelsList({ toy }) {
 
     const [toyToUpdate, setToyToUpdate] = useState(toy)
 
+    // useEffectOnUpdate(debouncedToyUpdate(toy),[toyToUpdate])
 
     useEffect(() => {
-        debouncedToyUpdate(toyToUpdate)
+        if (toyToUpdate) debouncedToyUpdate(toyToUpdate)
 
     }, [toyToUpdate]);
 
@@ -21,6 +22,7 @@ export function LabelsList({ toy }) {
         var updatedField = []
         if (toyToUpdate.labels.some(curLabel => curLabel === labelsToAdd)) {
             updatedField = toyToUpdate.labels.filter(curLabel => curLabel !== labelsToAdd)
+            setToyToUpdate(prevToy => ({ ...prevToy, labels: updatedField }))
         } else {
             setToyToUpdate(prevToy => ({ ...prevToy, labels: labelsToAdd }))
         }
@@ -40,7 +42,6 @@ export function LabelsList({ toy }) {
                     id="labels-multiple-select"
                     multiple
                     value={toyToUpdate.labels}
-
                     onChange={event => onUpdateToyLabels(event.target.value)}
                     label="Choose Labels"
                 >

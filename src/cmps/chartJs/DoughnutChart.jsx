@@ -5,7 +5,7 @@ import {
     Tooltip,       
     Legend         
 } from "chart.js"
-import { toyService } from "../../services/toy.service";
+import { toyService } from "../../services/toy.service.remote";
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
