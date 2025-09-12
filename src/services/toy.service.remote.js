@@ -252,9 +252,13 @@ function setSearchParamsFromFilter(filterBy, setSearchParams) {
 function save(toy) {
     if (toy._id) {
         toy.updatedAt = Date.now()
+        console.log('Put in save')
+        
         return httpService.put(TOY_URL + toy._id, toy)
     } else {
         toy.createdAt = toy.updatedAt = Date.now()
+                console.log('Post in save')
+
         return httpService.post(TOY_URL, toy)
     }
 }

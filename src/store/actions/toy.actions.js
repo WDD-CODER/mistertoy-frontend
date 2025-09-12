@@ -61,11 +61,11 @@ export async function getToy(toyId) {
 
 // CREATE
 
-export async function saveToy(toy) {
+export async function saveToy(toyToSave) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    const type = toy._id ? UPDATE_TOY : ADD_TOY
+    const type = toyToSave._id ? UPDATE_TOY : ADD_TOY
     try {
-        const toy = await toyService.save(toy)
+        const toy = await toyService.save(toyToSave)
         store.dispatch({ type, toy })
         return toy
     } catch (err) {
@@ -96,7 +96,6 @@ export function setFilter(filterBy) {
 export async function updateToy(toyToUpdate) {
     try {
         const toy = await toyService.save(toyToUpdate)
-        console.log("🚀 ~ updateToy ~ toy:", toy)
         store.dispatch({ type: UPDATE_TOY, toy })
         return toy
     } catch (err) {
