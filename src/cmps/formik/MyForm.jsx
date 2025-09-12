@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Box, Button, Container, FormControlLabel, FormLabel, Slider, Switch, Typography } from '@mui/material';
 
 const SignupSchema = Yup.object().shape({
-    txt: Yup.string()
+    name: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
@@ -23,17 +23,17 @@ const MyForm = ({ onSaveToy, toyToEdit }) => {
                 Signup
             </Typography>
             <Formik initialValues={{
-                txt: toyToEdit.txt,
+                name: toyToEdit.name,
                 price: toyToEdit.price,
                 inStock: toyToEdit.inStock,
             }} validationSchema={SignupSchema} onSubmit={values => {
                 onSaveToy(({ ...toyToEdit, ...values }))
             }}>
                 {({ values, errors, touched }) => (<Form>
-                    <FormLabel htmlFor="txt" className="toy-name">
+                    <FormLabel htmlFor="name" className="toy-name">
                         Toy's Name
-                        <Field name="txt" />
-                        {errors.txt && touched.txt ? (<Box sx={{ color: 'alert.main' }}>{errors.txt}</Box>) : null}
+                        <Field name="name" />
+                        {errors.name && touched.name ? (<Box sx={{ color: 'alert.main' }}>{errors.name}</Box>) : null}
                     </FormLabel >
                     <FormLabel htmlFor="price" className="toy-price">
                         <Field name="price" />

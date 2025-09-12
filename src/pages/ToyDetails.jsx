@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import { LabelsList } from "../cmps/LabelsList.jsx"
 import { ToyInfo } from "../cmps/ToyInfo.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { toyService } from "../services/toy.service.js"
+import { toyService } from "../services/toy.service.remote.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
@@ -55,7 +55,7 @@ export function ToyDetails() {
                     <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link>
                 </Toolbar>
                 <PopUp
-                    header={<h3>Chat About {toy.txt}s</h3>}
+                    header={<h3>Chat About {toy.name}s</h3>}
                     footer={<h4>&copy; 2025-9999 Toys INC.</h4>}
                     onClose={() => setIsChatOpen(false)}
                     isOpen={isChatOpen}

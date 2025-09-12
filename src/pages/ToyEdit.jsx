@@ -1,4 +1,4 @@
-import { toyService } from "../services/toy.service.js"
+import { toyService } from "../services/toy.service.remote.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
@@ -34,7 +34,7 @@ export function ToyEdit() {
         try {
             saveToy(toyToEdit)
             navigate('/toy')
-            showSuccessMsg(`Toy Saved (id: ${toyToEdit.txt})`)
+            showSuccessMsg(`Toy Saved (id: ${toyToEdit.name})`)
         } catch (err) {
             console.log('Problem while trying to save toy', err)
             showErrorMsg('Cannot save toy')

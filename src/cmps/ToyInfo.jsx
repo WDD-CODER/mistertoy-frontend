@@ -18,7 +18,7 @@ export function ToyInfo({ toy, }) {
 
     return (
         <div className={`toy-info ${inStock}`}>
-            <h2>    Toy's Name: {toy.txt}</h2>
+            <h2>    Toy's Name: {toy.name}</h2>
             <article className="price">Toy Price:${toy.price}</article>
             <h4 className="in-stock">{stockValue}</h4>
             {/* <article className="createdAt">Created At:{date}</article> */}
