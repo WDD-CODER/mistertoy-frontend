@@ -17,12 +17,13 @@ import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST
-
+// TODO: לתקן את ההצגה של האפשרות בחירה לליבלים לפי מה שייש במלאי האמיתי ולא רק במה שמוצג
 export async function loadToys() {
     const { filterBy } = store.getState().toyModule
-
+    
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
+        console.log("🚀 ~ loadToys ~ filterBy:", filterBy)
         const toys = await toyService.query(filterBy)
          store.dispatch({ type: SET_LABELS, labels: toyService.getLabelsFromToys(toys) })
         store.dispatch({ type: SET_TOYS, toys })

@@ -18,11 +18,9 @@ export function ToyIndex() {
     const filterBy = useSelector(state => state.toyModule.filterBy)
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const count = useRef(0)
-    count.current += 1
-    useEffect(() => {
-        setFilter(toyService.getFilterFromSearchParams(searchParams))
-    }, [])
+    // useEffect(() => {
+    //     setFilter(toyService.getFilterFromSearchParams(searchParams))
+    // }, [])
 
 
     useEffect(() => {
@@ -59,9 +57,10 @@ export function ToyIndex() {
         }
     }
 
-      function onSetFilter(filterBy) {
-    setFilter(filterBy)
-  }
+    function onSetFilter(filterBy) {
+        console.log("🚀 ~ onSetFilter ~ filterBy:", filterBy)
+        setFilter(filterBy)
+    }
 
 
     return (

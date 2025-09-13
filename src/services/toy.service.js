@@ -231,7 +231,7 @@ function setSearchParamsFromFilter(filterBy, setSearchParams) {
         sp.set('inStock', filterBy.inStock)
     }
     if (filterBy.labels?.length) {
-        sp.set('labels', [...filterBy.labels])
+        sp.set('labels', filterBy.labels.join(','))
     }
     if (filterBy.sortBy) sp.set('sortBy', filterBy.sortBy)
     if (filterBy.sortDir) sp.set('sortDir', filterBy.sortDir)
