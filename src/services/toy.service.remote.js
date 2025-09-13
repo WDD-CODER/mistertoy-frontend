@@ -37,7 +37,7 @@ export const toyService = {
 async function query(filterBy = {}) {
     let toys
     try {
-        toys = await httpService.get(TOY_URL)
+        toys = await httpService.get(TOY_URL, filterBy)
         // if (filterBy.name) {
         //     const regExp = new RegExp(filterBy.name, 'i')
         //     toys = toys.filter(toy => regExp.test(toy.name))
@@ -252,13 +252,9 @@ function setSearchParamsFromFilter(filterBy, setSearchParams) {
 function save(toy) {
     if (toy._id) {
         toy.updatedAt = Date.now()
-        console.log('Put in save')
-        
         return httpService.put(TOY_URL + toy._id, toy)
     } else {
         toy.createdAt = toy.updatedAt = Date.now()
-                console.log('Post in save')
-
         return httpService.post(TOY_URL, toy)
     }
 }

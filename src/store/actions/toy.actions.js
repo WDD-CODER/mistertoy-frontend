@@ -17,14 +17,14 @@ import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST
+
 export async function loadToys() {
     const { filterBy } = store.getState().toyModule
 
-    // לשים לב באיזה דרך אני מעביר את המידע ממקום אפשר בשתי הדרכים רק לשמור על אחידות ועל פעולה נכונה לפונקציה הרלוונטית!    
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    // אפשרות להשתמש בגישה אופטימיסטית בכידי למנוע פליקרים 
     try {
         const toys = await toyService.query(filterBy)
+         store.dispatch({ type: SET_LABELS, labels: toyService.getLabelsFromToys(toys) })
         store.dispatch({ type: SET_TOYS, toys })
         return toys
     } catch (err) {
@@ -88,8 +88,8 @@ export function setUpdatedBranches(branches) {
 
 // UPDATE
 
-export function setFilter(filterBy) {
-    store.dispatch({ type: SET_FILTER_BY, filterBy })
+export function setFilter(filterBy = toyService.getDefaultFilter()) {
+  store.dispatch({ type: SET_FILTER_BY, filterBy: filterBy })
 }
 
 

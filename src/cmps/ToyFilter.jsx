@@ -1,14 +1,7 @@
-import * as React from 'react';
-import Chip from '@mui/material/Chip';
-import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { TextFields } from '@mui/icons-material';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import { useSelector } from "react-redux"
-import { FilterMultiSelect } from "./MeterialUi/FilterMultiSelect.jsx";
 import { Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react"
 
@@ -16,25 +9,24 @@ import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
 import { toyService } from '../services/toy.service.remote.js';
 
-export function ToyFilter({ filterBy }) {
-    const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500)).current
-    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+export function ToyFilter({ filterBy, onSetFilter }) {
+    const [filterByToEdit, setFilterByToEdit] = useState({...filterBy})
+    const debouncedOnSetFilter = useRef(utilService.debounce(onSetFilter, 500))
     const stateLabels = useSelector(state => state.toyModule.labels)
-
+    
     const sortByOptions = ['name', 'price', 'createdAt']
     const selectOptions = ['All', 'Available', 'Unavailable']
-
-
+    
+    
     const { name, price, inStock, sortDir, sortBy, labels } = filterByToEdit
-
+    
     useEffect(() => {
-        debouncedOnSetFilter(filterByToEdit)
+        debouncedOnSetFilter.current(filterByToEdit)
     }, [filterByToEdit])
 
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-        var updatedField = []
 
         switch (target.type || target.name) {
             case 'number':
@@ -51,12 +43,7 @@ export function ToyFilter({ filterBy }) {
             default: break
         }
 
-        // if (field === 'inStock') value = utilService.getStockModifiedValue(value)
-
-        setFilterByToEdit(prevFilter => {
-            const curFilter = { ...prevFilter, [field]: value }
-            return curFilter
-        })
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
     function onClearFilter() {
@@ -97,7 +84,7 @@ export function ToyFilter({ filterBy }) {
                         <InputLabel id="labels-select-label">Choose Labels</InputLabel>
                         <Select
                             multiple
-                            value={filterByToEdit.labels}
+                            value={labels}
                             onChange={handleChange}
                             type='select-multiple'
                             name="labels"
@@ -113,8 +100,6 @@ export function ToyFilter({ filterBy }) {
                     </FormControl>
                 </Grid>
                 <Grid>
-
-
                     <FormControl>
                         <InputLabel id="availability">Select Toy availability</InputLabel>
                         <Select
@@ -133,7 +118,7 @@ export function ToyFilter({ filterBy }) {
                     <FormControl>
                         <InputLabel id="sortBy">Select Sort By</InputLabel>
                         <Select
-                            value={filterByToEdit.sortBy}
+                            value={sortBy}
                             onChange={handleChange}
                             name="sortBy"
                             variant="standard"
@@ -145,15 +130,13 @@ export function ToyFilter({ filterBy }) {
                     </FormControl>
                 </Grid>
                 <Grid>
-
-
                     <FormControl>
                         <FormControlLabel
-                            label={filterByToEdit.sortDir ? 'Descending' : 'Ascending'}
+                            label={sortDir ? 'Descending' : 'Ascending'}
                             control={
                                 <Switch
                                     name='sortDir'
-                                    checked={filterByToEdit.sortDir}
+                                    checked={sortDir}
                                     onChange={handleChange}
                                 />
                             }
