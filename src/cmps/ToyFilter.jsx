@@ -8,18 +8,15 @@ import { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
 import { toyService } from '../services/toy.service.remote.js';
-
+//TODO יש בעיה בפילטר הוא לא מפלטר לפי זמינות או לא 
 export function ToyFilter({ filterBy, onSetFilter }) {
-    const [filterByToEdit, setFilterByToEdit] = useState({...filterBy})
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const debouncedOnSetFilter = useRef(utilService.debounce(onSetFilter, 500))
     const stateLabels = useSelector(state => state.toyModule.labels)
-    
-    const sortByOptions = ['name', 'price', 'createdAt']
-    const selectOptions = ['All', 'Available', 'Unavailable']
-    
-    
+
+
     const { name, price, inStock, sortDir, sortBy, labels } = filterByToEdit
-    
+
     useEffect(() => {
         debouncedOnSetFilter.current(filterByToEdit)
     }, [filterByToEdit])
@@ -39,7 +36,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
             case 'inStock':
                 value = utilService.getStockModifiedValue(value)
                 break
-                break
+
             default: break
         }
 

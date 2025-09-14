@@ -34,6 +34,7 @@ export async function loadToys() {
 
 export async function loadToysLabels() {
     const { toys } = store.getState().toyModule
+
     const labels = toyService.getLabelsFromToys(toys)
     store.dispatch({ type: SET_LABELS, labels: labels })
 }
@@ -61,6 +62,7 @@ export async function getToy(toyId) {
         console.log('toy action -> cant get toy ', err)
         throw err
     }
+    finally { store.dispatch({ type: SET_IS_LOADING, isLoading: false }) }
 }
 
 // CREATE

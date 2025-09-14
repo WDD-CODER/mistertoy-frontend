@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Button, Container, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 export function AppFooter() {
   return (
-    <Container sx={{ textAlign: 'center' , border:'1px solid black', margin:'1em', backgroundColor:'secondary.main'}}>
-        <Typography  variant='h4' sx={{width:'auto' ,color:'primary.main',}}> My Toy Shope </Typography>
+    <Container  sx={{padding:'.5em', textAlign: 'center' , border:'1px solid black', backgroundColor:'secondary.main'}}>
+        <Typography variant='h6' sx={{color:'primary.main',}}> Mister Toy Shope <br /> Created By DanDan Weibren</Typography>
     </Container>
   );
 }

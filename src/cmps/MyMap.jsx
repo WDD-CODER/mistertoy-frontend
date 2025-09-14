@@ -61,7 +61,7 @@ function MyMap() {
 
 
 
-    // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
+   //TODO // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
     return (
 
         <APIProvider apiKey={API_KEY}>
@@ -91,8 +91,7 @@ function MyMap() {
                                     <br />
                                     Please rate. Our branch to your liking
                                 </p>
-                                {/* <ImgCmp imgSrc={branch.src} imgTitle={'Branch Img'} /> */}
-                                {/* //אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
+                                {/* //TODO אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
                                 <Rating
                                     onChange={(_, newValue) => onSetRating(newValue)}
                                     value={branch.rating}
@@ -102,14 +101,12 @@ function MyMap() {
                     )}
                     <MapController branch={branch} setPosition={setPosition} isOpen={isOpen} />
                 </Map>
-                <List  component="nav" sx={{ display: 'flex' , margin:'1em'}}>
+                <List component="nav" sx={{ display: 'flex', margin: '1em' }}>
                     {branches && branches.map(branch => {
                         return <ListItemButton
                             key={branch.name}
-                            // selected={isSelected}
                             onClick={() => onSelectBranch(branch)}
                             disableRipple={false}
-                        // divider={true}
                         >
                             <ListItemIcon>
                                 <LocationOnIcon sx={{ color: branch.color }} />

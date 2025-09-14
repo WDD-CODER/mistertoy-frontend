@@ -1,29 +1,27 @@
+import { Box, Card, CardContent, Typography } from "@mui/material"
+import { ImgCmp } from "./ImgCmp"
 
-export function ToyInfo({ toy, }) {
-
-
+export function ToyInfo({ toy }) {
+console.log("🚀 ~ ToyInfo ~ toy:", toy)
+const {name,createdAt, price , inStock, updatedAt } = toy
     const demoImg = `https://robohash.org/${toy._id}`
     const toyImg = toy.imgUrl ? toy.imgUrl : demoImg
-    var stockValue = 'Please Selecet Toy Stock Value'
-    var inStock = ''
-    // const date = new Date(toy.createdAt).toLocaleDateString()
+    // var stockValue = 'Please Selecet Toy Stock Value'
+    var setStockTo
+    const date = new Date(toy.createdAt).toLocaleDateString()
 
-    if (toy.inStock === true) {
-        stockValue = 'Toy is in Stock'
-    }
-    if (toy.inStock === false) {
-        inStock = 'unavailable'
-        stockValue = 'Toy is Not available'
-    }
+    if (toy.inStock === false) setStockTo = 'unavailable'
 
     return (
-        <div className={`toy-info ${inStock}`}>
-            <h2>    Toy's Name: {toy.name}</h2>
-            <article className="price">Toy Price:${toy.price}</article>
-            <h4 className="in-stock">{stockValue}</h4>
-            {/* <article className="createdAt">Created At:{date}</article> */}
-            <img className="toy-img" src={toyImg} alt="Toy Image" />
-        </div>
+        <Card className={`toy-info ${inStock}`} sx={{width:'300px'}}>
+            <CardContent className={` ${setStockTo}`}>
+                <Typography variant="h4">    Toy's Name: {name}</Typography>
+                <Typography className="price">Toy Price:${price}</Typography>
+                <Typography  variant="h4" className="in-stock">{inStock}</Typography>
+                <Typography className="createdAt">Created At:{createdAt}</Typography>
+                <Typography className="createdAt">Updated At:{updatedAt}</Typography>
+                <ImgCmp className="toy-img" src={toyImg} alt="Toy Image" />
+            </CardContent>
+        </Card>
     )
-
 }

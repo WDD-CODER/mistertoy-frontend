@@ -71,15 +71,3 @@ function getEmptyCredentials() {
     }
 }
 
-// signup({username: 'muki', password: 'muki1', fullname: 'Muki Ja'})
-// login({username: 'muki', password: 'muki1'})
-
-// Data Model:
-// const user = {
-//     _id: "KAtTl",
-//     username: "muki",
-//     password: "muki1",
-//     fullname: "Muki Ja",
-//     createdAt: 1711490430252,
-//     updatedAt: 1711490430999
-// }

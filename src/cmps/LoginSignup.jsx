@@ -48,18 +48,6 @@ export function LoginSignup({ setIsLoginOpen }) {
             .required('Required'),
     });
 
-
-    // function handleChange({ target }) {
-    //     const { name: field, value } = target
-    //     setCredentials(prevCred => ({ ...prevCred, [field]: value }))
-    // }
-
-    // function handleSubmit(ev) {
-    //     ev.preventDefault()
-    //     isSignUp ? signup(credentials) : login(credentials)
-    // }
-
-
     async function login(credentials) {
         try {
             await loginUser(credentials)
@@ -87,9 +75,7 @@ export function LoginSignup({ setIsLoginOpen }) {
             </Typography>
 
             <Formik
-                // initialValues={userService.getEmptyCredentials()}
                 initialValues={userService.getEmptyCredentials()}
-                // Conditionally apply the validation schema here
                 validationSchema={isSignUp ? SignupSchema : LoginSchema} onSubmit={values => {
 
                     isSignUp ? signup(values) : login(values)

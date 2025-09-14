@@ -15,6 +15,13 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function DashBoard() {
 
+    const [toys, setToys] = useState()
+
+    useEffect(() => {
+        fetchToys()
+    }, [])
+
+
     async function fetchToys() {
         try {
             const toys = await loadToys()
@@ -23,13 +30,6 @@ export function DashBoard() {
             showErrorMsg(" Can't load toys properly ")
         }
     }
-
-    const [toys, setToys] = useState()
-
-    useEffect(() => {
-        fetchToys()
-    }, [])
-
 
     return (
         <Container >

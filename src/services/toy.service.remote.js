@@ -173,6 +173,22 @@ function getLabelsFromToys(toys) {
     return labels
 }
 
+// async function getLabelsFromToys22() {
+//     try {
+//         const toys = await httpService.get(TOY_URL)
+//         const toyLabels = []
+//         toys.forEach(toy => {
+//             (toy.labels || []).forEach(label => {
+//                 if (!toyLabels.includes(label)) toyLabels.push(label)
+//             })
+//         })
+//         return toyLabels
+//     } catch (err) {
+//         console.log('toy.srvice.remote -> cant load labels', err)
+//     }
+// }
+
+
 async function getById(toyId) {
     try {
         const toy = await httpService.get(TOY_URL + toyId)

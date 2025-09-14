@@ -14,6 +14,7 @@ import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Button, Container, Stack, Toolbar } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
+import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
 
 export function ToyDetails() {
 
@@ -21,15 +22,9 @@ export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
 
-
     useEffect(() => {
         if (toyId) fetchToy()
     }, [toyId])
-
-    // function onToggleInStock(toy) {
-    //     const toyToSave = { ...toy, inStock: !toy.inStock }
-    //     setToy(toyToSave)
-    // }
 
     async function fetchToy() {
         try {

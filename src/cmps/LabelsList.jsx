@@ -10,7 +10,7 @@ export function LabelsList({ toy }) {
     const debouncedToyUpdate = utilService.debounce(updateToy, 500)
 
     const [toyToUpdate, setToyToUpdate] = useState(toy)
-
+    const { name, price, inStock, sortDir, sortBy, labels } = toyToUpdate
     // useEffectOnUpdate(debouncedToyUpdate(toy),[toyToUpdate])
 
     useEffect(() => {
@@ -20,8 +20,8 @@ export function LabelsList({ toy }) {
 
     async function onUpdateToyLabels(labelsToAdd) {
         var updatedField = []
-        if (toyToUpdate.labels.some(curLabel => curLabel === labelsToAdd)) {
-            updatedField = toyToUpdate.labels.filter(curLabel => curLabel !== labelsToAdd)
+        if (labels.some(curLabel => curLabel === labelsToAdd)) {
+            updatedField = labels.filter(curLabel => curLabel !== labelsToAdd)
             setToyToUpdate(prevToy => ({ ...prevToy, labels: updatedField }))
         } else {
             setToyToUpdate(prevToy => ({ ...prevToy, labels: labelsToAdd }))

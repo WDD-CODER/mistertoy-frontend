@@ -1,9 +1,9 @@
 import { Doughnut } from "react-chartjs-2";
 import {
     Chart as ChartJS,
-    ArcElement,      
-    Tooltip,       
-    Legend         
+    ArcElement,
+    Tooltip,
+    Legend
 } from "chart.js"
 import { toyService } from "../../services/toy.service.remote";
 
@@ -78,7 +78,7 @@ export function DoughnutChart({ items = {} }) {
     }
 
     const { data, options = {} } = getData()
-    if (!data.labels.length) return <div style={{margin:'100px'}}> No labels selected </div>
+    if (!data.labels.length) return <div style={{ margin: '100px' }}> No labels selected </div>
     return (
         <Doughnut data={data} options={options} />
     )

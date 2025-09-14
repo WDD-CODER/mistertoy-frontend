@@ -27,7 +27,7 @@ export function LineChart({ items }) {
             labels: items[0].sales.map(s => s.date),
             datasets: items.map((item) => {
                 return {
-                    label: [item.txt],
+                    label: [item.name],
                     data: item.sales.map(s => s.amount),
                     borderColor: item.color,
                     backgroundColor: "lightblue",

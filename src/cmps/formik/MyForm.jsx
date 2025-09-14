@@ -12,7 +12,7 @@ const SignupSchema = Yup.object().shape({
     price: Yup.string()
         .required('Required')
         .matches(/^[1-9]\d*$/, 'Price must be a positive whole number!'),
-    inStock: Yup.boolean().required('Please set the availability'),
+    inStock: Yup.boolean(),
 });
 
 const MyForm = ({ onSaveToy, toyToEdit }) => {

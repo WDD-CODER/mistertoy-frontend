@@ -6,7 +6,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 export function PiaChart({ items }) {
     const title = "   Toys In Stock By Label"
 
-    const labels =toyService.getLabelsFromToys(items)
+    const labels = toyService.getLabelsFromToys(items)
 
     const selectedItems = items.filter(item => item.labels.some(label => labels.includes(label)))
     const totalToysInStockByLabel = selectedItems.reduce((groups, item) => {
@@ -24,9 +24,9 @@ export function PiaChart({ items }) {
             datasets: [
                 {
                     label: title,
-                    data:  toyService.getPercentages(totalToysInStockByLabel),
+                    data: toyService.getPercentages(totalToysInStockByLabel),
                     backgroundColor: items.map(item => item.color),
-                    borderColor:"black",
+                    borderColor: "black",
                     borderWidth: 1,
                 },
             ],
@@ -35,10 +35,10 @@ export function PiaChart({ items }) {
 
         const options = {
             responsive: true,
-            maintainAspectRatio: false,  
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: "right", 
+                    position: "right",
                     labels: {
                         boxWidth: 20,
                         padding: 15,
@@ -63,12 +63,12 @@ export function PiaChart({ items }) {
                 }
             },
 
-            radius: "80%",  
-            rotation: 0,     
+            radius: "80%",
+            rotation: 0,
         }
         return { data, options }
     }
-    const { data, options ={}} = getData()
-    if (!data.labels.length) return <div style={{margin:'100px'}}> No labels selected </div>
+    const { data, options = {} } = getData()
+    if (!data.labels.length) return <div style={{ margin: '100px' }}> No labels selected </div>
     return <Pie data={data} options={options} />
 }

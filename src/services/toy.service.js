@@ -216,9 +216,9 @@ function _getToyCountByPriceMap(toys) {
     return toyCountBypriceMap
 }
 
-function getStockValueToShow(item) {
-    if (item.inStock === '') return 'all'
-    else if (item.inStock === false) return 'unavailable'
+function getStockValueToShow(inStockValue) {
+    if (inStockValue === '') return 'all'
+    else if (inStockValue === false) return 'unavailable'
     else return 'available'
 }
 
