@@ -1,4 +1,4 @@
-import { userService } from "../../services/user.service.js"
+import { userService } from "../../services/user.service.remote.js"
 
 export const SET_CREDENTIALS = 'SET_CREDENTIALS'
 export const SET_LOGGED_IN_USER = 'SET_LOGGED_IN_USER'

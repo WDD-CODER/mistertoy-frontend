@@ -3,9 +3,7 @@ import { storageService } from './async-storage.service.js'
 import { httpService } from './http.service.js'
 import { useDispatch } from 'react-redux'
 
-// const BASE_URL = '/api/toy/'
 const TOY_URL = 'toy/'
-// זה נשאר מקומי ביניים
 const BRANCH_KEY = 'branchDB'
 _createToys()
 

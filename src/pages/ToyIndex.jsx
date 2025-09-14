@@ -2,7 +2,7 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { toyService } from "../services/toy.service.remote.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadToys, removeToy, setFilter, updateToy } from "../store/actions/toy.actions.js"
+import { loadToys, loadToysLabels, removeToy, setFilter, updateToy } from "../store/actions/toy.actions.js"
 
 import { useEffect, useRef } from "react"
 import { Link, useSearchParams } from "react-router-dom"
@@ -18,9 +18,9 @@ export function ToyIndex() {
     const filterBy = useSelector(state => state.toyModule.filterBy)
     const [searchParams, setSearchParams] = useSearchParams()
 
-    // useEffect(() => {
-    //     setFilter(toyService.getFilterFromSearchParams(searchParams))
-    // }, [])
+    useEffect(() => {
+       if (toys)  loadToysLabels(toys)
+    }, [toys])
 
 
     useEffect(() => {
@@ -46,7 +46,6 @@ export function ToyIndex() {
     }
 
     function onToggleInStock(toy) {
-
         try {
             const toyToSave = { ...toy, inStock: !toy.inStock }
             updateToy(toyToSave)
@@ -58,7 +57,6 @@ export function ToyIndex() {
     }
 
     function onSetFilter(filterBy) {
-        console.log("🚀 ~ onSetFilter ~ filterBy:", filterBy)
         setFilter(filterBy)
     }
 

@@ -4,6 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { PopUp } from "./PopUp";
 import { LoginSignup } from "./LoginSignup";
 import { useSelector } from "react-redux";
+import { logout } from "../store/actions/user.actions";
+import { userService } from "../services/user.service.remote";
 
 
 export function AppHeader() {
@@ -12,7 +14,7 @@ export function AppHeader() {
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
 
     function onLogout() {
-
+        logout()
     }
 
     return (
@@ -40,7 +42,7 @@ export function AppHeader() {
                 onClose={() => setIsLoginOpen(false)}
                 isOpen={isLoginOpen}
             >
-                <LoginSignup />
+                <LoginSignup setIsLoginOpen={setIsLoginOpen} />
             </PopUp>
 
         </AppBar>
