@@ -35,10 +35,9 @@ export async function loadToys() {
 export async function loadToysLabels() {
     const { toys } = store.getState().toyModule
     const labels = toyService.getLabelsFromToys(toys)
-    console.log("🚀 ~ loadToysLabels ~ labels:", labels)
     store.dispatch({ type: SET_LABELS, labels: labels })
 }
-
+//TODO יש לסדר את נושא רנדור הלייבלים בפילטר
 
 // READ
 

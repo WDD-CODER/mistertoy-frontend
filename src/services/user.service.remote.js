@@ -24,18 +24,15 @@ function getById(userId) {
 }
 
 async function login({ username, password }) {
-    const user = { username, password }
     try {
-        const users = await httpService.post(AUTH_URL + 'login', user)
-        console.log("🚀 ~ login ~ users:", users)
-        const user = users.find(user => user.username === username)
-        if (user) return _setLoggedinUser(user)
-        else return Promise.reject('Invalid login')
+        const user = { username, password };
+        const loggedInUser = await httpService.post(AUTH_URL + 'login', user);
+        if (loggedInUser) return _setLoggedinUser(loggedInUser);
+        else throw new Error('Invalid login');
     } catch (error) {
-        console.log(" Problem logging in")
-        throw error
+        console.log("Problem logging in", error);
+        throw error;
     }
-
 }
 
 async function signup({ username, password, fullname }) {
@@ -49,20 +46,6 @@ async function signup({ username, password, fullname }) {
         throw error
     }
 }
-
-// user.service.remote.js
-// async function signup({ username, password, fullname }) {
-//     const user = { username, password, fullname }
-//     user.createdAt = user.updatedAt = Date.now()
-//     try {
-//         const user = await httpService.post('userDB', user)
-//         _setLoggedinUser(user)
-//         return user
-//     } catch (error) {
-//         console.log(" Can't sign up", error)
-//         throw error // <-- IMPORTANT: Make sure to re-throw the error here
-//     }
-// }
 
 
 function logout() {

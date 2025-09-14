@@ -6,6 +6,7 @@ import { LoginSignup } from "./LoginSignup";
 import { useSelector } from "react-redux";
 import { logout } from "../store/actions/user.actions";
 import { userService } from "../services/user.service.remote";
+import { showSuccessMsg } from "../services/event-bus.service";
 
 
 export function AppHeader() {
@@ -15,6 +16,7 @@ export function AppHeader() {
 
     function onLogout() {
         logout()
+        showSuccessMsg(' User logged out')
     }
 
     return (
