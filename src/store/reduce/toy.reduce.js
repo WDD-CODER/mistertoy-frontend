@@ -4,6 +4,7 @@ export const SET_TOYS = 'SET_TOYS'
 export const SET_BRANCHES = 'SET_BRANCHES'
 export const SET_LABELS = 'SET_LABELS'
 export const SET_TOY = 'SET_TOY'
+export const SET_MAX_PAGE = 'SET_MAX_PAGE'
 export const ADD_TOY = 'ADD_TOY'
 export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
@@ -16,7 +17,8 @@ const initialState = {
     branches: toyService.createBranches(),
     isLoading: '',
     labels: [],
-    filterBy: toyService.getDefaultFilter()
+    filterBy: toyService.getDefaultFilter(),
+    maxPage:0
 }
 
 
@@ -30,6 +32,8 @@ export function toyReducer(state = initialState, cmd = {}) {
             return { ...state, labels: cmd.labels }
         case SET_TOY:
             return { ...state, toy: cmd.toy }
+        case SET_MAX_PAGE:
+            return { ...state, maxPage: cmd.maxPage }
         case ADD_TOY:
             return { ...state, toys: [...state.toys, cmd.toy] }
         case UPDATE_TOY:
