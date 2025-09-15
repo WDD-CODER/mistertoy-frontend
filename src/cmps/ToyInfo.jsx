@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Typography } from "@mui/material"
 import { ImgCmp } from "./ImgCmp"
 
 export function ToyInfo({ toy }) {
-console.log("🚀 ~ ToyInfo ~ toy:", toy)
 const {name,createdAt, price , inStock, updatedAt } = toy
     const demoImg = `https://robohash.org/${toy._id}`
     const toyImg = toy.imgUrl ? toy.imgUrl : demoImg
