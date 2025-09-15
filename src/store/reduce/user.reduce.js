@@ -11,19 +11,15 @@ const initialState = {
 
 export function userReducer(state = initialState, cmd = {}) {
     switch (cmd.type) {
-            case SET_CREDENTIALS:
-                console.log('SET_CREDENTIALS')
+        case SET_CREDENTIALS:
+            console.log('SET_CREDENTIALS')
             return { ...state, credentials: cmd.credentials }
-
         case SET_LOGGED_IN_USER:
             console.log('SET_LOGGED_IN_USER')
             return { ...state, loggedinUser: cmd.user }
-
         case LOGGED_OUT:
             console.log('LOGGED_OUT')
             return { ...state, loggedinUser: '' }
-
-
         default:
             return state
     }
