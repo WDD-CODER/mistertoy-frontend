@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
-import { updateToy } from "../store/actions/toy.actions"
+import {useState } from "react"
+import {  updateToy } from "../store/actions/toy.actions"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
-import { Autocomplete, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
+import {  FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
 import { toyService } from "../services/toy.service.remote"
 import { utilService } from "../services/util.service"
 
@@ -11,12 +10,11 @@ export function LabelsList({ toy }) {
 
     const [toyToUpdate, setToyToUpdate] = useState(toy)
     const { name, price, inStock, sortDir, sortBy, labels } = toyToUpdate
-    // useEffectOnUpdate(debouncedToyUpdate(toy),[toyToUpdate])
 
-    useEffect(() => {
-        if (toyToUpdate) debouncedToyUpdate(toyToUpdate)
+    useEffectOnUpdate(() => {
+        debouncedToyUpdate(toyToUpdate)
+    }, toyToUpdate)
 
-    }, [toyToUpdate]);
 
     async function onUpdateToyLabels(labelsToAdd) {
         var updatedField = []
@@ -58,7 +56,7 @@ export function LabelsList({ toy }) {
                 <InputLabel id="availability">Select Toy availability</InputLabel>
                 <Select
                     value={toyService.getStockValueToShow(toyToUpdate)}
-                    onChange={event => onUpdateToyStockValue(event)}
+                    onChange={onUpdateToyStockValue}
                     name="inStock"
                     variant="standard"
                 >
