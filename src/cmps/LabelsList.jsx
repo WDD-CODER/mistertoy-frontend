@@ -2,7 +2,7 @@ import {useState } from "react"
 import {  updateToy } from "../store/actions/toy.actions"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
 import {  FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
-import { toyService } from "../services/toy.service.remote"
+import { toyService } from "../services/toy"
 import { utilService } from "../services/util.service"
 
 export function LabelsList({ toy }) {

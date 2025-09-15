@@ -1,20 +1,18 @@
-import { utilService } from './util.service.js'
-import { storageService } from './async-storage.service.js'
-import { httpService } from './http.service.js'
-import { useDispatch } from 'react-redux'
+import { utilService } from '../util.service.js'
+import { storageService } from '../async-storage.service.js'
 
-const TOY_URL = 'toy/'
+
+const TOY_KEY = 'toyDB'
 const BRANCH_KEY = 'branchDB'
 _createToys()
 
-
+const PAGE_SIZE = 4
 
 export const toyService = {
     query,
     getById,
     remove,
     save,
-    getEmptyToy,
     getDefaultFilter,
     getFilterFromSearchParams,
     getToysLabels,
@@ -33,11 +31,56 @@ export const toyService = {
 // LIST
 
 async function query(filterBy = {}) {
-    return await httpService.get(TOY_URL, filterBy)
+
+    let toys
+    try {
+        toys = await storageService.query(TOY_KEY)
+        const maxPage = Math.ceil(toys.length / PAGE_SIZE)
+
+        if (filterBy.name) {
+            const regExp = new RegExp(filterBy.name, 'i')
+            toys = toys.filter(toy => regExp.test(toy.name))
+        }
+
+        if (filterBy.price) {
+            toys = toys.filter(toy => toy.price >= filterBy.price)
+        }
+
+        if (filterBy.labels) {
+            if (filterBy.labels.length)
+                toys = toys.filter(toy => {
+                    return filterBy.labels.every(label => toy.labels.includes(label))
+                })
+        }
+
+        if (typeof filterBy.inStock === 'boolean') {
+            toys = toys.filter(toy => toy.inStock === filterBy.inStock)
+        }
+
+        if (filterBy.sortBy) {
+            const sortDir = filterBy.sortDir ? -1 : 1
+            if (filterBy.sortBy === 'name') {
+                toys = toys.sort((a, b) => a.name.localeCompare(b.name) * sortDir)
+            }
+
+            if (filterBy.sortBy === 'price') {
+                toys = toys.sort((a, b) => (a.price - b.price) * sortDir)
+            }
+
+            if (filterBy.sortBy === 'createdAt') {
+                toys = toys.sort((a, b) => (a.createdAt - b.createdAt) * sortDir)
+            }
+        }
+
+        return { toys, maxPage } // Return toys here on success
+    } catch (error) {
+        console.log("Can't load toys")
+        throw error // Propagate the error to the caller
+    }
 }
 
 function getBranches() {
-    return storageService.get(BRANCH_KEY)
+    return storageService.query(BRANCH_KEY)
 }
 
 
@@ -57,8 +100,9 @@ function createBranches() {
     return branches
 }
 
+
 function _createToys() {
-    let toys = utilService.loadFromStorage(TOY_URL)
+    let toys = utilService.loadFromStorage(TOY_KEY)
     if (!toys || !toys.length) {
         toys = []
         const toyNames = [
@@ -77,12 +121,12 @@ function _createToys() {
             const name = toyNames[i]
             toys.push(_createToy(name, utilService.getRandomIntInclusive(10, 300)))
         }
-        // utilService.saveToStorage(TOY_URL, toys)
+        utilService.saveToStorage(TOY_KEY, toys)
     }
 }
 
 function _createToy(name, price) {
-    const toy = getEmptyToy(name, price)
+    //QUESTION   טל הראה לנו איך להשתמש בגלובלים בתוך היין של הלוקלי ורמווט אבל אני לא מבין את איך בדיוק זה עובד   const toy = _getEmptyToy(name, price)
     toy._id = utilService.makeId()
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
@@ -107,7 +151,7 @@ function getDemoLabels() {
 
 async function getToysLabels() {
     try {
-        const toys = await httpService.get(TOY_URL)
+        const toys = await storageService.query(TOY_KEY)
         return getLabelsFromToys(toys)
     } catch (error) {
         console.log("Couldn't get toys labels")
@@ -124,25 +168,10 @@ function getLabelsFromToys(toys) {
     return labels
 }
 
-// async function getLabelsFromToys22() {
-//     try {
-//         const toys = await httpService.get(TOY_URL)
-//         const toyLabels = []
-//         toys.forEach(toy => {
-//             (toy.labels || []).forEach(label => {
-//                 if (!toyLabels.includes(label)) toyLabels.push(label)
-//             })
-//         })
-//         return toyLabels
-//     } catch (err) {
-//         console.log('toy.srvice.remote -> cant load labels', err)
-//     }
-// }
-
-
 async function getById(toyId) {
+    console.log("🚀 ~ getById ~ toyId:", toyId)
     try {
-        const toy = await httpService.get(TOY_URL + toyId)
+        const toy = await storageService.get(TOY_KEY, toyId)
         _setNextPrevToyId(toy)
         return toy
     } catch (error) {
@@ -150,9 +179,10 @@ async function getById(toyId) {
     }
 }
 
-function getEmptyToy(name = '', price = 0) {
+function _getEmptyToy(name = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
+        id: utilService.makeId(),
         name,
         imgUrl: "",
         price, labels: [],
@@ -225,10 +255,10 @@ function setSearchParamsFromFilter(filterBy, setSearchParams) {
 function save(toy) {
     if (toy._id) {
         toy.updatedAt = Date.now()
-        return httpService.put(TOY_URL + toy._id, toy)
+        return storageService.put(TOY_KEY, toy)
     } else {
         toy.createdAt = toy.updatedAt = Date.now()
-        return httpService.post(TOY_URL, toy)
+        return storageService.post(TOY_KEY, toy)
     }
 }
 
@@ -238,21 +268,24 @@ function saveBranches(branches) {
 
 function saveBranch(branch) {
     if (branch._id) {
-        return httpService.put(BRANCH_KEY, branch)
+        return storageService.put(BRANCH_KEY, branch)
     } else {
-        return httpService.post(BRANCH_KEY, branch)
+        return storageService.post(BRANCH_KEY, branch)
     }
 }
 
 
 async function _setNextPrevToyId(toy) {
     try {
-        const toys = await httpService.get(TOY_URL)
+        const toys = await storageService.query(TOY_KEY)
         const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
         const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
+        console.log("🚀 ~ _setNextPrevToyId ~ nextToy:", nextToy)
         const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
+        console.log("🚀 ~ _setNextPrevToyId ~ prevToy:", prevToy)
         toy.nextToyId = nextToy._id
         toy.prevToyId = prevToy._id
+        console.log("🚀 ~ _setNextPrevToyId ~ toy:", toy)
         return toy
     } catch (error) {
         console.log(" Problem setting next page toy")
@@ -262,7 +295,7 @@ async function _setNextPrevToyId(toy) {
 // DELETE
 
 function remove(toyId) {
-    return httpService.delete(TOY_URL + toyId)
+    return storageService.remove(TOY_KEY, toyId)
 }
 
 function getPercentages(groupedItems) {

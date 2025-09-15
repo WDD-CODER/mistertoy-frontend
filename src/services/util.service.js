@@ -11,7 +11,7 @@ export const utilService = {
     getRandomColor
 }
 
-function makeId(length = 6) {
+ function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -88,7 +88,7 @@ function getStockModifiedValue(value) {
     if (value === 'unavailable') return false
 }
 
-function getRandomColor() {
+ function getRandomColor() {
   const letters = '0123456789ABCDEF'
   let color = '#'
   for (let i = 0; i < 6; i++) {

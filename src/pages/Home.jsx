@@ -6,7 +6,6 @@ import { AppFooter } from "../cmps/AppFooter";
 
 export function Home() {
 
-  //TODO  //אני לא מצליח להבין למה הפוטטר עולה על המפה?!
     return (
         <>
         <Container>

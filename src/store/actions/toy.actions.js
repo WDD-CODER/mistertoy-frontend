@@ -1,6 +1,6 @@
-import { toyService } from "../../services/toy.service.remote.js";
-import { utilService } from "../../services/util.service.js";
-import { store } from "../store.js";
+import { toyService } from "../../services/toy"
+import { utilService } from "../../services/util.service.js"
+import { store } from "../store.js"
 
 import {
     SET_TOY,
@@ -24,6 +24,7 @@ export async function loadToys() {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
        const { toys, maxPage } = await toyService.query(filterBy)
+        console.log("🚀 ~ loadToys ~ toys:", toys)
         store.dispatch({ type: SET_TOYS, toys })
         store.dispatch({ type: SET_MAX_PAGE, maxPage:maxPage })
         return toys

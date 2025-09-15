@@ -1,4 +1,4 @@
-import { toyService } from "../services/toy.service.remote.js"
+import { toyService } from "../services/toy"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { getToy, saveToy } from "../store/actions/toy.actions.js"
 

@@ -7,8 +7,7 @@ import { useEffect, useRef, useState } from "react"
 
 import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
-import { toyService } from '../services/toy.service.remote.js';
-//TODO זה לא מפלטר לפי מחיר ולא משנה לפי יורד או עולה.
+import { toyService } from "../services/toy"
 
 export function ToyFilter() {
     const [filterByToEdit, setFilterByToEdit] = useState({ ...useSelector(state => state.toyModule.filterBy) })

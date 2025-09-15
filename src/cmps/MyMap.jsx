@@ -4,7 +4,7 @@ import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Ratin
 import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps'
 import { useEffect, useRef, useState } from 'react'
 import MapController from './MapController'
-import { toyService } from '../services/toy.service.remote'
+import { toyService } from "../services/toy"
 import { ImgCmp } from './ImgCmp'
 import { useSelector } from 'react-redux'
 import { setUpdatedBranches } from '../store/actions/toy.actions'
@@ -61,7 +61,7 @@ function MyMap() {
 
 
 
-   //TODO // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
+   //FIXME  // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
     return (
 
         <APIProvider apiKey={API_KEY}>
@@ -91,7 +91,7 @@ function MyMap() {
                                     <br />
                                     Please rate. Our branch to your liking
                                 </p>
-                                {/* //TODO אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
+                                {/* //INCOMPLETE  אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
                                 <Rating
                                     onChange={(_, newValue) => onSetRating(newValue)}
                                     value={branch.rating}

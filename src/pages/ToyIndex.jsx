@@ -1,11 +1,10 @@
 import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
-import { toyService } from "../services/toy.service.remote.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, loadToysLabels, removeToy, setFilter, updateToy } from "../store/actions/toy.actions.js"
 
-import { useEffect, useRef } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { useEffect } from "react"
+import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"

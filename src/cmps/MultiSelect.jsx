@@ -1,6 +1,6 @@
 import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { utilService } from "../services/util.service";
-import { toyService } from "../services/toy.service.remote";
+import { utilService } from "../services/util.service"
+import { toyService } from"../services/toy"
 
 export function MultiSelect({item, updateItem}) {
 const {name, price,labels, inStock,} = item

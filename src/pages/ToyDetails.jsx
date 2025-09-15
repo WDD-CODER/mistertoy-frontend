@@ -6,7 +6,6 @@ import { useSelector } from "react-redux"
 import { LabelsList } from "../cmps/LabelsList.jsx"
 import { ToyInfo } from "../cmps/ToyInfo.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { toyService } from "../services/toy.service.remote.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
@@ -21,10 +20,10 @@ export function ToyDetails() {
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
-
+    
     useEffect(() => {
         if (toyId) fetchToy()
-    }, [toyId])
+        }, [toyId])
 
     async function fetchToy() {
         try {
@@ -34,6 +33,7 @@ export function ToyDetails() {
             showErrorMsg("can't get toy ")
         }
     }
+    
 
     return (
         <Container>
