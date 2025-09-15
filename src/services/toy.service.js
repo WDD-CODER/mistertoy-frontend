@@ -191,7 +191,15 @@ function getEmptyToy(name = '', price = 0) {
 }
 
 function getDefaultFilter() {
-    return { name: '', price: 0, labels: [], inStock: '', sortBy: 'name', sortDir: false }
+    return {
+        name: '',
+        price: 0,
+        labels: [],
+        inStock: '',
+        pageIdx: 0,
+        sortBy: 'name',
+        sortDir: false
+    }
 }
 
 function getFilterFromSearchParams(searchParams) {

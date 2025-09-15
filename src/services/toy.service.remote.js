@@ -33,55 +33,7 @@ export const toyService = {
 // LIST
 
 async function query(filterBy = {}) {
-    let toys
-    try {
-        toys = await httpService.get(TOY_URL, filterBy)
-        // if (filterBy.name) {
-        //     const regExp = new RegExp(filterBy.name, 'i')
-        //     toys = toys.filter(toy => regExp.test(toy.name))
-        // }
-
-        // if (filterBy.price) {
-        //     toys = toys.filter(toy => toy.price >= filterBy.price)
-        // }
-
-        // if (filterBy.labels) {
-        //     if (filterBy.labels.length)
-        //         toys = toys.filter(toy => {
-        //             return filterBy.labels.every(label => toy.labels.includes(label))
-        //         })
-        // }
-
-        // if (typeof filterBy.inStock === 'boolean') {
-        //     toys = toys.filter(toy => toy.inStock === filterBy.inStock)
-        // }
-
-        // if (filterBy.sortBy) {
-        //     const sortDir = filterBy.sortDir ? -1 : 1
-        //     if (filterBy.sortBy === 'name') {
-
-
-        //         toys = toys.sort((a, b) => a.name.localeCompare(b.name) * sortDir)
-        //     }
-
-        //     if (filterBy.sortBy === 'price') {
-        //         toys = toys.sort((a, b) => (a.price - b.price) * sortDir)
-        //     }
-
-        //     if (filterBy.sortBy === 'createdAt') {
-        //         toys = toys.sort((a, b) => (a.createdAt - b.createdAt) * sortDir)
-        //     }
-
-        // }
-
-    } catch (err) {
-        console.log(" Can't load toys", err)
-        toys = null
-        throw new Error('no toys to fetch')
-    }
-    finally { return toys }
-
-
+    return await httpService.get(TOY_URL, filterBy)
 }
 
 function getBranches() {
@@ -212,7 +164,15 @@ function getEmptyToy(name = '', price = 0) {
 }
 
 function getDefaultFilter() {
-    return { name: '', price: 0, labels: [], inStock: '', sortBy: 'name', sortDir: false }
+    return {
+        name: '',
+        price: 0,
+        labels: [],
+        inStock: '',
+        pageIdx: 0,
+        sortBy: 'name',
+        sortDir: false
+    }
 }
 
 function getFilterFromSearchParams(searchParams) {
