@@ -17,6 +17,8 @@ export function ToyEdit() {
 
     useEffect(() => {
         fetchToy()
+
+        return () => onSaveToy(toyToEdit)
     }, [])
 
     async function fetchToy() {
@@ -33,8 +35,8 @@ export function ToyEdit() {
     async function onSaveToy(toyToEdit) {
         try {
             saveToy(toyToEdit)
-            showSuccessMsg(`Toy Saved (id: ${toyToEdit.name})`)
             navigate('/toy')
+            showSuccessMsg(`Toy Saved (id: ${toyToEdit.name})`)
         } catch (err) {
             console.log('Problem while trying to save toy', err)
             showErrorMsg('Cannot save toy')
@@ -48,7 +50,7 @@ export function ToyEdit() {
             <Box display="flex" sx={{ width: '300px' }}>
                 <MyForm
                     key={toyToEdit._id || 'new'}
-                    onSaveToy={onSaveToy}
+                    onSaveToy={setToyToEdit}
                     toyToEdit={toyToEdit} />
             </Box>
             <AppFooter />
