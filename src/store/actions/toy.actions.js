@@ -11,7 +11,8 @@ import {
     UPDATE_TOY,
     ADD_TOY,
     SET_LABELS,
-    SET_BRANCHES
+    SET_BRANCHES,
+    SET_MAX_PAGE
 } from "../reduce/toy.reduce.js";
 import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
@@ -22,8 +23,9 @@ export async function loadToys() {
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
-        const toys = await toyService.query(filterBy)
+       const { toys, maxPage } = await toyService.query(filterBy)
         store.dispatch({ type: SET_TOYS, toys })
+        store.dispatch({ type: SET_MAX_PAGE, maxPage:maxPage })
         return toys
     } catch (err) {
         console.log('toy.action -> cant get toys}', err)
