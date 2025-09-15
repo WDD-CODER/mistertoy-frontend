@@ -10,28 +10,37 @@ import { useSelector } from "react-redux"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
+import { PaginationButtons } from "../cmps/PaginationButtons.jsx"
 
 
 export function ToyIndex() {
 
     const toys = useSelector(state => state.toyModule.toys)
+    const maxPage = useSelector(storeState => storeState.toyModule.maxPage)
     const filterBy = useSelector(state => state.toyModule.filterBy)
-    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
-       if (toys)  loadToysLabels(toys)
+        if (toys) loadToysLabels(toys)
     }, [toys])
 
 
-    useEffect(() => {
-        toyService.setSearchParamsFromFilter(filterBy, setSearchParams)
-    }, [filterBy])
+    // useEffect(() => {
+    //     toyService.setSearchParamsFromFilter(filterBy, setSearchParams)
+    // }, [filterBy])
 
 
     useEffect(() => {
-        loadToys(filterBy)
-            .catch(() => showErrorMsg('Cannot get toys'))
+        fetchToys()
     }, [filterBy])
+
+    async function fetchToys() {
+        try {
+            await loadToys()
+        } catch (error) {
+            showErrorMsg('Cannot load toys')
+        }
+    }
+
 
 
 
@@ -56,12 +65,17 @@ export function ToyIndex() {
         }
     }
 
-
+    function onChangePageIdx(diff) {
+        let newPageIdx = +filterBy.pageIdx + diff
+        if (newPageIdx < 0) newPageIdx = maxPage - 1
+        if (newPageIdx >= maxPage) newPageIdx = 0
+        setFilter({ pageIdx: newPageIdx })
+    }
 
     return (
         <Container>
             <AppHeader />
-            <ToyFilter filterBy={filterBy}/>
+            <ToyFilter />
             <Box >
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
             </Box>
@@ -70,6 +84,12 @@ export function ToyIndex() {
                     <h2>Toys List</h2>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                     <AppFooter />
+                    {!!toys.length && maxPage > 1 && (
+                        <PaginationButtons
+                            pageIdx={filterBy.pageIdx}
+                            onChangePageIdx={onChangePageIdx}
+                        />
+                    )}
                 </Container>
             }
         </Container>
