@@ -56,15 +56,12 @@ export function ToyIndex() {
         }
     }
 
-    function onSetFilter(filterBy) {
-        setFilter(filterBy)
-    }
 
 
     return (
         <Container>
             <AppHeader />
-            <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+            <ToyFilter filterBy={filterBy}/>
             <Box >
                 <Link to="/toy/edit" className="btn" >Add Toy</Link>
             </Box>

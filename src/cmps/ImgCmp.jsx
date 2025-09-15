@@ -7,7 +7,7 @@ export function ImgCmp({ imgSrc ,imgTitle }) {
     function handleImageLoaded() {
         setImgLoading(false)
     }
-
+//TODO להשתמש בקלאודינארי בכדי להנחיל שימוש נכון בתמונות 
     return (
         <Box  className="img-cmp">
             {isImgLoading && <div className="skeleton-loader"></div>}

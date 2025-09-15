@@ -63,6 +63,7 @@ function animateCSS(el, animation = 'bounce') {
 }
 
 function debounce(fn, delay) {
+    
     let timeout
     return (...args) => {
         clearTimeout(timeout)

@@ -94,7 +94,12 @@ export function setUpdatedBranches(branches) {
 
 // UPDATE
 
-export function setFilter(filterBy = toyService.getDefaultFilter()) {
+export function setFilter(filterBy) {
+    if (!filterBy){
+        console.log('!filterBy' , filterBy)
+        filterBy = toyService.getDefaultFilter()
+    }
+    
     store.dispatch({ type: SET_FILTER_BY, filterBy: filterBy })
 }
 
