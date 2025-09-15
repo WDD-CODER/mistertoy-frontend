@@ -17,8 +17,6 @@ export function ToyEdit() {
 
     useEffect(() => {
         fetchToy()
-
-        return () => onSaveToy(toyToEdit)
     }, [])
 
     async function fetchToy() {
@@ -50,7 +48,7 @@ export function ToyEdit() {
             <Box display="flex" sx={{ width: '300px' }}>
                 <MyForm
                     key={toyToEdit._id || 'new'}
-                    onSaveToy={setToyToEdit}
+                    onSaveToy={onSaveToy}
                     toyToEdit={toyToEdit} />
             </Box>
             <AppFooter />

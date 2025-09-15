@@ -3,7 +3,6 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Box, Button, Container, FormControlLabel, FormLabel, Slider, Switch, Typography } from '@mui/material';
-import { LabelsList } from '../LabelsList';
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -13,8 +12,7 @@ const SignupSchema = Yup.object().shape({
     price: Yup.string()
         .required('Required')
         .matches(/^[1-9]\d*$/, 'Price must be a positive whole number!'),
-    // inStock: Yup.boolean(),
-
+    inStock: Yup.boolean()
 });
 
 const MyForm = ({ onSaveToy, toyToEdit }) => {
@@ -27,8 +25,7 @@ const MyForm = ({ onSaveToy, toyToEdit }) => {
             <Formik initialValues={{
                 name: toyToEdit.name,
                 price: toyToEdit.price,
-                labels: toyToEdit.labels
-                // inStock: toyToEdit.inStock,
+                inStock: toyToEdit.inStock,
             }} validationSchema={SignupSchema} onSubmit={values => {
                 onSaveToy(({ ...toyToEdit, ...values }))
             }}>
@@ -42,17 +39,14 @@ const MyForm = ({ onSaveToy, toyToEdit }) => {
                         <Field name="price" />
                         {errors.price && touched.price ? (<Box sx={{ color: 'alert.main' }}>{errors.price}</Box>) : null}
                     </FormLabel>
-                    <LabelsList
-                        toy={toyToEdit}
-                    />
-                    {/* <FormLabel>
+                    <FormLabel>
                         <FormControlLabel
-                            label={values.inStock ? 'Toy is Available' : 'Toy is Unavailable'}
-                            sx={{ color: values.inStock ? 'success.main' : 'error.main' }}
+                            label={values.inStock ? 'Toy is Available' : 'Is The Toy is Available?'}
+                            sx={{ color: values.inStock ? 'success.main' : '' }}
                             control={<Field name="inStock" as={Switch} />}
                         />
-                        {errors.inStock && touched.inStock ? (<Box>{errors.inStock}</Box>) : null}
-                    </FormLabel> */}
+                        {/* {errors.inStock && touched.inStock ? (<Box>{errors.inStock}</Box>) : null} */}
+                    </FormLabel>
                     <Button type="submit">Submit</Button>
                 </Form>)}
             </Formik>
