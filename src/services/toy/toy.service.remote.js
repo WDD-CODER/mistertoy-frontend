@@ -262,7 +262,7 @@ async function _setNextPrevToyId(toy) {
 }
 
 // DELETE
-
+// NOTE Make sure. Both remote and local are working according.
 function remove(toyId) {
     return httpService.delete(TOY_URL + toyId)
 }

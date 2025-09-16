@@ -65,6 +65,7 @@ export function LoginSignup({ setIsLoginOpen }) {
             showErrorMsg(err.message || 'Failed signing up')
         }
     }
+    //FIXME זה לוחץ על כל השדות כאילו הם חסרים כאשר אני מנסה לעבור ללוגין
     return (
 
         <Container >
@@ -73,10 +74,10 @@ export function LoginSignup({ setIsLoginOpen }) {
             </Typography>
 
             <Formik
+                key={isSignUp ? 'signup-form' : 'login-form'}
                 initialValues={userService.getEmptyCredentials()}
                 validationSchema={isSignUp ? SignupSchema : LoginSchema} onSubmit={values => {
 
-                    console.log("🚀 ~ LoginSignup ~ values:", values)
                     isSignUp ? signup(values) : login(values)
                 }}
             >
@@ -109,17 +110,16 @@ export function LoginSignup({ setIsLoginOpen }) {
                             {errors.fullname && touched.fullname ? (
                                 <Box sx={{ color: 'alert.main' }}>{errors.fullname}</Box>
                             ) : null}
+                            <FormControlLabel
+                                name="isAdmin"
+                                label={values.isAdmin ? 'User Is admin' : 'Set user to admin ?'}
+                                sx={{ color: values.isAdmin ? 'success.main' : 'grey.600' }}
+                                control={<Field name="isAdmin" as={Switch} />}
+                            />
+
                         </FormControl>
                     }
-    
-                    <FormLabel>
-                       <FormControlLabel
-                        label={values.isAdmin ? 'User Is admin' : 'Set user to admin ?'}
-                        sx={{ color: values.isAdmin ? 'success.main' : 'grey.600' }}
-                        control={<Field name="isAdmin" as={Switch} />}
-                    />
-                    </FormLabel>
-                   
+
                     <Button type="submit">{isSignUp ? 'Signup' : 'Login'}</Button>
                 </Form>)}
             </Formik>
