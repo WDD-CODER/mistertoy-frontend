@@ -1,6 +1,6 @@
 // import { authService } from "../services/auth.service.remote.js"
 import { useState } from "react"
-import { userService } from "../services/user.service.remote.js"
+import { userService } from "../services/user"
 import { useSelector } from "react-redux"
 import { Box, Button, Container, FormControl, TextField, Typography } from "@mui/material"
 import { Formik, Form, Field } from 'formik';
@@ -63,8 +63,8 @@ export function LoginSignup({ setIsLoginOpen }) {
             await signupUser(credentials)
             showSuccessMsg(`${credentials.username} Signed Up with success`)
             setIsLoginOpen(false)
-        } catch (error) {
-            showErrorMsg(' Failed signing up ')
+        } catch (err) {
+            showErrorMsg(err.message || 'Failed signing up')
         }
     }
     return (
