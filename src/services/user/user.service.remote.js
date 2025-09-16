@@ -41,7 +41,8 @@ async function signup({ username, password, fullname }) {
         if (users.find(user => user.username === username)) {
             throw new Error('username taken, try something else')
         }
-        const user = await  httpService.post(USER_URL + 'signup', { username, password, fullname })
+        const user = await  httpService.post(AUTH_URL + 'signup', { username, password, fullname })
+        console.log("🚀 ~ signup ~ user:", user)
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
         _setLoggedinUser(user)
