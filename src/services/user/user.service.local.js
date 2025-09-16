@@ -58,7 +58,6 @@ function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
 }
 
-//TODO Update remote accordingly.
 function _setLoggedinUser(user) {
     const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))

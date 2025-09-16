@@ -3,6 +3,9 @@ import { userService } from "../../services/user";
 import { LOGGED_OUT, SET_CREDENTIALS, SET_LOGGED_IN_USER } from "../reduce/user.reduce.js";
 import { store } from "../store.js";
 
+
+
+
 export async function loginUser(credentials) {
     try {
         const user = await userService.login(credentials)

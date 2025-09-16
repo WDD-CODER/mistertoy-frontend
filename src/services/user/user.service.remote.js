@@ -34,20 +34,19 @@ async function login({ username, password }) {
     }
 }
 
-async function signup({ username, password, fullname }) {
+async function signup({ username, password, fullname, isAdmin }) {
     try {
         const users = await httpService.get(USER_URL)
         if (users.find(user => user.username === username)) {
             throw new Error('username taken, try something else')
         }
-        const user = await  httpService.post(AUTH_URL + 'signup', { username, password, fullname })
-        console.log("🚀 ~ signup ~ user:", user)
+        const user = await httpService.post(AUTH_URL + 'signup', { username, password, fullname, isAdmin })
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
         _setLoggedinUser(user)
         return user
     } catch (err) {
-        console.log(' user.service =>',err)
+        console.log(' user.service =>', err)
         throw err
     }
 }
@@ -67,5 +66,4 @@ function _setLoggedinUser(user) {
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }
-
 

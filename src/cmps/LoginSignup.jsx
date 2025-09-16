@@ -9,9 +9,6 @@ import { httpService } from "../services/http.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { loginUser, signupUser } from "../store/actions/user.actions.js";
 
-const USER_URL = 'user/'
-const AUTH_URL = 'auth/'
-
 export function LoginSignup({ setIsLoginOpen }) {
 
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
@@ -79,6 +76,7 @@ export function LoginSignup({ setIsLoginOpen }) {
                 initialValues={userService.getEmptyCredentials()}
                 validationSchema={isSignUp ? SignupSchema : LoginSchema} onSubmit={values => {
 
+                    console.log("🚀 ~ LoginSignup ~ values:", values)
                     isSignUp ? signup(values) : login(values)
                 }}
             >
@@ -87,8 +85,6 @@ export function LoginSignup({ setIsLoginOpen }) {
                         <Field as={TextField}
                             name="username"
                             placeholder='Select User Name'
-
-                            required
                             autoFocus
                         />
                         {errors.username && touched.username ? (<Box sx={{ color: 'alert.main' }}>{errors.username}</Box>) : null}
@@ -97,8 +93,6 @@ export function LoginSignup({ setIsLoginOpen }) {
                         <Field as={TextField}
                             name="password"
                             placeholder='Set up a new password'
-
-                            required
                             autoFocus
                         />
                         {errors.password && touched.password ? (<Box sx={{ color: 'alert.main' }}>{errors.password}</Box>) : null}
@@ -110,7 +104,6 @@ export function LoginSignup({ setIsLoginOpen }) {
                                 as={TextField}
                                 name="fullname"
                                 placeholder="what's your full name?"
-                                required
                                 autoFocus
                             />
                             {errors.fullname && touched.fullname ? (
