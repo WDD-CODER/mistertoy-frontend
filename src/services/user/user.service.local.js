@@ -1,4 +1,4 @@
-import { httpService } from "../http.service"
+import { storageService } from "../async-storage.service.js"
 
 
 export const userService = {
@@ -11,28 +11,26 @@ export const userService = {
     getEmptyCredentials
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
-
-const AUTH_URL = 'auth/'
-const USER_URL = 'user/'
+const STORAGE_KEY = 'userDB'
 
 function query() {
-    return httpService.get(USER_URL)
+    return storageService.query(STORAGE_KEY)
 }
 
 function getById(userId) {
-    return httpService.get(USER_URL + userId)
+    return storageService.get(STORAGE_KEY, userId)
 }
 
 async function login({ username, password }) {
     try {
-        const user = { username, password };
-        const loggedInUser = await httpService.post(AUTH_URL + 'login', user);
-        if (loggedInUser) return _setLoggedinUser(loggedInUser);
-        else throw new Error('Invalid login');
+        const users = await storageService.query(STORAGE_KEY)
+        const user = users.find(user => user.username === username)
+        if (user) return _setLoggedinUser(user)
+        else return Promise.reject('Invalid login')
     } catch (error) {
-        console.log("Problem logging in", error);
-        throw error;
+        console.log(" Problem logging in")
     }
+
 }
 
 async function signup({ username, password, fullname }) {
@@ -41,7 +39,7 @@ async function signup({ username, password, fullname }) {
         if (users.find(user => user.username === username)) {
             throw new Error('username taken, try something else')
         }
-        const user = await  httpService.post(AUTH_URL + 'signup', { username, password, fullname })
+        const user = await storageService.post(STORAGE_KEY, { username, password, fullname })
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
         _setLoggedinUser(user)
@@ -51,7 +49,6 @@ async function signup({ username, password, fullname }) {
         throw err
     }
 }
-
 
 function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
