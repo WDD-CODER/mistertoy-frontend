@@ -255,7 +255,7 @@ async function _setNextPrevToyId(toy) {
         toy.prevToyId = prevToy._id
         return toy
     } catch (error) {
-        console.log(" Problem setting next page toy")
+        console.log(" Problem setting next page toy",error)
     }
 }
 

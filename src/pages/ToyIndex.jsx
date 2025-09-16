@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Container } from "@mui/material"
+import {  Container, Typography } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { PaginationButtons } from "../cmps/PaginationButtons.jsx"
 
@@ -23,6 +23,7 @@ export function ToyIndex() {
     }, [toys])
 
 
+    // FIXME לדאוג שזה יטען את הפילטר מהיו אר ל 
     // useEffect(() => {
     //     toyService.setSearchParamsFromFilter(filterBy, setSearchParams)
     // }, [filterBy])
@@ -75,12 +76,9 @@ export function ToyIndex() {
         <Container>
             <AppHeader />
             <ToyFilter />
-            <Box >
-                <Link to="/toy/edit" className="btn" >Add Toy</Link>
-            </Box>
             {toys &&
-                <Container>
-                    <h2>Toys List</h2>
+                <Container sx={{textAlign:"center"}}>
+                    <Typography>Toys List</Typography>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                     <AppFooter />
                     {!!toys.length && maxPage > 1 && (
