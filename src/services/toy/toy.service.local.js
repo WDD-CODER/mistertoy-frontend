@@ -127,6 +127,7 @@ function _createToys() {
 
 function _createToy(name, price) {
     //QUESTION   טל הראה לנו איך להשתמש בגלובלים בתוך היין של הלוקלי ורמווט אבל אני לא מבין את איך בדיוק זה עובד   const toy = _getEmptyToy(name, price)
+    const toy = _getEmptyToy(name, price)
     toy._id = utilService.makeId()
     toy.createdAt = toy.updatedAt = Date.now() - utilService.getRandomIntInclusive(0, 1000 * 60 * 60 * 24)
     return toy
