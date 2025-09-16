@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { userService } from "../services/user"
 import { useSelector } from "react-redux"
-import { Box, Button, Container, FormControl, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, FormControl, FormControlLabel, Switch, FormLabel, TextField, Typography } from "@mui/material"
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { httpService } from "../services/http.service.js";
@@ -46,6 +46,7 @@ export function LoginSignup({ setIsLoginOpen }) {
             .matches(/[A-Z]/, 'password must contain at least one capital letter.')
             .matches(/^\S*$/, 'password cannot contain spaces.')
             .required('Required'),
+        isAdmin: Yup.boolean()
     });
 
     async function login(credentials) {
@@ -105,16 +106,27 @@ export function LoginSignup({ setIsLoginOpen }) {
 
                     {isSignUp &&
                         <FormControl>
-                            <Field as={TextField}
+                            <Field
+                                as={TextField}
                                 name="fullname"
                                 placeholder="what's your full name?"
-                                // value={credentials.fullname}
                                 required
                                 autoFocus
                             />
-                            {errors.fullname && touched.fullname ? (<Box sx={{ color: 'alert.main' }}>{errors.fullname}</Box>) : null}
+                            {errors.fullname && touched.fullname ? (
+                                <Box sx={{ color: 'alert.main' }}>{errors.fullname}</Box>
+                            ) : null}
                         </FormControl>
                     }
+    
+                    <FormLabel>
+                       <FormControlLabel
+                        label={values.isAdmin ? 'User Is admin' : 'Set user to admin ?'}
+                        sx={{ color: values.isAdmin ? 'success.main' : 'grey.600' }}
+                        control={<Field name="isAdmin" as={Switch} />}
+                    />
+                    </FormLabel>
+                   
                     <Button type="submit">{isSignUp ? 'Signup' : 'Login'}</Button>
                 </Form>)}
             </Formik>
@@ -128,3 +140,4 @@ export function LoginSignup({ setIsLoginOpen }) {
             </Box>
         </Container>);
 };
+

@@ -8,7 +8,6 @@ export const userService = {
     signup,
     getById,
     query,
-    getEmptyCredentials
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -33,19 +32,19 @@ async function login({ username, password }) {
 
 }
 
-async function signup({ username, password, fullname }) {
+async function signup({ username, password, fullname, isAdmin }) {
     try {
         const users = await storageService.query(STORAGE_KEY)
         if (users.find(user => user.username === username)) {
             throw new Error('username taken, try something else')
         }
-        const user = await storageService.post(STORAGE_KEY, { username, password, fullname })
+        const user = await storageService.post(STORAGE_KEY, { username, password, fullname, isAdmin })
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
         _setLoggedinUser(user)
         return user
     } catch (err) {
-        console.log(' user.service =>',err)
+        console.log(' user.service =>', err)
         throw err
     }
 }
@@ -59,17 +58,10 @@ function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
 }
 
+//TODO Update remote accordingly.
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname }
+    const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
-}
-
-function getEmptyCredentials() {
-    return {
-        fullname: '',
-        username: '',
-        password: '',
-    }
 }
 
