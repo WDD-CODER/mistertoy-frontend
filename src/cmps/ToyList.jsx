@@ -14,8 +14,6 @@ export function ToyList({ toys, onRemoveToy }) {
         <List className="toy-list" >
             {toys.map(toy =>
                 <Card key={toy._id} sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
-
-                    {loggedinUser?.isAdmin && <Button><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
                     <ToyPreview toy={toy} />
                     {loggedinUser?.isAdmin &&
                         <Container >
@@ -32,3 +30,4 @@ export function ToyList({ toys, onRemoveToy }) {
         </List>
     )
 }
+
