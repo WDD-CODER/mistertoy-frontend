@@ -9,13 +9,13 @@ export function ToyList({ toys, onRemoveToy }) {
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
 
     //QUESTION //לא מובן מדוע אם אין את הקונסול בפרטים אז לפעמים צריך כמה לחיצות עד שהכפתור מגיב
-
+// לבדוק אפשרות שאולי זה לוחץ בחלק מסויים מהכפתור ולכן זה לא מגיב. לשים לב אם זה היה בטגית של הקישור או התגית של הכפתור
     return (
         <List className="toy-list" >
             {toys.map(toy =>
                 <Card key={toy._id} sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
 
-                    {loggedinUser?.isAdmin && <Button ><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
+                    {loggedinUser?.isAdmin && <Button><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
                     <ToyPreview toy={toy} />
                     {loggedinUser?.isAdmin &&
                         <Container >

@@ -65,7 +65,6 @@ export function LoginSignup({ setIsLoginOpen }) {
             showErrorMsg(err.message || 'Failed signing up')
         }
     }
-    //FIXME זה לוחץ על כל השדות כאילו הם חסרים כאשר אני מנסה לעבור ללוגין
     return (
 
         <Container >
@@ -86,6 +85,7 @@ export function LoginSignup({ setIsLoginOpen }) {
                         <Field as={TextField}
                             name="username"
                             placeholder='Select User Name'
+                            //LEARN   האוטופוקוס זה מה שגורם ליוזר להופיע ישר לטקסס הקראשון זה מה שגרם לזה שהכל הופיע אדום כי הוא קפץ בכולם לפוקוס
                             autoFocus
                         />
                         {errors.username && touched.username ? (<Box sx={{ color: 'alert.main' }}>{errors.username}</Box>) : null}
@@ -94,7 +94,6 @@ export function LoginSignup({ setIsLoginOpen }) {
                         <Field as={TextField}
                             name="password"
                             placeholder='Set up a new password'
-                            autoFocus
                         />
                         {errors.password && touched.password ? (<Box sx={{ color: 'alert.main' }}>{errors.password}</Box>) : null}
                     </FormControl>
@@ -105,7 +104,6 @@ export function LoginSignup({ setIsLoginOpen }) {
                                 as={TextField}
                                 name="fullname"
                                 placeholder="what's your full name?"
-                                autoFocus
                             />
                             {errors.fullname && touched.fullname ? (
                                 <Box sx={{ color: 'alert.main' }}>{errors.fullname}</Box>

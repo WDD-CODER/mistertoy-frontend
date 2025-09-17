@@ -91,7 +91,7 @@ function MyMap() {
                                     <br />
                                     Please rate. Our branch to your liking
                                 </p>
-                                {/* //INCOMPLETE  אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
+                                {/* //FIXME  אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
                                 <Rating
                                     onChange={(_, newValue) => onSetRating(newValue)}
                                     value={branch.rating}
