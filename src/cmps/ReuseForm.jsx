@@ -3,6 +3,14 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Box, Button, Container, FormControlLabel, FormLabel, Switch, Typography } from '@mui/material'
 
+// This part need to be applied where the Reusable form will be used as the given inputs.
+    //   const fieldsConfig = [
+    //     { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
+    //     { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
+    //     { name: 'inStock', type: 'boolean' }
+    // ]
+
+
 // The main reusable form component
 export const ReusableForm = ({ item, onSave, fieldsConfig }) => {
     // Dynamically build the schema based on fieldsConfig
@@ -34,7 +42,6 @@ export const ReusableForm = ({ item, onSave, fieldsConfig }) => {
     }
 
     const validationSchema = createValidationSchema()
-
     // Set initial values from the item, filtered by the fieldsConfig
     const initialValues = {}
     fieldsConfig.forEach(field => {
@@ -45,7 +52,7 @@ export const ReusableForm = ({ item, onSave, fieldsConfig }) => {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={values => onSave(values)}
+            onSubmit={values => onSave({...item, ...values})}
         >
             {({ values, errors, touched }) => (
                 <Form>

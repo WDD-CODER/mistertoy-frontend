@@ -8,11 +8,12 @@ import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 
-import MyForm from "../cmps/formik/MyForm.jsx"
+import { ReusableForm } from "../cmps/ReuseForm.jsx"
 
 export function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+    console.log("🚀 ~ ToyEdit ~ toyToEdit:", toyToEdit)
     const navigate = useNavigate()
     const { toyId } = useParams()
 
@@ -45,22 +46,17 @@ export function ToyEdit() {
     const fieldsConfig = [
         { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
         { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
-        { name: 'inStock', label: 'Stock value ', type: 'boolean' }
+        { name: 'inStock', type: 'boolean' }
     ]
 
     return (
         <Container className="toy-edit">
             <AppHeader />
             <Box display="flex" sx={{ width: '300px' }}>
-                {/* <ReusableForm
+                <ReusableForm
                     item={toyToEdit}
                     onSave={onSaveToy}
                     fieldsConfig={fieldsConfig}
-                /> */}
-                <MyForm
-                    key={toyToEdit._id || 'new'}
-                    onSaveToy={onSaveToy}
-                    item={toyToEdit}
                 />
 
             </Box>
