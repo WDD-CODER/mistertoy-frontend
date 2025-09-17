@@ -8,8 +8,11 @@ import { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service.js"
 import { setFilter } from "../store/actions/toy.actions.js"
 import { toyService } from "../services/toy"
+import { Link } from 'react-router-dom';
 
 export function ToyFilter() {
+
+    const loggedinUser = useSelector(state => state.userModule.loggedinUser)
     const [filterByToEdit, setFilterByToEdit] = useState({ ...useSelector(state => state.toyModule.filterBy) })
     const debouncedOnSetFilter = useRef(utilService.debounce(setFilter, 500))
     const stateLabels = useSelector(state => state.toyModule.labels)
@@ -140,6 +143,7 @@ export function ToyFilter() {
                         />
                     </FormControl>
                 </Grid>
+                {loggedinUser?.isAdmin && <Button ><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
                 <><Button onClick={onClearFilter}>Clear Filter</Button></>
             </Grid>
         </Container >
