@@ -7,7 +7,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
-import { ReusableForm } from "../cmps/formik/MyForm.jsx"
+
+import MyForm from "../cmps/formik/MyForm.jsx"
 
 export function ToyEdit() {
 
@@ -42,29 +43,25 @@ export function ToyEdit() {
     }
 
     const fieldsConfig = [
-        { name: 'name', label: 'Toy Name', type: 'string', required: true, min: 2, max: 50 },
-        { name: 'price', label: 'Toy Price', type: 'numeric', required: true, min: 0 },
-        { name: 'inStock', label: 'In Stock', type: 'boolean' }
+        { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
+        { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
+        { name: 'inStock', label: 'Stock value ', type: 'boolean' }
     ]
 
     return (
         <Container className="toy-edit">
             <AppHeader />
             <Box display="flex" sx={{ width: '300px' }}>
-                <ReusableForm
+                {/* <ReusableForm
                     item={toyToEdit}
                     onSave={onSaveToy}
                     fieldsConfig={fieldsConfig}
-                />
-                {/* <MyForm
+                /> */}
+                <MyForm
                     key={toyToEdit._id || 'new'}
                     onSaveToy={onSaveToy}
                     item={toyToEdit}
-                    txt={toyToEdit.name}
-                    numericValue={toyToEdit.price}
-                    booleanValue={toyToEdit.inStock}
-
-                /> */}
+                />
 
             </Box>
             <AppFooter />
