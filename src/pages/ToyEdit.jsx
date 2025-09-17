@@ -4,10 +4,10 @@ import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import MyForm from "../cmps/formik/MyForm.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Container } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
+import { ReusableForm } from "../cmps/formik/MyForm.jsx"
 
 export function ToyEdit() {
 
@@ -41,15 +41,31 @@ export function ToyEdit() {
         }
     }
 
+    const fieldsConfig = [
+        { name: 'name', label: 'Toy Name', type: 'string', required: true, min: 2, max: 50 },
+        { name: 'price', label: 'Toy Price', type: 'numeric', required: true, min: 0 },
+        { name: 'inStock', label: 'In Stock', type: 'boolean' }
+    ]
 
     return (
         <Container className="toy-edit">
             <AppHeader />
             <Box display="flex" sx={{ width: '300px' }}>
-                <MyForm
+                <ReusableForm
+                    item={toyToEdit}
+                    onSave={onSaveToy}
+                    fieldsConfig={fieldsConfig}
+                />
+                {/* <MyForm
                     key={toyToEdit._id || 'new'}
                     onSaveToy={onSaveToy}
-                    toyToEdit={toyToEdit} />
+                    item={toyToEdit}
+                    txt={toyToEdit.name}
+                    numericValue={toyToEdit.price}
+                    booleanValue={toyToEdit.inStock}
+
+                /> */}
+
             </Box>
             <AppFooter />
         </Container>
