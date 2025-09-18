@@ -47,11 +47,6 @@ export function ToyEdit() {
         }
     }
 
-    const fieldsConfig = [
-        { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
-        { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 }
-    ]
-
     return (
         <Container className="toy-edit">
             <AppHeader />
@@ -59,7 +54,6 @@ export function ToyEdit() {
                 <ToyEditForm
                     item={toy}
                     setItem={setToy}
-                    fieldsConfig={fieldsConfig}
                     onSave={onSaveToy}
                 />
             </Stack>

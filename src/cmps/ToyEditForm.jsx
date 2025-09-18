@@ -6,13 +6,13 @@ import { Box, Button, Card, Container, FormControl, FormControlLabel, FormLabel,
 import { LabelsList } from './LabelsList'
 import { utilService } from '../services/util.service'
 
-export function ToyEditForm({ item, setItem, fieldsConfig, onSave }) {
-    // This part need to be applied where the ToyEditForm will be used as the given inputs.
-    //   const fieldsConfig = [
-    //     { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
-    //     { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
-    //     { name: 'inStock', type: 'boolean' }
-    // ]
+export function ToyEditForm({ item, setItem, onSave }) {
+
+    const fieldsConfig = [
+        { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
+        { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 }
+    ]
+
 
     const { name, price, inStock, sortDir, sortBy, labels } = item
 
@@ -76,7 +76,7 @@ export function ToyEditForm({ item, setItem, fieldsConfig, onSave }) {
                 <Form>
                     <Container sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
                         {fieldsConfig.map(field => (
-                            <div key={field.name}>
+                            <Box key={field.name}>
                                 <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
                                 {field.type === 'boolean' ? (
                                     <FormControlLabel
@@ -89,7 +89,7 @@ export function ToyEditForm({ item, setItem, fieldsConfig, onSave }) {
                                 {errors[field.name] && touched[field.name] ? (
                                     <Box sx={{ color: 'alert.main' }}>{errors[field.name]}</Box>
                                 ) : null}
-                            </div>
+                            </Box>
                         ))}
                         <Stack spacing={3} margin={1} sx={{ textAlign: "center" }} >
                             <FormControl >
