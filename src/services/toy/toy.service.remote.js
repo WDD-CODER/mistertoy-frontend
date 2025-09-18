@@ -4,6 +4,7 @@ import { httpService } from '../http.service.js'
 import { useDispatch } from 'react-redux'
 
 const TOY_URL = 'toy/'
+const MSG_URL = '/msg'
 const BRANCH_KEY = 'branchDB'
 _createToys()
 
@@ -26,7 +27,8 @@ export const toyService = {
     getStockValues,
     getDemoLabels,
     getStockValueToShow,
-    setSearchParamsFromFilter
+    setSearchParamsFromFilter,
+    saveToyMsg
 }
 
 // LIST
@@ -41,6 +43,14 @@ function getBranches() {
 
 
 // CREATE
+
+async function saveToyMsg(toyId, msg) {
+   const toyWithMsg =  await httpService.post(TOY_URL + toyId + MSG_URL , msg)
+   console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
+    toyWithMsg
+}
+
+
 
 function createBranches() {
     const branches = [
@@ -83,11 +93,14 @@ function _createToys() {
 function _getEmptyToy(name = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
+        createdAt: new Date().toLocaleDateString(),
         id: utilService.makeId(),
         name,
         imgUrl: "",
-        price, labels: [],
+        price,
+        labels: [],
         inStock: '',
+        msg: [],
         color: utilService.getRandomColor(),
         sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
     }
@@ -101,10 +114,15 @@ function _createToy(name, price) {
     return toy
 }
 
+
+
+
 // READ
 function getStockValues() {
     return ['All', 'Available', 'Unavailable']
 }
+
+
 function getDemoLabels() {
     return [
         "on-wheels",
@@ -257,7 +275,8 @@ async function _setNextPrevToyId(toy) {
         toy.prevToyId = prevToy._id
         return toy
     } catch (error) {
-        console.log(" Problem setting next page toy")
+        //FIXME  
+        // console.log(" Problem setting next page toy")
     }
 }
 

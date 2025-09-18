@@ -25,7 +25,8 @@ export const toyService = {
     getStockValues,
     getDemoLabels,
     getStockValueToShow,
-    setSearchParamsFromFilter
+    setSearchParamsFromFilter,
+    saveToyMsg
 }
 
 // LIST
@@ -86,6 +87,13 @@ function getBranches() {
 
 // CREATE
 
+async function saveToyMsg(toyId, msg) {
+    const toyWithMsg = await storageService.post(TOY_URL + toyId + MSG_URL, msg)
+    console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
+    return toyWithMsg
+}
+
+
 function createBranches() {
     const branches = [
         { name: "Tel-Aviv", location: { lat: 32.0853, lng: 34.7818 }, color: 'blue', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Tel-Aviv/400/300" },
@@ -132,6 +140,23 @@ function _createToy(name, price) {
     return toy
 }
 
+function _getEmptyToy(name = '', price = 0) {
+    const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
+    return {
+        createdAt: new Date().toLocaleDateString(),
+        id: utilService.makeId(),
+        name,
+        imgUrl: "",
+        price,
+        labels: [],
+        inStock: '',
+        msg: [],
+        color: utilService.getRandomColor(),
+        sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
+    }
+}
+
+
 // READ
 function getStockValues() {
     return ['All', 'Available', 'Unavailable']
@@ -169,7 +194,6 @@ function getLabelsFromToys(toys) {
 }
 
 async function getById(toyId) {
-    console.log("🚀 ~ getById ~ toyId:", toyId)
     try {
         const toy = await storageService.get(TOY_KEY, toyId)
         _setNextPrevToyId(toy)
@@ -179,18 +203,6 @@ async function getById(toyId) {
     }
 }
 
-function _getEmptyToy(name = '', price = 0) {
-    const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
-    return {
-        id: utilService.makeId(),
-        name,
-        imgUrl: "",
-        price, labels: [],
-        inStock: '',
-        color: utilService.getRandomColor(),
-        sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
-    }
-}
 
 function getDefaultFilter() {
     return {
@@ -280,15 +292,13 @@ async function _setNextPrevToyId(toy) {
         const toys = await storageService.query(TOY_KEY)
         const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
         const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
-        console.log("🚀 ~ _setNextPrevToyId ~ nextToy:", nextToy)
         const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
-        console.log("🚀 ~ _setNextPrevToyId ~ prevToy:", prevToy)
         toy.nextToyId = nextToy._id
         toy.prevToyId = prevToy._id
-        console.log("🚀 ~ _setNextPrevToyId ~ toy:", toy)
         return toy
     } catch (error) {
-        console.log(" Problem setting next page toy")
+        //FIXME
+        // console.log(" Problem setting next page toy")
     }
 }
 

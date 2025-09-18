@@ -116,6 +116,18 @@ export async function updateToy(toyToUpdate) {
     }
 }
 
+export async function onSaveToyMsg(toyId,userMsg){
+  try {
+        const msg = await toyService.saveToyMsg(toyId,userMsg)
+        // store.dispatch({ type: UPDATE_TOY, toy })
+        return msg
+    } catch (err) {
+        console.log('toy.action -> cant save Msg to Toy', err)
+        throw err
+    }
+}
+
+
 // DELETE
 export async function removeToy(toyIdToRemove) {
     if (!confirm('Are you Sure you want to delete the toy?!')) return Promise.reject('toy not deleted!')
