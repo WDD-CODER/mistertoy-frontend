@@ -1,4 +1,4 @@
-import { getToy,updateToy } from "../store/actions/toy.actions.js"
+import { getToy, updateToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
@@ -8,11 +8,12 @@ import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Button, Container, Toolbar } from "@mui/material"
+import { Box, Button, Card, Container, Grid, List, Paper, Toolbar, Typography } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
 import { utilService } from "../services/util.service.js"
+import { AddMsg } from "../cmps/AddMsg.jsx"
 
 export function ToyDetails() {
 
@@ -20,20 +21,24 @@ export function ToyDetails() {
 
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
+    //FIXME  להחליף את הפונקציה שתעבוד מול הסטור
+    // const toy = useSelector(state => state.toyModule.toy)
+    
     const { toyId } = useParams()
 
     const debouncedToyUpdate = utilService.debounce(updateToy, 500)
-    
+
     useEffectOnUpdate(() => {
         debouncedToyUpdate(toy)
     }, toy)
-
-
+    useEffectOnUpdate(() => {
+         debouncedToyUpdate(toy)
+    }, toy?.msgs)
 
     useEffect(() => {
         if (toyId) fetchToy()
 
-        }, [toyId])
+    }, [toyId])
 
     async function fetchToy() {
         try {
@@ -43,15 +48,31 @@ export function ToyDetails() {
             showErrorMsg("can't get toy ")
         }
     }
-    
+
+                     console.log("🚀 ~ ToyDetails ~ toy:", toy)
 
     return (
         <Container>
             <AppHeader />
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
-                <LabelsList item={toy} setItem={setToy}/>
+                <LabelsList item={toy} setItem={setToy} />
 
+                <AddMsg
+                    item={toy}
+                    setItem={setToy}
+                />
+             
+                <Grid container spacing={2}>
+                    {toy.msgs?.map((msg, idx) => {
+                     return   <Grid key={idx}>
+                            <Paper sx={{ p: 2, textAlign: 'center' }}>
+                                {msg.txt}
+                            </Paper>
+                        </Grid>
+                    })
+                    }
+                </Grid>
                 <Button><Link to={`/toy/`}>Back to list</Link></Button>
                 {!isChatOpen && <Button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</Button>}
 
