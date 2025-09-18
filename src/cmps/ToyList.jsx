@@ -12,13 +12,13 @@ export function ToyList({ toys, onRemoveToy }) {
     return (
         <List className="toy-list" >
             {toys.map(toy =>
-                <Card key={toy._id} sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
+                <Card key={toy._id} sx={{marginBottom:'auto', height: 'auto', display: 'flex', flexDirection: 'column', }}>
                     <ToyPreview toy={toy} />
                     {loggedinUser?.isAdmin &&
                             //FIXME STYLE כרגע סידרתי את הלייבילים ככפתור לפתרון זריז.
-                        <Container >
-                            <Container>{toy?.labels.map(label => <Button  key={label} >{label}</Button>)}
-                            </Container>
+                        <Container sx={{padding:'0' , marginTop:'auto', height:'fit-content'}} >
+                            <List>{toy?.labels.map(label => <Button  key={label} >{label}</Button>)}
+                            </List>
                             <ButtonGroup fullWidth  >
                                 <Button onClick={() => onRemoveToy(toy._id)}>Remove</Button>
                                 <Button onClick={() => console.log('Details')}><Link to={`/toy/${toy._id}`}>Details</Link></Button>
