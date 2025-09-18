@@ -1,7 +1,6 @@
-import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Box, Button, Card, Container, FormControlLabel, FormLabel, Switch, Typography } from '@mui/material'
+import { Box,Container, FormControlLabel, FormLabel, Switch} from '@mui/material'
 
 // This part need to be applied where the Reusable form will be used as the given inputs.
 //   const fieldsConfig = [
@@ -12,7 +11,7 @@ import { Box, Button, Card, Container, FormControlLabel, FormLabel, Switch, Typo
 
 
 // The main reusable form component
-export const ReusableForm = ({ item, setItem, fieldsConfig, children }) => {
+export const ReusableForm = ({ item, setItem, fieldsConfig }) => {
     // Dynamically build the schema based on fieldsConfig
     const createValidationSchema = () => {
         const schema = {}
@@ -75,8 +74,6 @@ export const ReusableForm = ({ item, setItem, fieldsConfig, children }) => {
                             </div>
                         ))}
                     </Container>
-                    {/* {children}s */}
-                    {/* <Button type="submit">Save</Button> */}
                 </Form>
             )}
         </Formik>

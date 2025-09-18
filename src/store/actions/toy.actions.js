@@ -106,7 +106,6 @@ export function setFilter(filterBy) {
 
 
 export async function updateToy(toyToUpdate) {
-    console.log("🚀 ~ updateToy ~ toyToUpdate:", toyToUpdate)
     try {
         const toy = await toyService.save(toyToUpdate)
         store.dispatch({ type: UPDATE_TOY, toy })

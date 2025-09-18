@@ -12,6 +12,7 @@ import { ReusableForm } from "../cmps/ReuseForm.jsx"
 import { LabelsList } from "../cmps/LabelsList.jsx"
 import { utilService } from "../services/util.service.js"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
+import { ToyEditForm } from "../cmps/ToyEditForm.jsx"
 
 export function ToyEdit() {
 
@@ -19,13 +20,6 @@ export function ToyEdit() {
 
     const navigate = useNavigate()
     const { toyId } = useParams()
-
-    const debouncedToyUpdate = utilService.debounce(updateToy, 500)
-
-    useEffectOnUpdate(() => {
-        debouncedToyUpdate(toy)
-    }, toy)
-
 
     useEffect(() => {
         fetchToy()
@@ -42,9 +36,9 @@ export function ToyEdit() {
         }
     }
 
-    async function onSaveToy() {
+    async function onSaveToy(toy) {
         try {
-            saveToy(toy)
+            await saveToy(toy)
             navigate('/toy')
             showSuccessMsg(`Toy Saved (id: ${toy.name})`)
         } catch (err) {
@@ -62,13 +56,12 @@ export function ToyEdit() {
         <Container className="toy-edit">
             <AppHeader />
             <Stack display="flex" sx={{ width: '300px' }}>
-                <ReusableForm
+                <ToyEditForm
                     item={toy}
                     setItem={setToy}
                     fieldsConfig={fieldsConfig}
+                    onSave={onSaveToy}
                 />
-                <LabelsList item={toy} setItem={setToy} />
-                <Button onClick={onSaveToy} type="save-toy">Save</Button>
             </Stack>
 
             <AppFooter />
