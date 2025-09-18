@@ -54,16 +54,6 @@ export function ToyIndex() {
         }
     }
 
-    function onToggleInStock(toy) {
-        try {
-            const toyToSave = { ...toy, inStock: !toy.inStock }
-            updateToy(toyToSave)
-            showSuccessMsg(`Toy ${(toy.inStock) ? 'Back In Stock!' : 'Out Of Stock'}`)
-        } catch (err) {
-            console.log('problem setting toy stock', err)
-            showErrorMsg('toy stock not changed ' + toy._Id)
-        }
-    }
 
     function onChangePageIdx(diff) {
         let newPageIdx = +filterBy.pageIdx + diff
