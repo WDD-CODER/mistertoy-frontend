@@ -14,7 +14,6 @@ import {
     SET_BRANCHES,
     SET_MAX_PAGE
 } from "../reduce/toy.reduce.js";
-import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST
@@ -107,6 +106,7 @@ export function setFilter(filterBy) {
 
 
 export async function updateToy(toyToUpdate) {
+    console.log("🚀 ~ updateToy ~ toyToUpdate:", toyToUpdate)
     try {
         const toy = await toyService.save(toyToUpdate)
         store.dispatch({ type: UPDATE_TOY, toy })

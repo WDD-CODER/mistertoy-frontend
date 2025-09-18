@@ -1,18 +1,18 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Box, Button, Container, FormControlLabel, FormLabel, Switch, Typography } from '@mui/material'
+import { Box, Button, Card, Container, FormControlLabel, FormLabel, Switch, Typography } from '@mui/material'
 
 // This part need to be applied where the Reusable form will be used as the given inputs.
-    //   const fieldsConfig = [
-    //     { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
-    //     { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
-    //     { name: 'inStock', type: 'boolean' }
-    // ]
+//   const fieldsConfig = [
+//     { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
+//     { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 },
+//     { name: 'inStock', type: 'boolean' }
+// ]
 
 
 // The main reusable form component
-export const ReusableForm = ({ item, onSave, fieldsConfig }) => {
+export const ReusableForm = ({ item, setItem, fieldsConfig, children }) => {
     // Dynamically build the schema based on fieldsConfig
     const createValidationSchema = () => {
         const schema = {}
@@ -52,28 +52,31 @@ export const ReusableForm = ({ item, onSave, fieldsConfig }) => {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={values => onSave({...item, ...values})}
+            onSubmit={values => setItem({ ...item, ...values })}
         >
             {({ values, errors, touched }) => (
                 <Form>
-                    {/* Render fields from the config array */}
-                    {fieldsConfig.map(field => (
-                        <div key={field.name}>
-                            <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
-                            {field.type === 'boolean' ? (
-                                <FormControlLabel
-                                    sx={{ color: values[field.name] ? 'success.main' : 'alert.main' }}
-                                    control={<Field name={field.name} as={Switch} />}
-                                    label={values[field.name]?    'Toy is Available': 'Toy Out Of Stock'} />
-                            ) : (
-                                <Field name={field.name} />
-                            )}
-                            {errors[field.name] && touched[field.name] ? (
-                                <Box sx={{ color: 'alert.main' }}>{errors[field.name]}</Box>
-                            ) : null}
-                        </div>
-                    ))}
-                    <Button type="submit">Save</Button>
+                    <Container sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
+                        {/* Render fields from the config array */}
+                        {fieldsConfig.map(field => (
+                            <div key={field.name}>
+                                <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
+                                {field.type === 'boolean' ? (
+                                    <FormControlLabel
+                                        sx={{ color: values[field.name] ? 'success.main' : 'alert.main' }}
+                                        control={<Field name={field.name} as={Switch} />}
+                                        label={values[field.name] ? 'Toy is Available' : 'Toy Out Of Stock'} />
+                                ) : (
+                                    <Field name={field.name} />
+                                )}
+                                {errors[field.name] && touched[field.name] ? (
+                                    <Box sx={{ color: 'alert.main' }}>{errors[field.name]}</Box>
+                                ) : null}
+                            </div>
+                        ))}
+                    </Container>
+                    {/* {children}s */}
+                    {/* <Button type="submit">Save</Button> */}
                 </Form>
             )}
         </Formik>

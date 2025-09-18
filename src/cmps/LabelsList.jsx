@@ -1,34 +1,38 @@
-import {useState } from "react"
-import {  updateToy } from "../store/actions/toy.actions"
+import { useState } from "react"
+import { updateToy } from "../store/actions/toy.actions"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly"
-import {  FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
 import { toyService } from "../services/toy"
 import { utilService } from "../services/util.service"
+import { useSelector } from "react-redux"
 
-export function LabelsList({ toy }) {
-    const debouncedToyUpdate = utilService.debounce(updateToy, 500)
+export function LabelsList({item, setItem}) {
+    // const item = useSelector(state => state.toyModule.toy)
+    
+    // const debouncedToyUpdate = utilService.debounce(updateToy, 500)
+    // const [toyToUpdate, setToyToUpdate] = useState(item)
+    const { name, price, inStock, sortDir, sortBy, labels } = item
 
-    const [toyToUpdate, setToyToUpdate] = useState(toy)
-    const { name, price, inStock, sortDir, sortBy, labels } = toyToUpdate
+    // useEffectOnUpdate(() => {
 
-    useEffectOnUpdate(() => {
-        debouncedToyUpdate(toyToUpdate)
-    }, toyToUpdate)
-
+    //     debouncedToyUpdate(toyToUpdate)
+    // }, toyToUpdate)
 
     async function onUpdateToyLabels(labelsToAdd) {
+        
         var updatedField = []
         if (labels.some(curLabel => curLabel === labelsToAdd)) {
             updatedField = labels.filter(curLabel => curLabel !== labelsToAdd)
-            setToyToUpdate(prevToy => ({ ...prevToy, labels: updatedField }))
+            setItem(({ ...item, labels: updatedField }))
         } else {
-            setToyToUpdate(prevToy => ({ ...prevToy, labels: labelsToAdd }))
+            setItem(({ ...item, labels: labelsToAdd }))
         }
     }
 
+
     async function onUpdateToyStockValue({ target }) {
         const modifiedStockValue = utilService.getStockModifiedValue(target.value)
-        setToyToUpdate(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
+        setItem(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
     }
 
     return (
@@ -39,7 +43,7 @@ export function LabelsList({ toy }) {
                     labelId="labels-multiple-label"
                     id="labels-multiple-select"
                     multiple
-                    value={toyToUpdate.labels}
+                    value={labels || []}
                     onChange={event => onUpdateToyLabels(event.target.value)}
                     label="Choose Labels"
                 >
@@ -55,7 +59,7 @@ export function LabelsList({ toy }) {
             <FormControl>
                 <InputLabel id="availability">Select Toy availability</InputLabel>
                 <Select
-                    value={toyService.getStockValueToShow(toyToUpdate)}
+                    value={toyService.getStockValueToShow(item)}
                     onChange={onUpdateToyStockValue}
                     name="inStock"
                     variant="standard"
