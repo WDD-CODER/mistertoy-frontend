@@ -1,28 +1,38 @@
-import { getToy, saveToy } from "../store/actions/toy.actions.js"
+import { getToy,updateToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import { useSelector } from "react-redux"
 import { LabelsList } from "../cmps/LabelsList.jsx"
-import { ToyInfo } from "../cmps/ToyInfo.jsx"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { showErrorMsg } from "../services/event-bus.service.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Button, Container, Stack, Toolbar } from "@mui/material"
+import { Box, Button, Container, Toolbar } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
+import { utilService } from "../services/util.service.js"
 
 export function ToyDetails() {
+
+    const [reviews, setReviews] = useState([])
 
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
     const { toyId } = useParams()
+
+    const debouncedToyUpdate = utilService.debounce(updateToy, 500)
     
+    useEffectOnUpdate(() => {
+        debouncedToyUpdate(toy)
+    }, toy)
+
+
+
     useEffect(() => {
         if (toyId) fetchToy()
+
         }, [toyId])
 
     async function fetchToy() {
@@ -40,7 +50,7 @@ export function ToyDetails() {
             <AppHeader />
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
-                <LabelsList toy={toy} setToy={setToy} />
+                <LabelsList item={toy} setItem={setToy}/>
 
                 <Button><Link to={`/toy/`}>Back to list</Link></Button>
                 {!isChatOpen && <Button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</Button>}

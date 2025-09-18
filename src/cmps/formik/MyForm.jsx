@@ -15,7 +15,7 @@ const SignupSchema = Yup.object().shape({
     inStock: Yup.boolean()
 });
 
-const MyForm = ({ onSaveToy, toyToEdit }) => {
+const MyForm = ({ onSaveToy,item }) => {
     return (
 
         <Container >
@@ -23,11 +23,11 @@ const MyForm = ({ onSaveToy, toyToEdit }) => {
                 Signup
             </Typography>
             <Formik initialValues={{
-                name: toyToEdit.name,
-                price: toyToEdit.price,
-                inStock: toyToEdit.inStock,
+                name: item.name,
+                price: item.price,
+                inStock: item.inStock,
             }} validationSchema={SignupSchema} onSubmit={values => {
-                onSaveToy(({ ...toyToEdit, ...values }))
+                onSaveToy(({ ...item, ...values }))
             }}>
                 {({ values, errors, touched }) => (<Form>
                     <FormLabel htmlFor="name" className="toy-name">

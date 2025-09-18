@@ -14,7 +14,6 @@ import {
     SET_BRANCHES,
     SET_MAX_PAGE
 } from "../reduce/toy.reduce.js";
-import { LabelsList } from "../../cmps/LabelsList.jsx";
 'use strict';
 
 // LIST

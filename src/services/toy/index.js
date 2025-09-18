@@ -1,6 +1,6 @@
 const { DEV, VITE_LOCAL } = import.meta.env
 
-import {utilService } from '../util.service.js'
+import { utilService } from '../util.service.js'
 
 import { toyService as local } from './toy.service.local.js'
 import { toyService as remote } from './toy.service.remote.js'
@@ -8,10 +8,11 @@ import { toyService as remote } from './toy.service.remote.js'
 function getEmptyToy(name = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
-        id:utilService.makeId(),
+        id: utilService.makeId(),
         name,
         imgUrl: "",
-        price, labels: [],
+        price,
+        labels: [],
         inStock: '',
         color: utilService.getRandomColor(),
         sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))

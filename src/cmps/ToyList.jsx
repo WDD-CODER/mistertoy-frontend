@@ -1,5 +1,4 @@
-import { Button, ButtonGroup, Card, Container, List } from "@mui/material"
-import { LabelsList } from "./LabelsList.jsx"
+import {Button, ButtonGroup, Card, Container, List } from "@mui/material"
 import { ToyPreview } from "./ToyPreview.jsx"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
@@ -16,8 +15,10 @@ export function ToyList({ toys, onRemoveToy }) {
                 <Card key={toy._id} sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
                     <ToyPreview toy={toy} />
                     {loggedinUser?.isAdmin &&
+                            //FIXME STYLE כרגע סידרתי את הלייבילים ככפתור לפתרון זריז.
                         <Container >
-                            <LabelsList toy={toy} />
+                            <Container>{toy?.labels.map(label => <Button  key={label} >{label}</Button>)}
+                            </Container>
                             <ButtonGroup fullWidth  >
                                 <Button onClick={() => onRemoveToy(toy._id)}>Remove</Button>
                                 <Button onClick={() => console.log('Details')}><Link to={`/toy/${toy._id}`}>Details</Link></Button>
