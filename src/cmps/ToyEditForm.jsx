@@ -1,36 +1,16 @@
 
-import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Box, Button, Card, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Select, Stack, Switch, Typography } from '@mui/material'
-import { LabelsList } from './LabelsList'
+import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Select, Stack, Switch, Typography } from '@mui/material'
 import { utilService } from '../services/util.service'
+import { toyService } from '../services/toy'
 
-export function ToyEditForm({ item, setItem, onSave }) {
+export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }) {
 
     const fieldsConfig = [
         { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
         { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 }
     ]
-
-
-    const { name, price, inStock, sortDir, sortBy, labels } = item
-
-
-    async function onUpdateToyLabels(labelsToAdd) {
-        var updatedField = []
-        if (labels.some(curLabel => curLabel === labelsToAdd)) {
-            updatedField = labels.filter(curLabel => curLabel !== labelsToAdd)
-            setItem(({ ...item, labels: updatedField }))
-        } else {
-            setItem(({ ...item, labels: labelsToAdd }))
-        }
-    }
-
-    async function onUpdateToyStockValue({ target }) {
-        const modifiedStockValue = utilService.getStockModifiedValue(target.value)
-        setItem(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
-    }
 
     const createValidationSchema = () => {
         const schema = {}
@@ -98,8 +78,8 @@ export function ToyEditForm({ item, setItem, onSave }) {
                                     labelId="labels-multiple-label"
                                     id="labels-multiple-select"
                                     multiple
-                                    value={labels || []}
-                                    onChange={event => onUpdateToyLabels(event.target.value)}
+                                    value={item.labels || []}
+                                    onChange={onUpdateLabels}
                                     label="Choose Labels"
                                 >
                                     {toyService.getDemoLabels().map((label) => (
@@ -115,7 +95,7 @@ export function ToyEditForm({ item, setItem, onSave }) {
                                 <InputLabel id="availability">Select Toy availability</InputLabel>
                                 <Select
                                     value={toyService.getStockValueToShow(item)}
-                                    onChange={onUpdateToyStockValue}
+                                    onChange={onUpdateStockValue}
                                     name="inStock"
                                     variant="standard"
                                 >

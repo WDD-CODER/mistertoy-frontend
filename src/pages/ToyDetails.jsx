@@ -7,12 +7,13 @@ import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Button,Container, Grid,Paper, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { AddMsg } from "../cmps/AddMsg.jsx"
 import { useSelector } from "react-redux"
 import { toyService } from "../services/toy/index.js"
+import { utilService } from "../services/util.service.js"
 
 export function ToyDetails() {
 
@@ -57,6 +58,23 @@ export function ToyDetails() {
         }
     }
 
+     function onUpdateToyStockValue(ev) {
+        const modifiedStockValue = utilService.getStockModifiedValue(ev.target.value)
+        setToy(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
+    }
+
+    function onUpdateToyLabels(ev) {
+        const labelsToAdd = ev.target.value
+        var updatedField = []
+        if (toy.labels.some(curLabel => curLabel === labelsToAdd)) {
+            updatedField = toy.labels.filter(curLabel => curLabel !== labelsToAdd)
+            setToy(({ ...toy, labels: updatedField }))
+        } else {
+            setToy(({ ...toy, labels: labelsToAdd }))
+        }
+    }
+
+
     function onSaveMsg(newMsg, resetForm) {
         const msgToSave = { ...toyMsg, ...newMsg };
         setToy(prevToy => ({ ...prevToy, msgs: [...(prevToy.msgs || []), msgToSave] }))
@@ -70,7 +88,7 @@ export function ToyDetails() {
             <AppHeader />
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
-                <LabelsList item={toy} setItem={setToy} />
+                <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />
 
                 {(loggedinUser) ?
                     <AddMsg
