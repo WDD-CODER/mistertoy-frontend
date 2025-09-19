@@ -4,7 +4,6 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, loadToysLabels, removeToy, setFilter, updateToy } from "../store/actions/toy.actions.js"
 
 import { useEffect } from "react"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { AppHeader } from "../cmps/AppHeader.jsx"
 import {  Container, Typography } from "@mui/material"
@@ -53,7 +52,6 @@ export function ToyIndex() {
             showErrorMsg('toy was not removed!')
         }
     }
-
 
     function onChangePageIdx(diff) {
         let newPageIdx = +filterBy.pageIdx + diff

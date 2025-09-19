@@ -2,7 +2,6 @@
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Select, Stack, Switch, Typography } from '@mui/material'
-import { utilService } from '../services/util.service'
 import { toyService } from '../services/toy'
 
 export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }) {
