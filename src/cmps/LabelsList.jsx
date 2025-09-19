@@ -19,7 +19,6 @@ export function LabelsList({item, setItem}) {
     // }, toyToUpdate)
 
     async function onUpdateToyLabels(labelsToAdd) {
-        
         var updatedField = []
         if (labels.some(curLabel => curLabel === labelsToAdd)) {
             updatedField = labels.filter(curLabel => curLabel !== labelsToAdd)

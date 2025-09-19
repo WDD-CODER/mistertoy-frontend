@@ -28,7 +28,8 @@ export const toyService = {
     getDemoLabels,
     getStockValueToShow,
     setSearchParamsFromFilter,
-    saveToyMsg
+    saveToyMsg,
+    getEmptyMsg
 }
 
 // LIST
@@ -45,10 +46,21 @@ function getBranches() {
 // CREATE
 
 async function saveToyMsg(toyId, msg) {
-   const toyWithMsg =  await httpService.post(TOY_URL + toyId + MSG_URL , msg)
-   console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
+    const toyWithMsg = await httpService.post(TOY_URL + toyId + MSG_URL, msg)
+    console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
     toyWithMsg
 }
+
+function getEmptyMsg() {
+    return {
+        id: utilService.makeId(),
+        by: {
+            _id: '',
+            username:''
+        }
+    }
+}
+
 
 
 

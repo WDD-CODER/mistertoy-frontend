@@ -11,7 +11,7 @@ import { Box, Container, FormControlLabel, FormLabel, Switch } from '@mui/materi
 
 
 // The main reusable form component
-export const ReusableForm = ({ item, setItem, fieldsConfig, onSave }) => {
+export const ReusableForm = ({ item, onSaveItem, fieldsConfig }) => {
     // Dynamically build the schema based on fieldsConfig
     const createValidationSchema = () => {
         const schema = {}
@@ -51,7 +51,8 @@ export const ReusableForm = ({ item, setItem, fieldsConfig, onSave }) => {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={values => onSave({ ...item, ...values })}
+            onSubmit={(values, { resetForm }) => onSaveItem(values, resetForm)}
+            enableReinitialize={true}
         >
             {({ values, errors, touched }) => (
                 <Form>

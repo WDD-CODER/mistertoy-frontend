@@ -23,7 +23,10 @@ function getById(userId) {
 async function login({ username, password }) {
     try {
         const users = await storageService.query(STORAGE_KEY)
-        const user = users.find(user => user.username === username)
+        const user = users.find(user => {
+            console.log("🚀 ~ login ~ user:", user)
+            return user.username === username;
+        })
         if (user) return _setLoggedinUser(user)
         else return Promise.reject('Invalid login')
     } catch (error) {
@@ -41,6 +44,7 @@ async function signup({ username, password, fullname, isAdmin }) {
         const user = await storageService.post(STORAGE_KEY, { username, password, fullname, isAdmin })
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
+        console.log("🚀 ~ signup ~ user:", user)
         _setLoggedinUser(user)
         return user
     } catch (err) {
@@ -59,7 +63,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
+    const userToSave = { _id: user._id, fullname: user.fullname, username: user.username, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }

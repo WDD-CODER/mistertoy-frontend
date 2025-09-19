@@ -8,16 +8,19 @@ import { toyService as remote } from './toy.service.remote.js'
 function getEmptyToy(name = '', price = 0) {
     const dates = ["15/10", "30/10", "15/11", "30/11", "15/12", "30/12"]
     return {
+        createdAt: new Date().toLocaleDateString() ,
         id: utilService.makeId(),
         name,
         imgUrl: "",
         price,
         labels: [],
         inStock: '',
+        msg: [],
         color: utilService.getRandomColor(),
         sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
     }
 }
+
 
 function getDefaultFilter() {
     return {

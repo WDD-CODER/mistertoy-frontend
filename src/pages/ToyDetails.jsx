@@ -1,6 +1,5 @@
-import { getToy, updateToy } from "../store/actions/toy.actions.js"
-
-import { useState, useEffect } from "react"
+import { getToy, onSaveToyMsg, updateToy } from "../store/actions/toy.actions.js"
+import { useState, useEffect, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
 import { LabelsList } from "../cmps/LabelsList.jsx"
 import { showErrorMsg } from "../services/event-bus.service.js"
@@ -8,37 +7,46 @@ import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Button, Card, Container, Grid, List, Paper, Toolbar, Typography } from "@mui/material"
+import { Box, Button,Container, Grid,Paper, Toolbar, Typography } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
-import { useEffectOnUpdate } from "../hooks/useEffectOnUpdateOnly.js"
-import { utilService } from "../services/util.service.js"
 import { AddMsg } from "../cmps/AddMsg.jsx"
+import { useSelector } from "react-redux"
+import { toyService } from "../services/toy/index.js"
 
 export function ToyDetails() {
 
     const [reviews, setReviews] = useState([])
 
+    const loggedinUser = useSelector(state => state.userModule.loggedinUser)
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
-    //FIXME  להחליף את הפונקציה שתעבוד מול הסטור
-    // const toy = useSelector(state => state.toyModule.toy)
-    
+    const [toyMsg, setToyMsg] = useState(toyService.getEmptyMsg())
+
+    const toyRef = useRef(null)
     const { toyId } = useParams()
 
-    const debouncedToyUpdate = utilService.debounce(updateToy, 500)
-
-    useEffectOnUpdate(() => {
-        debouncedToyUpdate(toy)
-    }, toy)
-    useEffectOnUpdate(() => {
-         debouncedToyUpdate(toy)
-    }, toy?.msgs)
 
     useEffect(() => {
         if (toyId) fetchToy()
 
+        return () => {
+            if (toyRef.current) {
+                const updatedToy = toyRef.current
+                updateToy(updatedToy)
+            }
+        }
     }, [toyId])
+
+    useEffect(() => {
+        toyRef.current = toy
+    }, [toy])
+
+    useEffect(() => {
+        if (loggedinUser) {
+            setToyMsg(prevMsg => ({ ...prevMsg, by: ({ _id: loggedinUser._id, username: loggedinUser.username }) }))
+        }
+    }, [loggedinUser])
 
     async function fetchToy() {
         try {
@@ -49,7 +57,13 @@ export function ToyDetails() {
         }
     }
 
-                     console.log("🚀 ~ ToyDetails ~ toy:", toy)
+    function onSaveMsg(newMsg, resetForm) {
+        const msgToSave = { ...toyMsg, ...newMsg };
+        setToy(prevToy => ({ ...prevToy, msgs: [...(prevToy.msgs || []), msgToSave] }))
+        setToyMsg(toyService.getEmptyMsg())
+        resetForm()
+        onSaveToyMsg(toy._id, msgToSave)
+    }
 
     return (
         <Container>
@@ -58,14 +72,20 @@ export function ToyDetails() {
                 <ToyPreview toy={toy} />
                 <LabelsList item={toy} setItem={setToy} />
 
-                <AddMsg
-                    item={toy}
-                    setItem={setToy}
-                />
-             
+                {(loggedinUser) ?
+                    <AddMsg
+                        msg={toyMsg}
+                        onSaveMsg={onSaveMsg}
+                    />
+                    :
+                    <Typography>
+                        Please login in order to send message to toy.
+                    </Typography>
+                }
+
                 <Grid container spacing={2}>
                     {toy.msgs?.map((msg, idx) => {
-                     return   <Grid key={idx}>
+                        return <Grid key={idx}>
                             <Paper sx={{ p: 2, textAlign: 'center' }}>
                                 {msg.txt}
                             </Paper>
@@ -95,3 +115,5 @@ export function ToyDetails() {
         </Container>
     )
 }
+
+

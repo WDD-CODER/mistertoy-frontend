@@ -26,6 +26,7 @@ async function login({ username, password }) {
     try {
         const user = { username, password };
         const loggedInUser = await httpService.post(AUTH_URL + 'login', user);
+        console.log("🚀 ~ login ~ loggedInUser:", loggedInUser)
         if (loggedInUser) return _setLoggedinUser(loggedInUser);
         else throw new Error('Invalid login');
     } catch (error) {
@@ -62,7 +63,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
+    const userToSave = { _id: user._id, fullname: user.fullname, username: user.username, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }
