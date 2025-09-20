@@ -19,6 +19,7 @@ import {
 // LIST
 export async function loadToys() {
     const { filterBy } = store.getState().toyModule
+    console.log("🚀 ~ loadToys ~ filterBy:", filterBy)
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
@@ -119,7 +120,6 @@ export async function updateToy(toyToUpdate) {
 export async function onSaveToyMsg(toyId,userMsg){
   try {
         const msg = await toyService.saveToyMsg(toyId,userMsg)
-        // store.dispatch({ type: UPDATE_TOY, toy })
         return msg
     } catch (err) {
         console.log('toy.action -> cant save Msg to Toy', err)
