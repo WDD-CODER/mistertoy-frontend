@@ -12,10 +12,12 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { DashBoard } from './pages/DashBoard.jsx'
 import { Home } from './pages/Home.jsx'
 import { Loader } from './cmps/Loader.jsx'
-import PartsCmp from './cmps/PartsCmp.jsx'
+import PartsCmp from './pages/PartsCmp.jsx'
 import { Container, ThemeProvider } from '@mui/material'
 import { customTheme } from './assets/style/theme/theme.js'
 import { LoginSignup } from './cmps/LoginSignup.jsx'
+import { AppHeader } from './cmps/AppHeader.jsx'
+import { AppFooter } from './cmps/AppFooter.jsx'
 const Router =
     import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
         ? HashRouter
@@ -28,19 +30,20 @@ function App() {
             <Provider store={store} >
                 <Router>
                     <ThemeProvider theme={customTheme}>
-                        <Container sx={{padding:1,  width: '100vw' , height:'100vh'}} className="app main-layout">
-                            <main>
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/toy/:toyId" element={<ToyDetails />} />
-                                    <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
-                                    <Route path="/toy/edit" element={<ToyEdit />} />
-                                    <Route path="/toy/dashBoard" element={<DashBoard />} />
-                                    <Route path="/toy" element={<ToyIndex />} />
-                                    <Route path="/auth" element={<LoginSignup />} />
-                                    <Route path="/parts" element={<PartsCmp />} />
-                                </Routes>
-                            </main>
+                        <Container  disableGutters sx={{ width: '100vw', height: '100vh' }} className="app main-layout">
+                            <AppHeader />
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/toy/:toyId" element={<ToyDetails />} />
+                                <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
+                                <Route path="/toy/edit" element={<ToyEdit />} />
+                                <Route path="/toy/dashBoard" element={<DashBoard />} />
+                                <Route path="/toy" element={<ToyIndex />} />
+                                <Route path="/auth" element={<LoginSignup />} />
+                                
+                                {/* <Route path="/parts" element={<PartsCmp />} /> */}
+                            </Routes>
+                            <AppFooter />
                         </Container>
                         <UserMsg />
                         <Loader />

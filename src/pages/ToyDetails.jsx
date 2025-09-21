@@ -6,9 +6,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
-import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material"
-import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { AddMsg } from "../cmps/AddMsg.jsx"
 import { useSelector } from "react-redux"
@@ -37,7 +35,7 @@ export function ToyDetails() {
         if (toyId) fetchToy()
 
         return () => {
-            if (toyRef.current) {
+            if (toyRef.current && loggedinUser.isAdmin) {
                 const updatedToy = toyRef.current
                 updateToy(updatedToy)
             }
@@ -118,10 +116,9 @@ export function ToyDetails() {
 
     return (
         <Container>
-            <AppHeader />
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
-                <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />
+                {loggedinUser.isAdmin && <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />}
 
                 {loggedinUser ?
                     <AddMsg
@@ -141,9 +138,9 @@ export function ToyDetails() {
                             return <Grid key={idx}>
                                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                                     {msg.txt}
-                                    <IconButton onClick={() => onRemoveMsg(msg)} aria-label="close">
+                                    {loggedinUser.isAdmin && <IconButton onClick={() => onRemoveMsg(msg)} aria-label="close">
                                         <CloseIcon />
-                                    </IconButton>
+                                    </IconButton>}
                                 </Paper>
                             </Grid>
                         })
@@ -153,16 +150,16 @@ export function ToyDetails() {
 
                 <Container sx={{ backgroundColor: 'lightgrey', textAlign: 'center' }} >
                     <Typography>Reviews</Typography>
-                    {!isReviewOpen && <Button onClick={() => setIsReviewOpen(true)}>Add Review</Button>}
+                    {!isReviewOpen && loggedinUser.isAdmin && <Button onClick={() => setIsReviewOpen(true)}>Add Review</Button>}
 
                     <Grid container spacing={2} padding={2} >
                         {reviews?.map((review, idx) => {
                             return <Grid key={idx}>
-                                <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood' }}>
+                                <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood' , padding:'1em'}}>
                                     {review.txt}
-                                    <IconButton onClick={() => onRemoveReview(review)} aria-label="close">
+                                    {loggedinUser.isAdmin && <IconButton onClick={() => onRemoveReview(review)} aria-label="close">
                                         <CloseIcon />
-                                    </IconButton>
+                                    </IconButton>}
                                 </Paper>
                             </Grid>
                         })
@@ -198,7 +195,6 @@ export function ToyDetails() {
             </Box>
                 :
                 <Loader />}
-            <AppFooter />
         </Container>
     )
 }

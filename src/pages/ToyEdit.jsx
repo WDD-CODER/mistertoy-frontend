@@ -4,9 +4,7 @@ import { getToy, saveToy} from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { AppHeader } from "../cmps/AppHeader.jsx"
 import { Container, Stack } from "@mui/material"
-import { AppFooter } from "../cmps/AppFooter.jsx"
 import { ToyEditForm } from "../cmps/ToyEditForm.jsx"
 import { utilService } from "../services/util.service.js"
 
@@ -62,7 +60,6 @@ export function ToyEdit() {
 
     return (
         <Container className="toy-edit">
-            <AppHeader />
             <Stack display="flex" sx={{ width: '300px' }}>
                 <ToyEditForm
                     item={toy}
@@ -72,7 +69,6 @@ export function ToyEdit() {
                 />
             </Stack>
 
-            <AppFooter />
         </Container>
     )
 }

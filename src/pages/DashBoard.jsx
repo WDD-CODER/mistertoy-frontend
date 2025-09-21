@@ -5,10 +5,8 @@ import { loadToys } from "../store/actions/toy.actions";
 import { LineChart } from "../cmps/chartJs/LineChart.jsx";
 import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
-import { AppHeader } from "../cmps/AppHeader.jsx";
 import { Box, Container } from "@mui/material";
 import { showErrorMsg } from "../services/event-bus.service.js";
-import { AppFooter } from "../cmps/AppFooter.jsx";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -33,7 +31,6 @@ export function DashBoard() {
 
     return (
         <Container >
-            <AppHeader />
             {toys &&
                 <Box >
                     <Container sx={{ display: "flex", justifyContent: 'space-evenly' }} className="dash-board-container">
@@ -49,7 +46,6 @@ export function DashBoard() {
                     </Box>
                 </Box>
             }
-            <AppFooter />
         </Container>
     )
 
