@@ -5,9 +5,7 @@ import { loadToys, loadToysLabels, removeToy, setFilter, updateToy } from "../st
 
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { AppHeader } from "../cmps/AppHeader.jsx"
 import {  Container, Typography } from "@mui/material"
-import { AppFooter } from "../cmps/AppFooter.jsx"
 import { PaginationButtons } from "../cmps/PaginationButtons.jsx"
 
 
@@ -62,13 +60,11 @@ export function ToyIndex() {
 
     return (
         <Container>
-            <AppHeader />
             <ToyFilter />
             {toys &&
                 <Container sx={{textAlign:"center"}}>
                     <Typography>Toys List</Typography>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
-                    <AppFooter />
                     {!!toys.length && maxPage > 1 && (
                         <PaginationButtons
                             pageIdx={filterBy.pageIdx}
