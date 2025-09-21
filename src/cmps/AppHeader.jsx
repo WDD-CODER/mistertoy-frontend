@@ -38,7 +38,7 @@ export function AppHeader() {
                     <Link to="/" className="btn" >Home</Link>
                     <Link to="/toy" className="btn" >Toys</Link>
                     <Link to="/toy/dashBoard" className="btn" >DashBoard</Link>
-                    <Link to="/parts" className="btn" >PartsCmp</Link>
+                    {/* <Link to="/parts" className="btn" >PartsCmp</Link> */}
                 </Box>
             </Toolbar>
             <PopUp
