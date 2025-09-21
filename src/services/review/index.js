@@ -8,3 +8,5 @@ export const reviewService = { ...service }
 
 if (DEV) window.reviewService = reviewService
 
+//QUESTION האם אנחנו צריכים לבנות סרוויס לוקלי אם אנחנו עובדים מול מונגו מקומי?
+// הרי אם אנחנו עובדים מול המונגו הלוקלי שהוא יותר נוח מהלוקל סטורג למה לנו לבנות בכלל את הסרוויס הזה ?
