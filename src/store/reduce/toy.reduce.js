@@ -10,6 +10,7 @@ export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const REMOVE_TOY = 'REMOVE_TOY'
+export const REMOVE_TOY_MSG = 'REMOVE_TOY_MSG'
 
 const initialState = {
     toys: null,
@@ -44,6 +45,8 @@ export function toyReducer(state = initialState, cmd = {}) {
             return { ...state, filterBy: ({ ...state.filterBy, ...cmd.filterBy }) }
         case REMOVE_TOY:
             return { ...state, toys: state.toys.filter(toy => toy._id !== cmd.toyIdToRemove) }
+        case REMOVE_TOY_MSG:
+            return { ...state, toy:({ ...state.toy, msgs:state.toy.msg.filter(msg => msg.id !== cmd.id)}) }
         default:
             return state
     }

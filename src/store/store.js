@@ -10,4 +10,4 @@ const rootReducer = combineReducers({
 const middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() || compose
 export const store = createStore(rootReducer, middleware)
 
-window.gStore = store
+window.gS

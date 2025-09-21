@@ -44,9 +44,6 @@ export function ToyDetails() {
         }
     }, [toyId])
 
-    // useEffect(() => {
-    //     toyRef.current = toy
-    // }, [toy])
 
     useEffect(() => {
     }, [reviews])
