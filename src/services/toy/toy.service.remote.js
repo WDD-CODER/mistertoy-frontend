@@ -1,10 +1,8 @@
 import { utilService } from '../util.service.js'
 import { storageService } from '../async-storage.service.js'
 import { httpService } from '../http.service.js'
-import { useDispatch } from 'react-redux'
 
 const TOY_URL = 'toy/'
-const MSG_URL = '/msg'
 const BRANCH_KEY = 'branchDB'
 _createToys()
 
@@ -29,7 +27,8 @@ export const toyService = {
     getStockValueToShow,
     setSearchParamsFromFilter,
     saveToyMsg,
-    getEmptyMsg
+    getEmptyMsg,
+    removeToyMsg
 }
 
 // LIST
@@ -46,8 +45,7 @@ function getBranches() {
 // CREATE
 
 async function saveToyMsg(toyId, msg) {
-    const toyWithMsg = await httpService.post(TOY_URL + toyId + MSG_URL, msg)
-    console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
+    const toyWithMsg = await httpService.post(TOY_URL + toyId + '/msg/' , msg)
     toyWithMsg
 }
 
@@ -56,12 +54,10 @@ function getEmptyMsg() {
         id: utilService.makeId(),
         by: {
             _id: '',
-            username:''
+            username: ''
         }
     }
 }
-
-
 
 
 function createBranches() {
@@ -98,7 +94,6 @@ function _createToys() {
             const name = toyNames[i]
             toys.push(_createToy(name, utilService.getRandomIntInclusive(10, 300)))
         }
-        // utilService.saveToStorage(TOY_URL, toys)
     }
 }
 
@@ -298,6 +293,13 @@ function remove(toyId) {
     return httpService.delete(TOY_URL + toyId)
 }
 
+async function removeToyMsg(toyId, msgId) {
+    const removedMsgId = await httpService.delete(`${TOY_URL}${toyId}/msg/${msgId}`)
+    return removedMsgId
+}
+
+
+// # UTIL
 function getPercentages(groupedItems) {
     const allItems = Object.values(groupedItems).flat();
     const totalCount = allItems.length;

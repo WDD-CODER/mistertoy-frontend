@@ -1,25 +1,6 @@
 import { reviewService } from "../../services/Review/index.js"
-import { store } from "../store.js"
-
-import {
-    REMOVE_REVIEW,
-    SET_IS_LOADING,
-    SET_REVIEWS
-} from "../reduce/review.reduce.js";
-'use strict';
 
 // LIST
-// export async function loadReviews(reviewId) {
-//     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-//     try {
-//         const Reviews = await reviewService.query(filterBy)
-//         return Reviews
-//     } catch (err) {
-//         console.log('Review.action -> cant get Reviews}', err)
-//         throw err
-//     }
-//     finally { store.dispatch({ type: SET_IS_LOADING, isLoading: false }) }
-// }
 
 
 export async function getToyReviews(aboutToyId) {
@@ -37,8 +18,6 @@ export async function getToyReviews(aboutToyId) {
 export async function addReview(ReviewToSave) {
     try {
         const Review = await reviewService.add(ReviewToSave)
-        console.log("🚀 ~ addReview ~ Review:", Review)
-    //     store.dispatch({ type, Review })
         return Review
     } catch (err) {
         console.log('Review.action -> cant add Review', err)
@@ -48,14 +27,12 @@ export async function addReview(ReviewToSave) {
 }
 
 
-// UPDATE
-
 // DELETE
-export async function removeReview(ReviewIdToRemove) {
-    console.log("🚀 ~ removeReview ~ ReviewIdToRemove:", ReviewIdToRemove)
+export async function removeReview(reviewIdToRemove) {
     if (!confirm('Are you Sure you want to delete the Review?!')) return Promise.reject('Review not deleted!')
     try {
-        const ReviewId = await reviewService.remove(ReviewIdToRemove)
+        const removedReviewId = await reviewService.remove(reviewIdToRemove)
+        return removedReviewId
     } catch (err) {
         console.log('Review.action -> cant remove Review', err)
         throw err

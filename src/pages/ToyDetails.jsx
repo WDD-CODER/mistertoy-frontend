@@ -1,13 +1,13 @@
-import { getToy, onSaveToyMsg, updateToy } from "../store/actions/toy.actions.js"
+import { getToy, onDeleteToyMsg as onRemoveToyMsg, onSaveToyMsg, updateToy } from "../store/actions/toy.actions.js"
 import { useState, useEffect, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
 import { LabelsList } from "../cmps/LabelsList.jsx"
-import { showErrorMsg } from "../services/event-bus.service.js"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { ToyPreview } from "../cmps/ToyPreview.jsx"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { AppHeader } from "../cmps/AppHeader.jsx"
-import { Box, Button, Container, Grid,Paper, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material"
 import { AppFooter } from "../cmps/AppFooter.jsx"
 import { Loader } from "../cmps/Loader.jsx"
 import { AddMsg } from "../cmps/AddMsg.jsx"
@@ -26,11 +26,8 @@ export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const [massage, setMassage] = useState(toyService.getEmptyMsg())
     const [isReviewOpen, setIsReviewOpen] = useState(false)
-    console.log("🚀 ~ ToyDetails ~ isReviewOpen:", isReviewOpen)
     const [review, setReview] = useState({ txt: '' })
-    console.log("🚀 ~ ToyDetails ~ review:", review)
     const [reviews, setReviews] = useState(null)
-    console.log("🚀 ~ ToyDetails ~ reviews:", reviews)
 
     const toyRef = useRef(null)
     const { toyId } = useParams()
@@ -105,9 +102,18 @@ export function ToyDetails() {
     }
 
     function onRemoveReview({ _id }) {
-        setReviews(prevReviews => prevReviews.filter(review=>review._id === _id))
+        setReviews(prevReviews => prevReviews.filter(review => review._id !== _id))
         setIsReviewOpen(false)
+        showSuccessMsg('Review Removed')
         removeReview(_id)
+    }
+
+    function onRemoveMsg({ id }) {
+        setToy(prevToy => ({ ...prevToy, msgs: prevToy.msgs.filter(msg => msg.id !== id) }))
+        // setIsReviewOpen(false)
+        showSuccessMsg('Massage Removed')
+        onRemoveToyMsg(toyId, id)
+        // removeReview(_id)
     }
 
 
@@ -130,16 +136,23 @@ export function ToyDetails() {
                         Please login in order to send message to toy.
                     </Typography>
                 }
-                <Grid container spacing={2}>
-                    {toy.msgs?.map((msg, idx) => {
-                        return <Grid key={idx}>
-                            <Paper sx={{ p: 2, textAlign: 'center' }}>
-                                {msg.txt}
-                            </Paper>
-                        </Grid>
-                    })
-                    }
-                </Grid>
+                <Container sx={{ backgroundColor: 'lightskyblue', textAlign: 'center' }} >
+                    <Typography>Toy Messages</Typography>
+
+                    <Grid container spacing={2} padding={2}>
+                        {toy.msgs?.map((msg, idx) => {
+                            return <Grid key={idx}>
+                                <Paper sx={{ p: 2, textAlign: 'center' }}>
+                                    {msg.txt}
+                                    <IconButton onClick={() => onRemoveMsg(msg)} aria-label="close">
+                                        <CloseIcon />
+                                    </IconButton>
+                                </Paper>
+                            </Grid>
+                        })
+                        }
+                    </Grid>
+                </Container>
 
                 <Container sx={{ backgroundColor: 'lightgrey', textAlign: 'center' }} >
                     <Typography>Reviews</Typography>
@@ -148,9 +161,9 @@ export function ToyDetails() {
                     <Grid container spacing={2} padding={2} >
                         {reviews?.map((review, idx) => {
                             return <Grid key={idx}>
-                                <Paper sx={{ p: 2, textAlign: 'center', backgroundColor: 'burlywood' }}>
+                                <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood' }}>
                                     {review.txt}
-                                    <IconButton onClick={onRemoveReview} aria-label="close">
+                                    <IconButton onClick={() => onRemoveReview(review)} aria-label="close">
                                         <CloseIcon />
                                     </IconButton>
                                 </Paper>

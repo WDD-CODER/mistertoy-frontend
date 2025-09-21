@@ -19,13 +19,12 @@ import {
 // LIST
 export async function loadToys() {
     const { filterBy } = store.getState().toyModule
-    console.log("🚀 ~ loadToys ~ filterBy:", filterBy)
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
-       const { toys, maxPage } = await toyService.query(filterBy)
+        const { toys, maxPage } = await toyService.query(filterBy)
         store.dispatch({ type: SET_TOYS, toys })
-        store.dispatch({ type: SET_MAX_PAGE, maxPage:maxPage })
+        store.dispatch({ type: SET_MAX_PAGE, maxPage: maxPage })
         return toys
     } catch (err) {
         console.log('toy.action -> cant get toys}', err)
@@ -97,11 +96,11 @@ export function setUpdatedBranches(branches) {
 // UPDATE
 
 export function setFilter(filterBy) {
-    if (!filterBy){
-        console.log('!filterBy' , filterBy)
+    if (!filterBy) {
+        console.log('!filterBy', filterBy)
         filterBy = toyService.getDefaultFilter()
     }
-    
+
     store.dispatch({ type: SET_FILTER_BY, filterBy: filterBy })
 }
 
@@ -117,9 +116,9 @@ export async function updateToy(toyToUpdate) {
     }
 }
 
-export async function onSaveToyMsg(toyId,userMsg){
-  try {
-        const msg = await toyService.saveToyMsg(toyId,userMsg)
+export async function onSaveToyMsg(toyId, userMsg) {
+    try {
+        const msg = await toyService.saveToyMsg(toyId, userMsg)
         return msg
     } catch (err) {
         console.log('toy.action -> cant save Msg to Toy', err)
@@ -142,7 +141,15 @@ export async function removeToy(toyIdToRemove) {
     finally { store.dispatch({ type: SET_IS_LOADING, isLoading: false }) }
 }
 
-
+export async function onDeleteToyMsg(toyId, msgId) {
+    try {
+        const removedMsgId = await toyService.removeToyMsg(toyId, msgId)
+        return removedMsgId
+    } catch (err) {
+        console.log('toy.action -> cant remove msg from toy', err)
+        throw err
+    }
+}
 
 // UTIL 
 

@@ -308,6 +308,7 @@ function remove(toyId) {
     return storageService.remove(TOY_KEY, toyId)
 }
 
+
 function getPercentages(groupedItems) {
     const allItems = Object.values(groupedItems).flat();
     const totalCount = allItems.length;
