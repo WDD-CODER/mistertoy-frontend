@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PopUp } from "./PopUp";
@@ -19,12 +19,11 @@ export function AppHeader() {
     }
 
     return (
-        <AppBar position="static" sx={{ padding: 2, marginBottom: 1 }}>
+        <AppBar className="full" position="static">
             <Typography margin={0} variant="h2" sx={{ textAlign: 'center' }}>
                 Mister Toy Shope
             </Typography>
-            <Toolbar variant="dense" sx={{ justifyContent: "flex-end" }}>
-                <Stack marginInlineEnd={'auto'} >
+             <Stack alignSelf={"center"} width={'fit-content'} borderRadius={2} padding={1} bgcolor={'#3c773fff'}>
                     {!loggedinUser ?
                         <Button variant="contained" onClick={() => setIsLoginOpen(true)}> Login </Button>
                         :
@@ -33,12 +32,14 @@ export function AppHeader() {
                             <Button variant="contained" onClick={onLogout}>logout</Button>
                         </Box>
                     }
-                    
                 </Stack>
-                <Link to="/" className="btn" >Home</Link>
-                <Link to="/toy" className="btn" >Toys</Link>
-                <Link to="/toy/dashBoard" className="btn" >DashBoard</Link>
-                <Link to="/parts" className="btn" >PartsCmp</Link>
+            <Toolbar  variant="dense" sx={{alignSelf:"center"}}>
+                <Box  sx={{display: 'flex', flexWrap:"wrap", placeItems:'space-between',}}>
+                    <Link to="/" className="btn" >Home</Link>
+                    <Link to="/toy" className="btn" >Toys</Link>
+                    <Link to="/toy/dashBoard" className="btn" >DashBoard</Link>
+                    <Link to="/parts" className="btn" >PartsCmp</Link>
+                </Box>
             </Toolbar>
             <PopUp
                 onClose={() => setIsLoginOpen(false)}

@@ -5,10 +5,8 @@ import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef
 import { useEffect, useRef, useState } from 'react'
 import MapController from './MapController'
 import { toyService } from "../services/toy"
-import { ImgCmp } from './ImgCmp'
 import { useSelector } from 'react-redux'
 import { setUpdatedBranches } from '../store/actions/toy.actions'
-import { AppFooter } from './AppFooter'
 
 function MyMap() {
     const API_KEY = 'AIzaSyD2Kd_xOK37FqjaQVKLW3uIiIcw-Xi8tPg'
@@ -61,47 +59,51 @@ function MyMap() {
 
 
 
-   //FIXME  // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
+    //FIXME  // משהו מוזר קרה. בשלב מסויים גיליתי שכשאני לוחץ על המרקר הוא פותח את החלון באיטיות אבל הוא לא דואג למרכז אותי כשהוא נפתח. זה מוסתר
     return (
 
         <APIProvider apiKey={API_KEY}>
-            <Container sx={{ height: '70vh', textAlign: 'center' }}>
+            <Container sx={{ textAlign: 'center', placeItems:'center', }}>
                 <Typography > Shope branch Map </Typography>
-                <Map
-                    defaultCenter={position}
-                    defaultZoom={10}
-                    mapId="DEMO_MAP_ID"
-                    onClick={handleChange}
-                >
-                    <AdvancedMarker
-                        ref={markerRef}
-                        position={position}
-                        onClick={onClickMarker}
+                <Box sx={{ width: '100%', maxWidth: 800, aspectRatio: '1 / 1' }}>
+                    <Map
+
+                        defaultCenter={position}
+                        defaultZoom={10}
+                        mapId="DEMO_MAP_ID"
+                        onClick={handleChange}
                     >
-                        <Pin background={markerColor} borderColor={'#e6e6e6ff'} glyphColor={'#cf8f8fff'} />
-                    </AdvancedMarker>
-                    {isOpen && marker && branch && (
-                        <InfoWindow
-                            anchor={marker}
-                            onCloseClick={() => setIsOpen(false)}
+                        <AdvancedMarker
+                            ref={markerRef}
+                            position={position}
+                            onClick={onClickMarker}
                         >
-                            <div style={{ padding: '10px', placeItems: 'anchor-center' }}>
-                                <h4>welcome to {branch.name} Branch </h4>
-                                <p> Would love to see you over at our branch here at  {branch.name}
-                                    <br />
-                                    Please rate. Our branch to your liking
-                                </p>
-                                {/* //FIXME  אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
-                                <Rating
-                                    onChange={(_, newValue) => onSetRating(newValue)}
-                                    value={branch.rating}
-                                    size='large' />
-                            </div>
-                        </InfoWindow>
-                    )}
-                    <MapController branch={branch} setPosition={setPosition} isOpen={isOpen} />
-                </Map>
-                <List component="nav" sx={{ display: 'flex', margin: '1em' }}>
+                            <Pin background={markerColor} borderColor={'#e6e6e6ff'} glyphColor={'#cf8f8fff'} />
+                        </AdvancedMarker>
+
+                        {isOpen && marker && branch && (
+                            <InfoWindow
+                                anchor={marker}
+                                onCloseClick={() => setIsOpen(false)}
+                            >
+                                <div style={{ padding: '10px', placeItems: 'anchor-center' }}>
+                                    <h4>welcome to {branch.name} Branch </h4>
+                                    <p> Would love to see you over at our branch here at  {branch.name}
+                                        <br />
+                                        Please rate. Our branch to your liking
+                                    </p>
+                                    {/* //FIXME  אני לא מצליח לגרום לכוכבים להופיע כמו שצריך בלחיצה ללא ההזת העכבר! */}
+                                    <Rating
+                                        onChange={(_, newValue) => onSetRating(newValue)}
+                                        value={branch.rating}
+                                        size='large' />
+                                </div>
+                            </InfoWindow>
+                        )}
+                        <MapController branch={branch} setPosition={setPosition} isOpen={isOpen} />
+                    </Map>
+                </Box>
+                <List  component="nav" sx={{ display: 'flex', bgcolor:'GrayText', margin:'.25em' }}>
                     {branches && branches.map(branch => {
                         return <ListItemButton
                             key={branch.name}
@@ -113,7 +115,6 @@ function MyMap() {
                             </ListItemIcon>
                             <ListItemText primary={branch.name} secondary="Click to view on map" />
                         </ListItemButton>
-
                     })}
                 </List>
             </Container>
