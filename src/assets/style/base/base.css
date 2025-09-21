@@ -59,3 +59,12 @@ object {
   font-style: italic;
 }
 
+.map-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+.map-container > div {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
