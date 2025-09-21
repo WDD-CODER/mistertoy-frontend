@@ -65,7 +65,7 @@ function MyMap() {
         <APIProvider apiKey={API_KEY}>
             <Container sx={{ textAlign: 'center', placeItems:'center', }}>
                 <Typography > Shope branch Map </Typography>
-                <Box sx={{ width: '100%', maxWidth: 800, aspectRatio: '1 / 1' }}>
+                <Box sx={{ width: '80%', maxWidth: 800, aspectRatio: '1 / 1' }}>
                     <Map
 
                         defaultCenter={position}
