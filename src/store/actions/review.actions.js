@@ -1,4 +1,4 @@
-import { reviewService } from "../../services/Review/index.js"
+import { reviewService } from "../../services/review/index.js"
 
 // LIST
 
@@ -17,8 +17,8 @@ export async function getToyReviews(aboutToyId) {
 
 export async function addReview(ReviewToSave) {
     try {
-        const Review = await reviewService.add(ReviewToSave)
-        return Review
+        const review = await reviewService.add(ReviewToSave)
+        return review
     } catch (err) {
         console.log('Review.action -> cant add Review', err)
         throw err
