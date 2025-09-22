@@ -27,7 +27,7 @@ export function ToyDetails() {
     const [review, setReview] = useState({ txt: '' })
     const [reviews, setReviews] = useState(null)
 
-    const toyRef = useRef()
+    const toyRef = useRef(null)
     const { toyId } = useParams()
 
 

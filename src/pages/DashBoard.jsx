@@ -32,19 +32,20 @@ export function DashBoard() {
     return (
         <Container >
             {toys &&
-                <Box >
-                    <Container sx={{ display: "flex", justifyContent: 'space-evenly' }} className="dash-board-container">
+                    <Container sx={{ display: "flex", flexWrap:'wrap', justifyContent: 'space-evenly' }} className="dash-board-container">
+                    <Box sx={{ display: 'flex', flexWrap:'wrap', gap: 2 , placeContent:'center'}}>
+
                         <Box sx={{ height: '30vh' }}>
                             <DoughnutChart items={toys} />
                         </Box>
                         <Box sx={{ height: '30vh' }}>
                             <PiaChart items={toys} />
                         </Box>
-                    </Container>
-                    <Box sx={{ height: '50vh' }} className="line-chart-container">
+                    </Box>
+                    <Box br sx={{ height: '50vh', width: { xs: '100%', sm: '90%', md: '90%' } }} className="line-chart-container">
                         <LineChart className="line-chart" items={toys} />
                     </Box>
-                </Box>
+                    </Container>
             }
         </Container>
     )

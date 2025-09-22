@@ -26,7 +26,6 @@ async function login({ username, password }) {
     try {
         const user = { username, password };
         const loggedInUser = await httpService.post(AUTH_URL + 'login', user);
-        console.log("🚀 ~ login ~ loggedInUser:", loggedInUser)
         if (loggedInUser) return _setLoggedinUser(loggedInUser);
         else throw new Error('Invalid login');
     } catch (error) {

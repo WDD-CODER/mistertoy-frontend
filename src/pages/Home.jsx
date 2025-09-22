@@ -4,11 +4,9 @@ import MyMap from "../cmps/MyMap";
 export function Home() {
 
     return (
-        <>
-        <Container>
+        <Container sx={{width:'90vw', height: '80vh', placeContent:'center'}} >
             <MyMap />
         </Container>
-        </>
     )
 }
 

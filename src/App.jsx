@@ -30,7 +30,7 @@ function App() {
             <Provider store={store} >
                 <Router>
                     <ThemeProvider theme={customTheme}>
-                        <Container  disableGutters sx={{ width: '100vw', height: '100vh' }} className="app main-layout">
+                        <Container  disableGutters sx={{}} className="app main-layout">
                             <AppHeader />
                             <Routes>
                                 <Route path="/" element={<Home />} />

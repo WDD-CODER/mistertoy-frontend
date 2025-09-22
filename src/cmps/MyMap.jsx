@@ -65,9 +65,8 @@ function MyMap() {
         <APIProvider apiKey={API_KEY}>
             <Container sx={{ textAlign: 'center', placeItems:'center', }}>
                 <Typography > Shope branch Map </Typography>
-                <Box sx={{ width: '40vw', maxWidth: 800, aspectRatio: '1 / 1' }}>
+                <Box  sx={{ width: '90vw', maxWidth:800, aspectRatio: '1 / 1', margin:1 }}>
                     <Map
-
                         defaultCenter={position}
                         defaultZoom={10}
                         mapId="DEMO_MAP_ID"
@@ -103,7 +102,7 @@ function MyMap() {
                         <MapController branch={branch} setPosition={setPosition} isOpen={isOpen} />
                     </Map>
                 </Box>
-                <List  component="nav" sx={{ display: 'flex', bgcolor:'GrayText', margin:'.25em' }}>
+                <List  component="nav" sx={{ display: 'flex', bgcolor:'GrayText', marginBottom:'.25em', maxWidth:'90vw' }}>
                     {branches && branches.map(branch => {
                         return <ListItemButton
                             key={branch.name}
