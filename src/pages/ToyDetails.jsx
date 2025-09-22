@@ -27,7 +27,7 @@ export function ToyDetails() {
     const [review, setReview] = useState({ txt: '' })
     const [reviews, setReviews] = useState(null)
 
-    const toyRef = useRef(null)
+    const toyRef = useRef()
     const { toyId } = useParams()
 
 
@@ -35,16 +35,11 @@ export function ToyDetails() {
         if (toyId) fetchToy()
 
         return () => {
-            if (toyRef.current && loggedinUser.isAdmin) {
-                const updatedToy = toyRef.current
-                updateToy(updatedToy)
+            if (toyRef.current && loggedinUser?.isAdmin) {
+                updateToy(toyRef.current)
             }
         }
     }, [toyId])
-
-
-    useEffect(() => {
-    }, [reviews])
 
     useEffect(() => {
         if (loggedinUser) {
@@ -66,7 +61,11 @@ export function ToyDetails() {
 
     function onUpdateToyStockValue(ev) {
         const modifiedStockValue = utilService.getStockModifiedValue(ev.target.value)
-        setToy(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
+        setToy(prevToy => {
+            let toy = ({ ...prevToy, inStock: modifiedStockValue })
+            toyRef.current = toy
+            return toy
+        })
     }
 
     function onUpdateToyLabels(ev) {
@@ -74,12 +73,20 @@ export function ToyDetails() {
         var updatedField = []
         if (toy.labels.some(curLabel => curLabel === labelsToAdd)) {
             updatedField = toy.labels.filter(curLabel => curLabel !== labelsToAdd)
-            setToy(({ ...toy, labels: updatedField }))
+            setToy(prevToy => {
+                let toy = ({ ...prevToy, labels: updatedField })
+                toyRef.current = toy
+                return toy
+            })
         } else {
-            setToy(({ ...toy, labels: labelsToAdd }))
+            setToy(prevToy => {
+                let toy = ({ ...prevToy, labels: labelsToAdd })
+                toyRef.current = toy
+                return toy
+            })
         }
-    }
 
+    }
 
     function onSaveMsg(newMsg, resetForm) {
         const msgToSave = { ...massage, ...newMsg };
@@ -118,7 +125,7 @@ export function ToyDetails() {
         <Container>
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
-                {loggedinUser.isAdmin && <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />}
+                {loggedinUser?.isAdmin && <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />}
 
                 {loggedinUser ?
                     <AddMsg
@@ -138,7 +145,7 @@ export function ToyDetails() {
                             return <Grid key={idx}>
                                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                                     {msg.txt}
-                                    {loggedinUser.isAdmin && <IconButton onClick={() => onRemoveMsg(msg)} aria-label="close">
+                                    {loggedinUser?.isAdmin && <IconButton onClick={() => onRemoveMsg(msg)} aria-label="close">
                                         <CloseIcon />
                                     </IconButton>}
                                 </Paper>
@@ -150,14 +157,14 @@ export function ToyDetails() {
 
                 <Container sx={{ backgroundColor: 'lightgrey', textAlign: 'center' }} >
                     <Typography>Reviews</Typography>
-                    {!isReviewOpen && loggedinUser.isAdmin && <Button onClick={() => setIsReviewOpen(true)}>Add Review</Button>}
+                    {!isReviewOpen && loggedinUser?.isAdmin && <Button onClick={() => setIsReviewOpen(true)}>Add Review</Button>}
 
                     <Grid container spacing={2} padding={2} >
                         {reviews?.map((review, idx) => {
                             return <Grid key={idx}>
-                                <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood' , padding:'1em'}}>
+                                <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood', padding: '1em' }}>
                                     {review.txt}
-                                    {loggedinUser.isAdmin && <IconButton onClick={() => onRemoveReview(review)} aria-label="close">
+                                    {loggedinUser?.isAdmin && <IconButton onClick={() => onRemoveReview(review)} aria-label="close">
                                         <CloseIcon />
                                     </IconButton>}
                                 </Paper>
