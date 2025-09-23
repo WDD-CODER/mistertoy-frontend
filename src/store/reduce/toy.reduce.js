@@ -6,6 +6,7 @@ export const SET_LABELS = 'SET_LABELS'
 export const SET_TOY = 'SET_TOY'
 export const SET_MAX_PAGE = 'SET_MAX_PAGE'
 export const ADD_TOY = 'ADD_TOY'
+export const ADD_TOY_MSG = 'ADD_TOY_MSG'
 export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
@@ -36,7 +37,9 @@ export function toyReducer(state = initialState, cmd = {}) {
         case SET_MAX_PAGE:
             return { ...state, maxPage: cmd.maxPage }
         case ADD_TOY:
-            return { ...state, toys: [...state.toys, cmd.toy] }
+            return { ...state, toy: [...state.toys, cmd.toy] }
+        case ADD_TOY_MSG:
+            return { ...state, toy: ({...state.toy, msgs:[...state.toy.msgs, cmd.msg]}) }
         case UPDATE_TOY:
             return { ...state, toys: state.toys.map(toy => toy._id === cmd.toy._id ? cmd.toy : toy) }
         case SET_IS_LOADING:

@@ -1,4 +1,4 @@
-import { getToy, onDeleteToyMsg as onRemoveToyMsg, onSaveToyMsg, updateToy } from "../store/actions/toy.actions.js"
+import { getToy, onDeleteToyMsg as onRemoveToyMsg, onAddToyMsg, updateToy, getActionSetToy } from "../store/actions/toy.actions.js"
 import { useState, useEffect, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
 import { LabelsList } from "../cmps/LabelsList.jsx"
@@ -9,30 +9,44 @@ import { Chat } from "../cmps/Chat.jsx"
 import { Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material"
 import { Loader } from "../cmps/Loader.jsx"
 import { AddMsg } from "../cmps/AddMsg.jsx"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toyService } from "../services/toy/index.js"
 import { utilService } from "../services/util.service.js"
-import { addReview, getToyReviews, removeReview } from "../store/actions/review.actions.js"
+import { addReview, getActionAddReview, loadToyReviews, removeReview } from "../store/actions/review.actions.js"
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import { SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_TOY_UPDATE, socketService } from "../services/socket.service.js"
 
 export function ToyDetails() {
 
 
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
+    const reviews = useSelector(state => state.reviewModule.reviews)
+    const stateToy = useSelector(state => state.toyModule.toy)
+    console.log("🚀 ~ ToyDetails ~ stateToy:", stateToy)
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
     const [massage, setMassage] = useState(toyService.getEmptyMsg())
     const [isReviewOpen, setIsReviewOpen] = useState(false)
     const [review, setReview] = useState({ txt: '' })
-    const [reviews, setReviews] = useState(null)
+    // const [reviews, setReviews] = useState(null)
 
     const toyRef = useRef(null)
     const { toyId } = useParams()
+    const dispatch = useDispatch()
 
 
     useEffect(() => {
         if (toyId) fetchToy()
+
+
+        socketService.on(SOCKET_EVENT_REVIEW_ADDED, review => {
+            dispatch(getActionAddReview(review))
+        })
+        
+        socketService.on(SOCKET_EVENT_TOY_UPDATE, toy => {
+            dispatch(getActionSetToy(toy))
+        })
 
         return () => {
             if (toyRef.current && loggedinUser?.isAdmin) {
@@ -50,8 +64,8 @@ export function ToyDetails() {
     async function fetchToy() {
         try {
             const toy = await getToy(toyId)
-            const toyReviews = await getToyReviews(toyId)
-            setReviews(toyReviews)
+            const toyReviews = await loadToyReviews(toyId)
+            // setReviews(toyReviews)
             toyRef.current = toy
             setToy(toy)
         } catch (error) {
@@ -93,18 +107,18 @@ export function ToyDetails() {
         setToy(prevToy => ({ ...prevToy, msgs: [...(prevToy.msgs || []), msgToSave] }))
         setReview(null)
         resetForm()
-        onSaveToyMsg(toy._id, msgToSave)
+        onAddToyMsg(toy._id, msgToSave)
     }
 
     function onAddReview({ txt }) {
         const review = { aboutToyId: toy._id, txt }
-        setReviews(prevReviews => [...prevReviews, review])
+        // setReviews(prevReviews => [...prevReviews, review])
         setIsReviewOpen(false)
         addReview(review)
     }
 
     function onRemoveReview({ _id }) {
-        setReviews(prevReviews => prevReviews.filter(review => review._id !== _id))
+        // setReviews(prevReviews => prevReviews.filter(review => review._id !== _id))
         setIsReviewOpen(false)
         showSuccessMsg('Review Removed')
         removeReview(_id)
@@ -156,7 +170,7 @@ export function ToyDetails() {
                 </Container>
 
                 <Container sx={{ backgroundColor: 'lightgrey', textAlign: 'center' }} >
-                    <Typography>Reviews</Typography>
+                    <Typography>reviews</Typography>
                     {!isReviewOpen && loggedinUser?.isAdmin && <Button onClick={() => setIsReviewOpen(true)}>Add Review</Button>}
 
                     <Grid container spacing={2} padding={2} >

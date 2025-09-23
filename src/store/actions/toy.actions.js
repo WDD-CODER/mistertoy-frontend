@@ -12,7 +12,9 @@ import {
     ADD_TOY,
     SET_LABELS,
     SET_BRANCHES,
-    SET_MAX_PAGE
+    SET_MAX_PAGE,
+    ADD_TOY_MSG,
+    REMOVE_TOY_MSG
 } from "../reduce/toy.reduce.js";
 'use strict';
 
@@ -57,7 +59,7 @@ export async function getToy(toyId) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const toy = await toyService.getById(toyId)
-        store.dispatch({ type: SET_TOY, toy })
+        store.dispatch(getActionSetToy(toy))
         return toy
     } catch (err) {
         console.log('toy action -> cant get toy ', err)
@@ -116,10 +118,12 @@ export async function updateToy(toyToUpdate) {
     }
 }
 
-export async function onSaveToyMsg(toyId, userMsg) {
+export async function onAddToyMsg(toyId, userMsg) {
     try {
-        const msg = await toyService.saveToyMsg(toyId, userMsg)
-        return msg
+        const toy = await toyService.saveToyMsg(toyId, userMsg)
+        console.log("🚀 ~ onAddToyMsg ~ toy:", toy)
+        store.dispatch({ type: SET_TOY, toy })
+        return toy
     } catch (err) {
         console.log('toy.action -> cant save Msg to Toy', err)
         throw err
@@ -144,6 +148,7 @@ export async function removeToy(toyIdToRemove) {
 export async function onDeleteToyMsg(toyId, msgId) {
     try {
         const removedMsgId = await toyService.removeToyMsg(toyId, msgId)
+        store.dispatch({ type: REMOVE_TOY_MSG, msgId })
         return removedMsgId
     } catch (err) {
         console.log('toy.action -> cant remove msg from toy', err)
@@ -157,3 +162,7 @@ export const debounceFilterBy = utilService.debounce(
     (filter) => store.dispatch({ type: SET_FILTER_BY, filterBy: filter }),
     500
 )
+
+export function getActionSetToy(toy) {
+    return { type: SET_TOY, toy }
+}

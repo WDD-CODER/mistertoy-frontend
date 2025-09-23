@@ -1,23 +1,38 @@
 import { reviewService } from "../../services/review/index.js"
+import { ADD_REVIEW, REMOVE_REVIEW, SET_REVIEWS } from "../reduce/review.reduce.js"
+import { store } from "../store.js"
 
 // LIST
 
 
-export async function getToyReviews(aboutToyId) {
+export async function loadReviews() {
     try {
-        const Reviews = await reviewService.query({aboutToyId})
-        return Reviews
+        const reviews = await reviewService.query()
+        store.dispatch({ type: SET_REVIEWS, reviews })
+        return reviews
     } catch (err) {
-        console.log('Review action -> cant get Review ', err)
+        console.log('Review action -> cant get Reviews ', err)
+        throw err
+    }
+}
+
+export async function loadToyReviews(aboutToyId) {
+    try {
+        const reviews = await reviewService.query({ aboutToyId })
+        store.dispatch({ type: SET_REVIEWS, reviews })
+        return reviews
+    } catch (err) {
+        console.log('Review action -> cant get toy Reviews ', err)
         throw err
     }
 }
 
 // CREATE
 
-export async function addReview(ReviewToSave) {
+export async function addReview(ReviewToAdd) {
     try {
-        const review = await reviewService.add(ReviewToSave)
+        const review = await reviewService.add(ReviewToAdd)
+        store.dispatch(getActionAddReview(ReviewToAdd))
         return review
     } catch (err) {
         console.log('Review.action -> cant add Review', err)
@@ -32,6 +47,7 @@ export async function removeReview(reviewIdToRemove) {
     if (!confirm('Are you Sure you want to delete the Review?!')) return Promise.reject('Review not deleted!')
     try {
         const removedReviewId = await reviewService.remove(reviewIdToRemove)
+        store.dispatch(getActionRemoveReview(reviewIdToRemove))
         return removedReviewId
     } catch (err) {
         console.log('Review.action -> cant remove Review', err)
@@ -40,4 +56,10 @@ export async function removeReview(reviewIdToRemove) {
 }
 
 
+export function getActionRemoveReview(reviewId) {
+    return { type: REMOVE_REVIEW, reviewId }
+}
+export function getActionAddReview(review) {
+    return { type: ADD_REVIEW, review }
+}
 
