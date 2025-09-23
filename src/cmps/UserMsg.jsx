@@ -2,7 +2,7 @@
 
 import { io } from "socket.io-client"
 import { eventBusService, showSuccessMsg } from "../services/event-bus.service.js"
-import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU } from '../services/socket.service.js'
+import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU, SOCKET_EVENT_REVIEW_ABOUT_YOU_REMOVED } from '../services/socket.service.js'
 
 import { useState, useEffect } from "react"
 
@@ -22,6 +22,10 @@ export function UserMsg() {
         
         socketService.on(SOCKET_EVENT_REVIEW_ABOUT_YOU, review => {
             showSuccessMsg(`New review about me ${review.txt}`)
+        })
+        
+        socketService.on(SOCKET_EVENT_REVIEW_ABOUT_YOU_REMOVED, review => {
+            showSuccessMsg(`review about me ${review.txt} Removed`)
         })
 
         return () => {
