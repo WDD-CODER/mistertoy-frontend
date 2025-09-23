@@ -44,7 +44,6 @@ export async function addReview(ReviewToAdd) {
 
 // DELETE
 export async function removeReview(reviewIdToRemove) {
-    if (!confirm('Are you Sure you want to delete the Review?!')) return Promise.reject('Review not deleted!')
     try {
         const removedReviewId = await reviewService.remove(reviewIdToRemove)
         store.dispatch(getActionRemoveReview(reviewIdToRemove))

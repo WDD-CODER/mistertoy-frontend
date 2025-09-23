@@ -22,7 +22,6 @@ export function ToyDetails() {
 
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
     const reviews = useSelector(state => state.reviewModule.reviews)
-    console.log("🚀 ~ ToyDetails ~ reviews:", reviews)
     const stateToy = useSelector(state => state.toyModule.toy)
     const [isChatOpen, setIsChatOpen] = useState(false)
     const [toy, setToy] = useState(null)
@@ -44,7 +43,6 @@ export function ToyDetails() {
         })
         
         socketService.on(SOCKET_EVENT_REVIEW_REMOVED, review => {
-            console.log("🚀 ~ ToyDetails ~ review:", review)
             dispatch(getActionRemoveReview(review))
         })
 
