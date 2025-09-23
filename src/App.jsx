@@ -30,7 +30,8 @@ function App() {
             <Provider store={store} >
                 <Router>
                     <ThemeProvider theme={customTheme}>
-                        <Container  disableGutters sx={{}} className="app main-layout">
+                        <UserMsg />
+                        <Container disableGutters sx={{}} className="app main-layout">
                             <AppHeader />
                             <Routes>
                                 <Route path="/" element={<Home />} />
@@ -40,12 +41,11 @@ function App() {
                                 <Route path="/toy/dashBoard" element={<DashBoard />} />
                                 <Route path="/toy" element={<ToyIndex />} />
                                 <Route path="/auth" element={<LoginSignup />} />
-                                
+
                                 {/* <Route path="/parts" element={<PartsCmp />} /> */}
                             </Routes>
                             <AppFooter />
                         </Container>
-                        <UserMsg />
                         <Loader />
                     </ThemeProvider>
                 </Router>
