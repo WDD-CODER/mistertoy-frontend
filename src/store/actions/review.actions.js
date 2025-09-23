@@ -26,13 +26,24 @@ export async function loadToyReviews(aboutToyId) {
         throw err
     }
 }
+export async function loadUserReviews(byUserId) {
+    try {
+        const reviews = await reviewService.query({ byUserId })
+        store.dispatch({ type: SET_REVIEWS, reviews })
+        return reviews
+    } catch (err) {
+        console.log('Review action -> cant get toy Reviews ', err)
+        throw err
+    }
+}
 
 // CREATE
 
 export async function addReview(ReviewToAdd) {
     try {
         const review = await reviewService.add(ReviewToAdd)
-        store.dispatch(getActionAddReview(ReviewToAdd))
+        console.log("🚀 ~ addReview ~ review:", review)
+        store.dispatch(getActionAddReview(review))
         return review
     } catch (err) {
         console.log('Review.action -> cant add Review', err)

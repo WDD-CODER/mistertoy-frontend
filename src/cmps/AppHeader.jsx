@@ -1,6 +1,6 @@
 import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PopUp } from "./PopUp";
 import { LoginSignup } from "./LoginSignup";
 import { useSelector } from "react-redux";
@@ -12,9 +12,11 @@ export function AppHeader() {
 
     const [isLoginOpen, setIsLoginOpen] = useState(false)
     const loggedinUser = useSelector(state => state.userModule.loggedinUser)
+    const navigate = useNavigate()
 
     function onLogout() {
         logout()
+        navigate('/toy')
         showSuccessMsg(' User logged out')
     }
 
@@ -23,18 +25,20 @@ export function AppHeader() {
             <Typography margin={0} variant="h2" sx={{ textAlign: 'center' }}>
                 Mister Toy Shope
             </Typography>
-             <Stack alignSelf={"center"} width={'fit-content'} borderRadius={2} padding={1} bgcolor={'#3c773fff'}>
-                    {!loggedinUser ?
-                        <Button variant="contained" onClick={() => setIsLoginOpen(true)}> Login </Button>
-                        :
-                        <Box display={"flex"} gap={2} alignItems={"center"} className="logged-user">
+            <Stack alignSelf={"center"} width={'fit-content'} borderRadius={2} padding={1} bgcolor={'#3c773fff'}>
+                {!loggedinUser ?
+                    <Button variant="contained" onClick={() => setIsLoginOpen(true)}> Login </Button>
+                    :
+                    <Box display={"flex"} gap={2} alignItems={"center"} className="logged-user">
+                        <Link to={`/user/${loggedinUser._id}`}>
                             <Typography>{loggedinUser.fullname}</Typography>
-                            <Button variant="contained" onClick={onLogout}>logout</Button>
-                        </Box>
-                    }
-                </Stack>
-            <Toolbar  variant="dense" sx={{alignSelf:"center"}}>
-                <Box  sx={{display: 'flex', flexWrap:"wrap", placeItems:'space-between',}}>
+                        </Link>
+                        <Button variant="contained" onClick={onLogout}>logout</Button>
+                    </Box>
+                }
+            </Stack>
+            <Toolbar variant="dense" sx={{ alignSelf: "center" }}>
+                <Box sx={{ display: 'flex', flexWrap: "wrap", placeItems: 'space-between', }}>
                     <Link to="/" className="btn" >Home</Link>
                     <Link to="/toy" className="btn" >Toys</Link>
                     <Link to="/toy/dashBoard" className="btn" >DashBoard</Link>

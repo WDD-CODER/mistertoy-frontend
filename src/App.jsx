@@ -18,6 +18,7 @@ import { customTheme } from './assets/style/theme/theme.js'
 import { LoginSignup } from './cmps/LoginSignup.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
+import { UserDetails } from './pages/UserDetails.jsx'
 const Router =
     import.meta.env.MODE === "production" && import.meta.env.VITE_DEPLOY_TARGET === "gh-pages"
         ? HashRouter
@@ -31,9 +32,9 @@ function App() {
                 <Router>
                     <ThemeProvider theme={customTheme}>
                         <UserMsg />
-                        <Container disableGutters sx={{}} className="app main-layout">
                             <AppHeader />
-                            <Routes>
+                        <Container disableGutters sx={{padding:1}} className="app main-layout">
+                            <Routes >
                                 <Route path="/" element={<Home />} />
                                 <Route path="/toy/:toyId" element={<ToyDetails />} />
                                 <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
@@ -41,11 +42,12 @@ function App() {
                                 <Route path="/toy/dashBoard" element={<DashBoard />} />
                                 <Route path="/toy" element={<ToyIndex />} />
                                 <Route path="/auth" element={<LoginSignup />} />
+                                <Route path="/user/:userId" element={<UserDetails />} />
 
                                 {/* <Route path="/parts" element={<PartsCmp />} /> */}
                             </Routes>
-                            <AppFooter />
                         </Container>
+                            <AppFooter />
                         <Loader />
                     </ThemeProvider>
                 </Router>

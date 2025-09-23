@@ -31,6 +31,7 @@ export function UserMsg() {
         return () => {
             unsubscribe()
             socketService.off(SOCKET_EVENT_REVIEW_ABOUT_YOU)
+            socketService.off(SOCKET_EVENT_REVIEW_ABOUT_YOU_REMOVED)
         }
     }, [])
 
