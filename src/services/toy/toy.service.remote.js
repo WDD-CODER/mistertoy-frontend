@@ -45,8 +45,12 @@ function getBranches() {
 // CREATE
 
 async function saveToyMsg(toyId, msg) {
-    const toyWithMsg = await httpService.post(TOY_URL + toyId + '/msg/' , msg)
-    toyWithMsg
+    console.log("🚀 ~ saveToyMsg ~ msg:", msg)
+    console.log("🚀 ~ saveToyMsg ~ toyId:", toyId)
+    console.log('remote')
+    
+   return await httpService.post(TOY_URL + toyId + '/msg/', msg)
+    
 }
 
 function getEmptyMsg() {

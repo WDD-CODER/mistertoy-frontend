@@ -88,9 +88,10 @@ function getBranches() {
 // CREATE
 
 async function saveToyMsg(toyId, msg) {
-    const toyWithMsg = await storageService.post(TOY_URL + toyId + MSG_URL, msg)
-    console.log("🚀 ~ saveToyMsg ~ toyWithMsg:", toyWithMsg)
-    return toyWithMsg
+    console.log('local')
+    
+    return await storageService.post(TOY_URL + toyId + MSG_URL, msg)
+ 
 }
 
 
