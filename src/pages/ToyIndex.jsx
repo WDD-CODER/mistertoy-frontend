@@ -62,7 +62,7 @@ export function ToyIndex() {
         <Container>
             <ToyFilter />
             {toys &&
-                <Container sx={{textAlign:"center"}}>
+                <Container sx={{textAlign:"center",}}>
                     <Typography>Toys List</Typography>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                     {!!toys.length && maxPage > 1 && (

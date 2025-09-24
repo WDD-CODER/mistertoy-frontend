@@ -1,6 +1,6 @@
 
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Rating, Typography } from '@mui/material'
+import { Box, Container, List, ListItemButton, ListItemIcon, ListItemText, Rating, Button, Typography } from '@mui/material'
 import { InfoWindow, AdvancedMarker, APIProvider, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps'
 import { useEffect, useRef, useState } from 'react'
 import MapController from './MapController'
@@ -63,9 +63,9 @@ function MyMap() {
     return (
 
         <APIProvider apiKey={API_KEY}>
-            <Container sx={{ textAlign: 'center', placeItems:'center', }}>
+            <Container sx={{width: '70vw', textAlign: 'center', placeItems: 'center', }}>
                 <Typography > Shope branch Map </Typography>
-                <Box  sx={{ width: '90vw', maxWidth:800, aspectRatio: '1 / 1', margin:1 }}>
+                <Box sx={{  width: '70vw',maxHeight:'60vh', aspectRatio: '1 / 1', margin: 1 }}>
                     <Map
                         defaultCenter={position}
                         defaultZoom={10}
@@ -102,18 +102,16 @@ function MyMap() {
                         <MapController branch={branch} setPosition={setPosition} isOpen={isOpen} />
                     </Map>
                 </Box>
-                <List  component="nav" sx={{ display: 'flex', bgcolor:'GrayText', marginBottom:'.25em', maxWidth:'90vw' }}>
+                <List component="nav" sx={{ display: 'flex',flexWrap:'wrap' ,  gap: 1, marginBottom: '.25em', maxWidth: '90vw', placeContent:'center' }}>
                     {branches && branches.map(branch => {
-                        return <ListItemButton
+                        return <Button
+                            color="secondary"
                             key={branch.name}
                             onClick={() => onSelectBranch(branch)}
-                            disableRipple={false}
+                            sx={{ placeItems: 'center', border: 1, borderRadius: 2, }}
                         >
-                            <ListItemIcon>
-                                <LocationOnIcon sx={{ color: branch.color }} />
-                            </ListItemIcon>
-                            <ListItemText primary={branch.name} secondary="Click to view on map" />
-                        </ListItemButton>
+                            {branch.name}
+                        </Button>
                     })}
                 </List>
             </Container>

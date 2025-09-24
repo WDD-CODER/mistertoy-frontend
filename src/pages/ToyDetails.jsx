@@ -170,7 +170,6 @@ export function ToyDetails() {
 
                     <Grid container spacing={2} padding={2} >
                         {reviews?.map((review, idx) => {
-                            console.log("🚀 ~ map ~ reviews:", reviews)
                             return <Grid key={idx}>
                                 <Paper sx={{ textAlign: 'center', backgroundColor: 'burlywood', padding: '1em' }}>
                                     {review.txt}

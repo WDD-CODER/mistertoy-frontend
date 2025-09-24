@@ -47,7 +47,7 @@ function App() {
                                 {/* <Route path="/parts" element={<PartsCmp />} /> */}
                             </Routes>
                         </Container>
-                            <AppFooter />
+                            <AppFooter  />
                         <Loader />
                     </ThemeProvider>
                 </Router>
