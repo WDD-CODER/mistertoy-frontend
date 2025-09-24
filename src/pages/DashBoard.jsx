@@ -30,7 +30,7 @@ export function DashBoard() {
     }
 
     return (
-        <Container >
+        < >
             {toys &&
                     <Container sx={{ display: "flex", flexWrap:'wrap', justifyContent: 'space-evenly' }} className="dash-board-container">
                     <Box sx={{ display: 'flex', flexWrap:'wrap', gap: 2 , placeContent:'center'}}>
@@ -42,12 +42,12 @@ export function DashBoard() {
                             <PiaChart items={toys} />
                         </Box>
                     </Box>
-                    <Box br sx={{ height: '50vh', width: { xs: '100%', sm: '90%', md: '90%' } }} className="line-chart-container">
+                    <Box br sx={{ height: '47vh', width: { xs: '100%', sm: '90%', md: '90%' } }} className="line-chart-container">
                         <LineChart className="line-chart" items={toys} />
                     </Box>
                     </Container>
             }
-        </Container>
+        </>
     )
 
 }

@@ -52,10 +52,10 @@ export function ToyFilter() {
 
 
     return (
-        <Container sx={{ placeItems: "center" }} className="toy-filter">
-            <Typography variant="h4">Filter Toys</Typography>
+        <Container sx={{borderRadius:2, border:1,  placeItems: "center"}} className="toy-filter">
+            <Typography marginBottom={2} variant="h4">Filter Toys</Typography>
             <Grid container spacing={2}>
-                <Grid >
+                <Grid  >
                     <FormControl >
                         <TextField
                             value={name}
@@ -80,7 +80,7 @@ export function ToyFilter() {
                     </FormControl>
                 </Grid>
                 <Grid>
-                    <FormControl>
+                    <FormControl sx={{width:'140px'}}>
                         <InputLabel id="labels-select-label">Choose Labels</InputLabel>
                         <Select
                             multiple
@@ -100,8 +100,8 @@ export function ToyFilter() {
                     </FormControl>
                 </Grid>
                 <Grid>
-                    <FormControl>
-                        <InputLabel id="availability">Select Toy availability</InputLabel>
+                    <FormControl sx={{width:'120px'}}>
+                        <InputLabel id="availability">Toy availability</InputLabel>
                         <Select
                             value={toyService.getStockValueToShow(filterByToEdit)}
                             onChange={handleChange}
@@ -116,7 +116,7 @@ export function ToyFilter() {
                 </Grid>
                 <Grid >
                     <FormControl>
-                        <InputLabel id="sortBy">Select Sort By</InputLabel>
+                        <InputLabel  id="sortBy"> Sort By</InputLabel>
                         <Select
                             value={sortBy}
                             onChange={handleChange}
@@ -143,8 +143,8 @@ export function ToyFilter() {
                         />
                     </FormControl>
                 </Grid>
-                {loggedinUser?.isAdmin && <Button ><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
-                <><Button onClick={onClearFilter}>Clear Filter</Button></>
+                {loggedinUser?.isAdmin && <Button sx={{border:1,borderRadius:2}} ><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
+                <><Button sx={{border:1,borderRadius:2}} onClick={onClearFilter}>Clear Filter</Button></>
             </Grid>
         </Container >
     )

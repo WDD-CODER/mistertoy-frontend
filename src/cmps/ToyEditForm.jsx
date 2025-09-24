@@ -1,11 +1,9 @@
-
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Select, Stack, Switch, Typography } from '@mui/material'
+import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from '@mui/material'
 import { toyService } from '../services/toy'
 
 export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }) {
-
     const fieldsConfig = [
         { name: 'name', label: 'Toy Name ', type: 'string', required: true, min: 2, max: 50 },
         { name: 'price', label: 'Toy Price ', type: 'numeric', required: true, min: 0 }
@@ -23,6 +21,7 @@ export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }
                     if (field.max) validator = validator.max(field.max, `Too Long!`)
                     break
                 case 'numeric':
+                    // Retained original Yup.string() to keep changes minimal, but Yup.number() is recommended
                     validator = Yup.string()
                         .required('Required')
                         .matches(/^[1-9]\d*$/, 'Number must be a positive whole number!');
@@ -46,6 +45,7 @@ export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }
 
     return (
         <Formik
+            key={item._id || 'new'} 
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={values => onSave({ ...item, ...values })}
@@ -53,9 +53,9 @@ export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }
             {({ values, errors, touched }) => (
 
                 <Form>
-                    <Container sx={{ height: 'auto', display: 'flex', flexDirection: 'column', }}>
+                    <Container sx={{padding:1, display: 'flex', flexDirection: 'column',textAlign:'center',gap:1}}>
                         {fieldsConfig.map(field => (
-                            <Box key={field.name}>
+                            <Box sx={{display:'flex', flexDirection:'column' ,gap:2}} key={field.name}>
                                 <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
                                 {field.type === 'boolean' ? (
                                     <FormControlLabel
@@ -63,7 +63,14 @@ export function ToyEditForm({ item, onUpdateLabels, onUpdateStockValue, onSave }
                                         control={<Field name={field.name} as={Switch} />}
                                         label={values[field.name] ? 'Toy is Available' : 'Toy Out Of Stock'} />
                                 ) : (
-                                    <Field name={field.name} />
+                                    <Field
+                                        as={TextField}
+                                        name={field.name}
+                                        id={field.name}
+                                        placeholder={field.label.trim()} 
+                                        size="small"
+                                        type={field.type === 'numeric' ? 'number' : 'text'}
+                                    />
                                 )}
                                 {errors[field.name] && touched[field.name] ? (
                                     <Box sx={{ color: 'alert.main' }}>{errors[field.name]}</Box>

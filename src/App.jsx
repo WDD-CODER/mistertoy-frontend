@@ -32,22 +32,21 @@ function App() {
                 <Router>
                     <ThemeProvider theme={customTheme}>
                         <UserMsg />
-                            <AppHeader />
-                        <Container disableGutters sx={{padding:1}} className="app main-layout">
+                        <AppHeader />
+                        <Container disableGutters sx={{ padding: 1 }} className="app main-layout">
                             <Routes >
                                 <Route path="/" element={<Home />} />
-                                <Route path="/toy/:toyId" element={<ToyDetails />} />
-                                <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
-                                <Route path="/toy/edit" element={<ToyEdit />} />
-                                <Route path="/toy/dashBoard" element={<DashBoard />} />
                                 <Route path="/toy" element={<ToyIndex />} />
+                                <Route path="/toy/:toyId" element={<ToyDetails />} />
+                                <Route path="/toy/edit" element={<ToyEdit />} />
+                                <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
+                                <Route path="/toy/dashBoard" element={<DashBoard />} />
                                 <Route path="/auth" element={<LoginSignup />} />
                                 <Route path="/user/:userId" element={<UserDetails />} />
-
                                 {/* <Route path="/parts" element={<PartsCmp />} /> */}
                             </Routes>
                         </Container>
-                            <AppFooter  />
+                        <AppFooter />
                         <Loader />
                     </ThemeProvider>
                 </Router>

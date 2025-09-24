@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { httpService } from "../services/http.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { loginUser, signupUser } from "../store/actions/user.actions.js";
+import { Link } from "react-router-dom";
 
 export function LoginSignup({ setIsLoginOpen }) {
 
@@ -67,7 +68,7 @@ export function LoginSignup({ setIsLoginOpen }) {
     }
     return (
 
-        <Container >
+        <Container sx={{gap:1}} >
             <Typography variant='h4' >
                 {isSignUp ? 'Signup' : 'Login'}
             </Typography>
@@ -121,14 +122,11 @@ export function LoginSignup({ setIsLoginOpen }) {
                     <Button type="submit">{isSignUp ? 'Signup' : 'Login'}</Button>
                 </Form>)}
             </Formik>
-            <Box className="btns">
-                <a href="#" onClick={() => setIsSignUp(!isSignUp)}>
-                    {isSignUp ?
-                        'Already a member? Login' :
-                        'New user? Signup here'
-                    }
-                </a >
-            </Box>
+                <Box color="red" sx={{margin:1}} onClick={() => setIsSignUp(!isSignUp)}>
+            <Link className="btns">
+                    {isSignUp ? 'Already a member? Login' : 'New user? Signup here'}
+            </Link>
+                </Box >
         </Container>);
 };
 

@@ -97,8 +97,8 @@ async function saveToyMsg(toyId, msg) {
 
 function createBranches() {
     const branches = [
-        { name: "Tel-Aviv", location: { lat: 32.0853, lng: 34.7818 }, color: 'blue', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Tel-Aviv/400/300" },
-        { name: "Pardes-Hanna", location: { lat: 32.4741, lng: 34.9706 }, color: 'red', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Pardes-Hanna/400/300" },
+        { name: "Tel-Aviv", location: { lat: 32.0853, lng: 34.7818 }, color: 'red', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Tel-Aviv/400/300" },
+        { name: "Pardes-Hanna", location: { lat: 32.4741, lng: 34.9706 }, color: 'blue', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Pardes-Hanna/400/300" },
         { name: "Haifa", location: { lat: 32.7940, lng: 34.9896 }, color: 'orange', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Haifa/400/300" },
         { name: "Beersheba", location: { lat: 31.2529, lng: 34.7915 }, color: 'indigo', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Beersheba/400/300" },
         { name: "Eilat", location: { lat: 29.5577, lng: 34.9519 }, color: 'pink', rating: 0, _id: utilService.makeId(), src: "https://picsum.photos/seed/Eilat/400/300" },

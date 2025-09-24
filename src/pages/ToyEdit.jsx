@@ -57,10 +57,11 @@ export function ToyEdit() {
         }
     }
 
+    console.log("🚀 ~ toy:", toy)
 
     return (
-        <Container className="toy-edit">
-            <Stack display="flex" sx={{ width: '300px' }}>
+        <Container sx={{height:'70vh',display:'flex' ,placeContent:"center", alignItems:"center"}} className="toy-edit">
+            <Stack border={1} borderRadius={2} justifyContent={"center"} sx={{ width: '300px' }}>
                 <ToyEditForm
                     item={toy}
                     onUpdateLabels={onUpdateToyLabels}

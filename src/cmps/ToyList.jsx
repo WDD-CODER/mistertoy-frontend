@@ -10,24 +10,40 @@ export function ToyList({ toys, onRemoveToy }) {
     //QUESTION //לא מובן מדוע אם אין את הקונסול בפרטים אז לפעמים צריך כמה לחיצות עד שהכפתור מגיב
     // לבדוק אפשרות שאולי זה לוחץ בחלק מסויים מהכפתור ולכן זה לא מגיב. לשים לב אם זה היה בטגית של הקישור או התגית של הכפתור
     return (
-        <List className="toy-list" >
+        <List sx={{
+            width:'100%',
+            display: "flex",
+            flexWrap: "wrap",
+            placeContent: "space-evenly",
+        }}
+            className="toy-list" >
             {toys.map(toy =>
-                <Card key={toy._id} sx={{ marginBottom: 'auto', height: 'auto', display: 'flex', flexDirection: 'column', }}>
-                    <ToyPreview toy={toy} />
-                    <Container sx={{ padding: '0', marginTop: 'auto', height: 'fit-content' }} >
-                        <List>{toy?.labels.map(label =><Chip key={label} label={label} />)}
-                        </List>
-                        {loggedinUser?.isAdmin &&
+                    <Card key={toy._id} sx={{
+                        maxWidth:'300px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        paddingBottom:1
+                    }}>
+                        <ToyPreview toy={toy} />
+                        <Container  >
+                            <List sx={{ display: "flex", flexWrap: "wrap",placeContent:'center' ,gap: 2}}>
+                                {toy?.labels.map(label =>
+                                    <Chip key={label} label={label}
+                                    />
+                                )}
+                            </List>
+
                             <ButtonGroup fullWidth  >
-                                <Button onClick={() => onRemoveToy(toy._id)}>Remove</Button>
-                                <Button><Link to={`/toy/edit/${toy._id}`}>Edit</Link></Button>
+                                {loggedinUser?.isAdmin && <Button onClick={() => onRemoveToy(toy._id)}>Remove</Button>}
+                                {loggedinUser?.isAdmin && <Button><Link to={`/toy/edit/${toy._id}`}>Edit</Link></Button>}
+                                <Button><Link to={`/toy/${toy._id}`}>Details</Link></Button>
                             </ButtonGroup>
-                        }
-                        <Button onClick={() => console.log('Details')}><Link to={`/toy/${toy._id}`}>Details</Link></Button>
-                    </Container>
-                </Card>
-            )}
-        </List>
+
+                        </Container>
+                    </Card>
+                )}
+        </List >
     )
 }
 

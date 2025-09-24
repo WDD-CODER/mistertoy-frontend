@@ -21,8 +21,8 @@ export function AppHeader() {
     }
 
     return (
-        <AppBar className="full" position="static">
-            <Typography margin={0} variant="h2" sx={{ textAlign: 'center' }}>
+        <AppBar className="full" position="static" sx={{padding:1}}>
+            <Typography marginBottom={1} variant="h2" sx={{ textAlign: 'center' }}>
                 Mister Toy Shope
             </Typography>
             <Container sx={{display:"flex",flexWrap:"wrap",placeContent:"center"}}>

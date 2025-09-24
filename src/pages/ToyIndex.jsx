@@ -2,6 +2,7 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, loadToysLabels, removeToy, setFilter, updateToy } from "../store/actions/toy.actions.js"
+// import { Loader } from '../cmps/Loader.jsx'
 
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
@@ -57,13 +58,11 @@ export function ToyIndex() {
         if (newPageIdx >= maxPage) newPageIdx = 0
         setFilter({ pageIdx: newPageIdx })
     }
-
+    if (!toys) return
     return (
-        <Container>
-            <ToyFilter />
-            {toys &&
-                <Container sx={{textAlign:"center",}}>
-                    <Typography>Toys List</Typography>
+                <Container disableGutters sx={{display:'flex', flexDirection:'column' ,textAlign:"center",gap:2}}>
+                    <ToyFilter />
+                    <Typography  variant="h2">Toys List</Typography>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                     {!!toys.length && maxPage > 1 && (
                         <PaginationButtons
@@ -72,7 +71,5 @@ export function ToyIndex() {
                         />
                     )}
                 </Container>
-            }
-        </Container>
     )
 }

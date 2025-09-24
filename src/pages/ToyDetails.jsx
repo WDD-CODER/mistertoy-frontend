@@ -131,7 +131,7 @@ export function ToyDetails() {
 
 
     return (
-        <Container>
+        <>
             {toy ? <Box className={'toy-details'}>
                 <ToyPreview toy={toy} />
                 {loggedinUser?.isAdmin && <LabelsList item={toy} onUpdateLabels={onUpdateToyLabels} onUpdateStockValue={onUpdateToyStockValue} />}
@@ -214,7 +214,7 @@ export function ToyDetails() {
             </Box>
                 :
                 <Loader />}
-        </Container>
+        </>
     )
 }
 

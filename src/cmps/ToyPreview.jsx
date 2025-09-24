@@ -11,7 +11,7 @@ export function ToyPreview({ toy }) {
                 <Typography variant="body1">{toy.name}</Typography>
                 <Typography variant="body1">Toy price: ${toy.price}</Typography>
                 {/* <article className="createdAt">Created At:{date}</article> */}
-                <ImgCmp imgSrc={`https://robohash.org/${toy._id}`} imgTitle={'Toy Image'} />
+                <ImgCmp imgSrc={`https://robohash.org/${toy._id}?size=200x200`} imgTitle={'Toy Image'} />
             </CardContent>
         </Card >
     )

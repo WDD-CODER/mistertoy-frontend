@@ -12,7 +12,7 @@ function MyMap() {
     const API_KEY = 'AIzaSyD2Kd_xOK37FqjaQVKLW3uIiIcw-Xi8tPg'
     const [position, setPosition] = useState({ lat: 32.0853, lng: 34.7818 })
     const branches = useSelector(state => state.toyModule.branches)
-    const [branch, setBranch] = useState()
+    const [branch, setBranch] = useState(branches[0])
     const [isOpen, setIsOpen] = useState(false);
     const [markerColor, setMarkerColor] = useState();
     const curBranchIdx = useRef()
@@ -64,7 +64,7 @@ function MyMap() {
 
         <APIProvider apiKey={API_KEY}>
             <Container sx={{width: '70vw', textAlign: 'center', placeItems: 'center', }}>
-                <Typography > Shope branch Map </Typography>
+                <Typography variant='h5' > Shope branch Map </Typography>
                 <Box sx={{  width: '70vw',maxHeight:'60vh', aspectRatio: '1 / 1', margin: 1 }}>
                     <Map
                         defaultCenter={position}
