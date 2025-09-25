@@ -67,7 +67,7 @@ export function LoginSignup({ setIsLoginOpen }) {
         }
     }
     return (
-
+//FIXME לסדר את המסך לוגין שהכל יועמד היטב
         <Container sx={{gap:1}} >
             <Typography variant='h4' >
                 {isSignUp ? 'Signup' : 'Login'}

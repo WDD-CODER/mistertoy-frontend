@@ -58,7 +58,7 @@ export function ToyEdit() {
     }
 
     console.log("🚀 ~ toy:", toy)
-
+//FIXME להוסיף פה את הכפתור לחזרה אחורה לרשימה
     return (
         <Container sx={{height:'70vh',display:'flex' ,placeContent:"center", alignItems:"center"}} className="toy-edit">
             <Stack border={1} borderRadius={2} justifyContent={"center"} sx={{ width: '300px' }}>
