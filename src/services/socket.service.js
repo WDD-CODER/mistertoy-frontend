@@ -17,7 +17,11 @@ const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
+const DEPLOYED_BACKEND_URL = 'https://mistertoy-backend-e15h.onrender.com'
+
+const baseUrl = (window.location.host.includes('onrender.com')) 
+    ? DEPLOYED_BACKEND_URL 
+    : 'http://localhost:3030'
 
 export const socketService = (VITE_LOCAL === 'true')? createDummySocketService() : createSocketService()
 
