@@ -10,10 +10,6 @@ export function UserMsg() {
 
     const [msg, setMsg] = useState(null)
 
-    const socket = io()
-
-
-
     useEffect(() => {
         const unsubscribe = eventBusService.on('show-user-msg', msg => {
             setMsg(msg)

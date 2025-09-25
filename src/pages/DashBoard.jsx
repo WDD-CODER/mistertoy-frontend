@@ -7,6 +7,7 @@ import { DoughnutChart } from "../cmps/chartJs/DoughnutChart.jsx";
 import { PiaChart } from "../cmps/chartJs/PiaChart.jsx";
 import { Box, Container } from "@mui/material";
 import { showErrorMsg } from "../services/event-bus.service.js";
+import { Loader } from "../cmps/Loader.jsx";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,12 +29,12 @@ export function DashBoard() {
             showErrorMsg(" Can't load toys properly ")
         }
     }
-
+    
     return (
         < >
             {toys &&
-                    <Container sx={{ display: "flex", flexWrap:'wrap', justifyContent: 'space-evenly' }} className="dash-board-container">
-                    <Box sx={{ display: 'flex', flexWrap:'wrap', gap: 2 , placeContent:'center'}}>
+                <Container sx={{ display: "flex", flexWrap: 'wrap', justifyContent: 'space-evenly' }} className="dash-board-container">
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, placeContent: 'center' }}>
 
                         <Box sx={{ height: '30vh' }}>
                             <DoughnutChart items={toys} />
@@ -45,7 +46,7 @@ export function DashBoard() {
                     <Box br sx={{ height: '47vh', width: { xs: '100%', sm: '90%', md: '90%' } }} className="line-chart-container">
                         <LineChart className="line-chart" items={toys} />
                     </Box>
-                    </Container>
+                </Container>
             }
         </>
     )

@@ -19,15 +19,18 @@ export function ToyList({ toys, onRemoveToy }) {
             className="toy-list" >
             {toys.map(toy =>
                     <Card key={toy._id} sx={{
+                        boxShadow:10,
+                        borderRadius:4,
                         maxWidth:'300px',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
+                        placeContent:'start',
                         paddingBottom:1
                     }}>
                         <ToyPreview toy={toy} />
-                        <Container  >
-                            <List sx={{ display: "flex", flexWrap: "wrap",placeContent:'center' ,gap: 2}}>
+                        <Container sx={{display:'flex', flexDirection:'column'}} >
+                            <List sx={{ display: "flex", flexWrap: "wrap",placeContent:'space-evenly' ,gap: 2, marginBlock:1}}>
                                 {toy?.labels.map(label =>
                                     <Chip key={label} label={label}
                                     />

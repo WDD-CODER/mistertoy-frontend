@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import { useSelector } from "react-redux"
 import { Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react"
@@ -52,9 +52,9 @@ export function ToyFilter() {
 
 
     return (
-        <Container sx={{borderRadius:2, border:1,  placeItems: "center"}} className="toy-filter">
+        <Container sx={{ borderRadius: 2, border: 1, placeItems: "center" }} className="toy-filter">
             <Typography marginBottom={2} variant="h4">Filter Toys</Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{ placeContent: 'center' }}>
                 <Grid  >
                     <FormControl >
                         <TextField
@@ -80,7 +80,7 @@ export function ToyFilter() {
                     </FormControl>
                 </Grid>
                 <Grid>
-                    <FormControl sx={{width:'140px'}}>
+                    <FormControl sx={{ width: '140px' }}>
                         <InputLabel id="labels-select-label">Choose Labels</InputLabel>
                         <Select
                             multiple
@@ -100,7 +100,7 @@ export function ToyFilter() {
                     </FormControl>
                 </Grid>
                 <Grid>
-                    <FormControl sx={{width:'120px'}}>
+                    <FormControl sx={{ width: '120px' }}>
                         <InputLabel id="availability">Toy availability</InputLabel>
                         <Select
                             value={toyService.getStockValueToShow(filterByToEdit)}
@@ -116,7 +116,7 @@ export function ToyFilter() {
                 </Grid>
                 <Grid >
                     <FormControl>
-                        <InputLabel  id="sortBy"> Sort By</InputLabel>
+                        <InputLabel id="sortBy"> Sort By</InputLabel>
                         <Select
                             value={sortBy}
                             onChange={handleChange}
@@ -130,21 +130,28 @@ export function ToyFilter() {
                     </FormControl>
                 </Grid>
                 <Grid>
-                    <FormControl>
+                    <Box sx={{display:'flex', gap:1}}> 
+                    <FormControl sx={{alignSelf:'center'}} >
                         <FormControlLabel
                             label={sortDir ? 'Descending' : 'Ascending'}
                             control={
                                 <Switch
-                                    name='sortDir'
-                                    checked={sortDir}
-                                    onChange={handleChange}
+                                name='sortDir'
+                                checked={sortDir}
+                                onChange={handleChange}
                                 />
                             }
-                        />
+                            />
                     </FormControl>
+                    {loggedinUser?.isAdmin &&
+                        <Button sx={{ border: 1, borderRadius: 2 }} >
+                            <Link to="/toy/edit" className="btn" >Add Toy</Link>
+                        </Button>
+                    }
+                    <>
+                        <Button sx={{ border: 1, borderRadius: 2 }} onClick={onClearFilter}>Clear Filter</Button></>
+                            </Box>
                 </Grid>
-                {loggedinUser?.isAdmin && <Button sx={{border:1,borderRadius:2}} ><Link to="/toy/edit" className="btn" >Add Toy</Link></Button>}
-                <><Button sx={{border:1,borderRadius:2}} onClick={onClearFilter}>Clear Filter</Button></>
             </Grid>
         </Container >
     )
