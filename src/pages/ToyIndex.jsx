@@ -64,12 +64,12 @@ export function ToyIndex() {
                     <ToyFilter />
                     <Typography  variant="h2">Toys List</Typography>
                     <ToyList toys={toys} onRemoveToy={onRemoveToy} />
-                    {/* {!!toys.length && maxPage > 1 && (
+                    {!!toys.length && maxPage > 1 && (
                         <PaginationButtons
                             pageIdx={filterBy.pageIdx}
                             onChangePageIdx={onChangePageIdx}
                         />
-                    )} */}
+                    )}
                 </Container>
     )
 }
