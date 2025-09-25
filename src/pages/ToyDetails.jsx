@@ -16,6 +16,7 @@ import { addReview, getActionAddReview, getActionRemoveReview, loadToyReviews, r
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED, SOCKET_EVENT_TOY_UPDATE, socketService } from "../services/socket.service.js"
+import { SET_TOY } from "../store/reduce/toy.reduce.js"
 
 export function ToyDetails() {
 
@@ -41,7 +42,10 @@ export function ToyDetails() {
         socketService.on(SOCKET_EVENT_REVIEW_ADDED, review => {
             dispatch(getActionAddReview(review))
         })
-        
+        socketService.on(SOCKET_EVENT_TOY_UPDATE, toy => {
+            dispatch({ type: SET_TOY, toy })
+        })
+
         socketService.on(SOCKET_EVENT_REVIEW_REMOVED, review => {
             dispatch(getActionRemoveReview(review))
         })

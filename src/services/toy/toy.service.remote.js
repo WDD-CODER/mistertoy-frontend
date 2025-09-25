@@ -113,7 +113,7 @@ function _getEmptyToy(name = '', price = 0) {
         inStock: '',
         msg: [],
         color: utilService.getRandomColor(),
-        sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(50, 500) }))
+        sales: dates.map((date) => ({ date, amount: utilService.getRandomIntInclusive(1, 10) }))
     }
 }
 

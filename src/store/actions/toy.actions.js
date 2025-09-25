@@ -25,6 +25,7 @@ export async function loadToys() {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { toys, maxPage } = await toyService.query(filterBy)
+        console.log("🚀 ~ loadToys ~ maxPage:", maxPage)
         store.dispatch({ type: SET_TOYS, toys })
         store.dispatch({ type: SET_MAX_PAGE, maxPage: maxPage })
         return toys
