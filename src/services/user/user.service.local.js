@@ -24,7 +24,6 @@ async function login({ username, password }) {
     try {
         const users = await storageService.query(STORAGE_KEY)
         const user = users.find(user => {
-            console.log("🚀 ~ login ~ user:", user)
             return user.username === username;
         })
         if (user) return _setLoggedinUser(user)
@@ -44,7 +43,6 @@ async function signup({ username, password, fullname, isAdmin }) {
         const user = await storageService.post(STORAGE_KEY, { username, password, fullname, isAdmin })
         if (!user) throw new Error('cant save user')
         user.createdAt = user.updatedAt = Date.now()
-        console.log("🚀 ~ signup ~ user:", user)
         _setLoggedinUser(user)
         return user
     } catch (err) {

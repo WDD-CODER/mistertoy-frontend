@@ -203,10 +203,10 @@ export function ToyDetails() {
                 <Button><Link to={`/toy/`}>Back to list</Link></Button>
                 {!isChatOpen && <Button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</Button>}
 
-                <Toolbar className="prev-next-btns flex" >
+                {/* <Toolbar className="prev-next-btns flex" >
                     <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link>
                     <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link>
-                </Toolbar>
+                </Toolbar> */}
                 <PopUp
                     header={<h3>Chat About {toy.name}s</h3>}
                     footer={<h4>&copy; 2025-9999 Toys INC.</h4>}

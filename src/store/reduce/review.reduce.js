@@ -6,7 +6,6 @@ export const UPDATE_REVIEW = 'UPDATE_REVIEW'
 const initialState = {
   reviews: [],
 }
-  console.log("🚀 ~ initialState.reviews:", initialState.reviews)
 
 export function reviewReducer(state = initialState, action = {}) {
   switch (action.type) {

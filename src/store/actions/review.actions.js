@@ -42,7 +42,6 @@ export async function loadUserReviews(byUserId) {
 export async function addReview(ReviewToAdd) {
     try {
         const review = await reviewService.add(ReviewToAdd)
-        console.log("🚀 ~ addReview ~ review:", review)
         store.dispatch(getActionAddReview(review))
         return review
     } catch (err) {

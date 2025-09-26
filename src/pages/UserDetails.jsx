@@ -12,7 +12,6 @@ import { loadToyReviews, loadUserReviews } from "../store/actions/review.actions
 
 export function UserDetails() {
     const reviews = useSelector(state => state.reviewModule.reviews)
-    console.log("🚀 ~ UserDetails ~ reviews:", reviews)
 
     const { userId } = useParams()
     const [user, setUser] = useState()
@@ -51,7 +50,6 @@ export function UserDetails() {
 
                 <Grid container spacing={2} padding={2} >
                     {reviews?.map((review, idx) => {
-                        console.log("🚀 ~ map ~ review:", review)
 
                         return <Grid key={idx}>
                             <Card sx={{ display: "flex", backgroundColor: 'burlywood', }}>

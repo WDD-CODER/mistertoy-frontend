@@ -25,7 +25,6 @@ export async function loadToys() {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { toys, maxPage } = await toyService.query(filterBy)
-        console.log("🚀 ~ loadToys ~ maxPage:", maxPage)
         store.dispatch({ type: SET_TOYS, toys })
         store.dispatch({ type: SET_MAX_PAGE, maxPage: maxPage })
         return toys
@@ -122,7 +121,6 @@ export async function updateToy(toyToUpdate) {
 export async function onAddToyMsg(toyId, userMsg) {
     try {
         const toy = await toyService.saveToyMsg(toyId, userMsg)
-        console.log("🚀 ~ onAddToyMsg ~ toy:", toy)
         store.dispatch({ type: SET_TOY, toy })
         return toy
     } catch (err) {

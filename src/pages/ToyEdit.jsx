@@ -1,10 +1,10 @@
 import { toyService } from "../services/toy"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { getToy, saveToy} from "../store/actions/toy.actions.js"
+import { getToy, saveToy } from "../store/actions/toy.actions.js"
 
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { Container, Stack } from "@mui/material"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { Button, Container, Stack } from "@mui/material"
 import { ToyEditForm } from "../cmps/ToyEditForm.jsx"
 import { utilService } from "../services/util.service.js"
 
@@ -41,7 +41,7 @@ export function ToyEdit() {
         }
     }
 
-     function onUpdateToyStockValue(ev) {
+    function onUpdateToyStockValue(ev) {
         const modifiedStockValue = utilService.getStockModifiedValue(ev.target.value)
         setToy(prevToy => ({ ...prevToy, inStock: modifiedStockValue }))
     }
@@ -57,10 +57,8 @@ export function ToyEdit() {
         }
     }
 
-    console.log("🚀 ~ toy:", toy)
-//FIXME להוסיף פה את הכפתור לחזרה אחורה לרשימה
     return (
-        <Container sx={{height:'70vh',display:'flex' ,placeContent:"center", alignItems:"center"}} className="toy-edit">
+        <Container sx={{ gap: 2, height: '70vh', display: 'grid', placeContent: "center", alignItems: "center" }} className="toy-edit">
             <Stack border={1} borderRadius={2} justifyContent={"center"} sx={{ width: '300px' }}>
                 <ToyEditForm
                     item={toy}
@@ -69,7 +67,7 @@ export function ToyEdit() {
                     onSave={onSaveToy}
                 />
             </Stack>
-
+            <Button sx={{ border: 1, borderRadius: 2 }}><Link to={`/toy/`}>Back to list</Link></Button>
         </Container>
     )
 }

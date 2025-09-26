@@ -2,7 +2,6 @@ import { Box, Button, Container, Paper, Stack, TextField, Typography } from "@mu
 import { useEffect, useRef, useState } from "react"
 
 export function Chat() {
-//TODO לסדר פה שיוסיף לצעצעוע את ההודעות הללו!?
     const [msgs, setMsgs] = useState([])
     const [userInput, setUserInput] = useState('')
     const msgsRef = useRef()
